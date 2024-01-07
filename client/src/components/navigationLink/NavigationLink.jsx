@@ -1,27 +1,21 @@
 import { useTheme } from "../../context/ThemeContext";
 import { useLanguage } from "../../context/LanguageContext";
+import "./NavigationLink.scss";
 export function NavigationLink(props) {
   const { theme } = useTheme();
-  const { language } = useLanguage();
-  const { href, value, style, disabled } = props;
+  const { href, value } = props;
   return (
-    <a
-      href={href}
-      className={`navigationLink ${theme} ${language}`}
-      style={style}
-      disabled={disabled}
-    >
+    <a className={`navigationLink ${theme}`} href={href}>
       {value}
     </a>
   );
 }
 
-export function NavigationLinkDisabled({ nameLink }) {
+export function NavigationLinkDisabled({ value }) {
   const { theme } = useTheme();
-  const { language } = useLanguage();
   return (
-    <a className={`navigationLinkDisabled ${theme} ${language}`} disabled>
-      {nameLink}
+    <a className={`navigationLinkDisabled ${theme}`} disabled>
+      {value}
     </a>
   );
 }

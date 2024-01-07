@@ -1,11 +1,12 @@
-import React from "react";
 import MainNavbar from "./navbar/MainNavbar";
+import Footer from "./footer/Footer";
 
-const AppLayout = ({ chidern }) => {
+const AppLayout = ({ children, page }) => {
   return (
     <>
-      <MainNavbar />
-      {chidern}
+      <MainNavbar page={page} />
+      {children}
+      <Footer />
     </>
   );
 };

@@ -1,0 +1,71 @@
+@import "../../variables";
+
+@mixin sample-navigationLink {
+  position: relative;
+  text-decoration: none;
+  margin-right: 2rem;
+  font-size: 1rem;
+  color: $font-color-light;
+  transition: color 0.3s;
+  cursor: pointer;
+
+  &:before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    left: 0;
+    background-color: $accent-color-light;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform $transition-duration ease;
+  }
+
+  &:hover {
+    font-weight: bold;
+    &:before {
+      transform: scaleX(1);
+      transform-origin: bottom left;
+    }
+  }
+
+  @content;
+}
+
+%navigationLink-Light {
+  @include breakpoint-big($desktop-breakpoint) {
+    @include sample-navigationLink;
+  }
+  @include breakpoint-small($desktop-breakpoint) {
+    @include sample-navigationLink;
+    .navigationLink-container {
+      margin: 0.5rem;
+    }
+  }
+}
+
+%navigationLink-dark {
+  @extend %navigationLink-Light;
+  color: $font-color-dark;
+  &:before {
+    background-color: $accent-color-dark;
+  }
+}
+.navigationLink.light {
+  @extend %navigationLink-Light;
+}
+.navigationLink.dark {
+  @extend %navigationLink-dark;
+}
+
+.navigationLinkDisabled.light {
+  @extend %navigationLink-Light;
+  color: $accent-color-dark;
+  font-weight: bold;
+}
+.navigationLinkDisabled.dark {
+  @extend %navigationLink-dark;
+  color: $accent-color-dark;
+  font-weight: bold;
+}

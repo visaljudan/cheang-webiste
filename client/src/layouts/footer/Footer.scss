@@ -1,0 +1,200 @@
+@import "../../variables";
+
+.footer-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  background-color: $secondary-color-light;
+  padding: 1rem;
+}
+@mixin sample-footer {
+  .column {
+    h3 {
+      color: $accent-color-light;
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      li {
+        margin-bottom: $spacing-unit;
+      }
+    }
+  }
+
+  .social-icons {
+    display: flex;
+    margin: 0;
+    a {
+      display: inline-block;
+      margin-right: $spacing-unit;
+      color: $font-color-light;
+      font-size: 20px;
+      padding: $spacing-unit;
+      border: none;
+      text-decoration: none;
+      &:before {
+        transform: scaleX(0);
+      }
+      &:hover {
+        color: $accent-color-light;
+      }
+    }
+  }
+  @content;
+}
+
+%footer-light {
+  @extend %a-link;
+  @include breakpoint-big($desktop-breakpoint) {
+    @include sample-footer;
+  }
+
+  @include breakpoint-small($desktop-breakpoint) {
+    @include sample-footer;
+    grid-template-columns: repeat(1, 1fr);
+    margin: 0;
+    padding: $spacing-unit;
+    .column {
+      margin: $spacing-unit;
+    }
+  }
+}
+
+%footer-dark {
+  @extend %footer-light;
+  background-color: $secondary-color-dark;
+  .column {
+    ul {
+      li {
+        a {
+          color: $font-color-dark;
+        }
+      }
+    }
+  }
+
+  .social-icons {
+    a {
+      color: $font-color-dark;
+      &:hover {
+        color: $accent-color-dark;
+      }
+    }
+  }
+  // }
+}
+
+.footer-container.light {
+  @extend %footer-light;
+}
+
+.footer-container.dark {
+  @extend %footer-dark;
+}
+////////////////
+.mixpanel-container {
+  @extend %a-link;
+  width: auto;
+  background-color: $secondary-color-light;
+}
+
+@mixin sample-mixpanel {
+  .mixpanel-container-divider {
+    border: 2px solid $primary-color-light;
+  }
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-wrap: wrap;
+    li {
+      margin: $spacing-unit;
+    }
+  }
+  @content;
+}
+
+%mixpanel-light {
+  @include breakpoint-big($desktop-breakpoint) {
+    @include sample-mixpanel;
+  }
+
+  @include breakpoint-small($desktop-breakpoint) {
+    @include sample-mixpanel;
+    ul {
+      li {
+        margin: 0 $spacing-unit;
+        a {
+          font-size: 0.7rem;
+        }
+      }
+    }
+  }
+}
+
+%mixpanel-dark {
+  @extend %mixpanel-light;
+  background-color: $secondary-color-dark;
+  .mixpanel-container-divider {
+    border: 2px solid $primary-color-dark;
+  }
+  a {
+    color: $font-color-dark;
+  }
+}
+
+.mixpanel-container.light {
+  @extend %mixpanel-light;
+}
+.mixpanel-container.dark {
+  @extend %mixpanel-dark;
+}
+
+////////////////
+@mixin sample-copyright {
+  .copyright-container-content {
+    background-color: $primary-color-light;
+    padding: $spacing-unit;
+    text-align: center;
+    font-size: $base-font-size;
+    width: auto;
+    p {
+      color: $font-color-light;
+    }
+  }
+}
+%copyright-light {
+  @include breakpoint-big($desktop-breakpoint) {
+    @include sample-copyright;
+  }
+  @include breakpoint-small($desktop-breakpoint) {
+    @include sample-copyright;
+    .copyright-container-content {
+      width: auto;
+      p {
+        font-size: 0.7rem;
+      }
+    }
+  }
+}
+
+%copyright-dark {
+  @extend %copyright-light;
+  .copyright-container-content {
+    background-color: $primary-color-dark;
+    p {
+      color: $font-color-dark;
+    }
+  }
+}
+
+.copyright-container.light {
+  @extend %copyright-light;
+}
+.copyright-container.dark {
+  @extend %copyright-dark;
+}

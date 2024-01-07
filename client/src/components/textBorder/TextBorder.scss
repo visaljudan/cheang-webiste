@@ -1,0 +1,27 @@
+@import "../../variables";
+.TextBorder.light {
+  .TextBorder-container {
+    color: $font-color-light;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    text-align: start;
+    justify-content: space-between;
+    .TextBorder-container-label {
+      font-weight: bold;
+    }
+  }
+}
+.TextBorder.dark {
+  .TextBorder-container {
+    color: $font-color-dark;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    text-align: start;
+    justify-content: space-between;
+    .TextBorder-container-label {
+      font-weight: bold;
+    }
+  }
+}

@@ -1,0 +1,117 @@
+@import "../../variables";
+html {
+  scroll-behavior: smooth;
+}
+
+.service-container {
+  display: flex;
+}
+
+@mixin simple-service {
+  /* Left column styles */
+  .service-container-category {
+    position: sticky;
+    top: 0;
+    width: 30%;
+    padding: 1rem;
+    background-color: $primary-color-light;
+    max-height: 90vh;
+    .category-list {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      transition: color 0.3s;
+      a {
+        display: block;
+        padding: 1rem 0.5rem;
+        &:hover {
+          background-color: $secondary-color-light;
+        }
+      }
+    }
+  }
+
+  /* Right column styles */
+  .service-container-service {
+    width: 100%;
+    padding: 1rem;
+    justify-content: space-between;
+    background-color: $primary-color-light;
+    .service-navbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .service-card {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: $spacing-unit;
+    }
+  }
+  @content;
+}
+
+%service-light {
+  @include breakpoint-big($desktop-breakpoint) {
+    @include simple-service;
+  }
+
+  @include breakpoint-small($desktop-breakpoint) {
+    @include simple-service;
+    .service-container-category {
+      display: none;
+    }
+    .service-container-service {
+      .service-card {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+  }
+
+  @include breakpoint-small($tablet-breakpoint) {
+    @include simple-service;
+    .service-container-category {
+      display: none;
+    }
+    .service-container-service {
+      .service-card {
+        height: auto;
+        grid-template-columns: repeat(1, 1fr);
+        .card {
+          width: 100%;
+          margin: auto;
+        }
+      }
+    }
+  }
+}
+%service-dark {
+  @extend %service-light;
+  .service-container-category {
+    background-color: $primary-color-dark;
+    .category-list {
+      border-right: 2px solid $secondary-color-dark;
+      a {
+        color: $font-color-dark;
+        &:hover {
+          background-color: $secondary-color-dark;
+        }
+      }
+    }
+  }
+
+  /* Right column styles */
+  .service-container-service {
+    background-color: $primary-color-dark;
+    .service-titile {
+      color: $font-color-dark;
+    }
+  }
+}
+
+.service-container.light {
+  @extend %service-light;
+}
+.service-container.dark {
+  @extend %service-dark;
+}
