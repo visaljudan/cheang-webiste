@@ -1,0 +1,148 @@
+// Colors
+//Light colors
+$primary-color-light: #ffff;
+$secondary-color-light: #f0f0f0;
+$accent-color-light: #ff7f00;
+$font-color-light: #121212;
+
+$accent-color: #ff7f00;
+//Dark colors
+$primary-color-dark: #121212;
+$secondary-color-dark: #231e1a;
+$accent-color-dark: #ff7f00;
+$font-color-dark: #ffff;
+
+//Color
+$success-color: #28a745;
+$danger-color: #dc3545;
+
+// Typography
+$base-font-size: 16px;
+$english-font-family: "Roboto", sans-serif;
+$khmer-font-family: "Noto Sans Khmer", sans-serif;
+
+// Spacing
+$spacing-unit: 8px;
+$container-max-width: 100%;
+
+//btn
+$padding-btn: 8px 16px;
+
+// Breakpoints
+$mobile-breakpoint: 600px;
+$tablet-breakpoint: 768px;
+$desktop-breakpoint: 1024px;
+$large-desktop-breakpoint: 1200px;
+
+// Z-Index
+$z-index-header: 100;
+$z-index-modal: 200;
+$z-index-overlay: 150;
+
+// Border radius
+$border-radius: 8px;
+
+// Box shadow
+$box-shadow: 0 0px 10px rgb(0, 0, 0, 0.1);
+
+// Transitions
+$transition-duration: 0.3s;
+
+//Link by using a
+%a-link {
+  a {
+    position: relative;
+    text-decoration: none;
+    margin-right: 2rem;
+    font-size: 1rem;
+    color: $font-color-light;
+    transition: color 0.3s;
+    cursor: pointer;
+
+    &:before {
+      content: "";
+      position: absolute;
+      width: 100%;
+      height: 2px;
+      bottom: 0;
+      left: 0;
+      background-color: $accent-color-light;
+      transform: scaleX(0);
+      transform-origin: bottom right;
+      transition: transform $transition-duration ease;
+    }
+
+    &:hover {
+      font-weight: bold;
+      &:before {
+        transform: scaleX(1);
+        transform-origin: bottom left;
+      }
+    }
+  }
+}
+
+@mixin breakpoint-big($point) {
+  @media (min-width: $point) {
+    @content;
+  }
+}
+@mixin breakpoint-small($point) {
+  @media (max-width: $point) {
+    @content;
+  }
+}
+
+@mixin button {
+  margin-right: 1rem;
+  padding: 0.5rem 1rem;
+  text-decoration: none;
+  background-color: $accent-color-light;
+  border: none;
+  border-radius: 0.5rem;
+  color: $font-color-dark;
+  cursor: pointer;
+
+  &:hover {
+    border: 1px solid $accent-color-light;
+    background-color: $secondary-color-light;
+    color: $accent-color-light;
+    transition: transform 0.3s ease;
+  }
+}
+@mixin select {
+  select {
+    color: $font-color-dark;
+    background-color: $accent-color-light;
+    border: 0;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    &:focus {
+      outline: none;
+      background-color: $secondary-color-light;
+      border: 1px solid $accent-color-light;
+      color: $accent-color-light;
+      padding: 0.5rem 1rem;
+      .options {
+        background-color: $secondary-color-light;
+        border: 1px solid $accent-color-light;
+        color: $accent-color-light;
+      }
+    }
+  }
+}
+
+@mixin input {
+  input {
+    padding: 0.5rem;
+    font-size: $base-font-size;
+    border-radius: 0.5rem;
+    border: none;
+    border: 2px solid $accent-color;
+    color: $accent-color;
+    &:valid {
+      color: $success-color;
+    }
+  }
+}
