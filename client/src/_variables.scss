@@ -92,24 +92,38 @@ $transition-duration: 0.3s;
     @content;
   }
 }
+//Button
+@mixin button-light {
+  button {
+    padding: 0.5rem 1rem;
+    text-decoration: none;
+    background-color: $accent-color;
+    border: none;
+    color: $font-color-dark;
+    border-radius: 0.5rem;
+    cursor: pointer;
 
-@mixin button {
-  margin-right: 1rem;
-  padding: 0.5rem 1rem;
-  text-decoration: none;
-  background-color: $accent-color-light;
-  border: none;
-  border-radius: 0.5rem;
-  color: $font-color-dark;
-  cursor: pointer;
-
-  &:hover {
-    border: 1px solid $accent-color-light;
-    background-color: $secondary-color-light;
-    color: $accent-color-light;
-    transition: transform 0.3s ease;
+    &:hover {
+      border: 1px solid $accent-color;
+      background-color: $secondary-color-light;
+      color: $accent-color;
+      transition: transform 0.3s ease;
+    }
   }
 }
+
+@mixin button-dark {
+  @include button-light;
+  button {
+    color: $font-color-light;
+    cursor: pointer;
+    &:hover {
+      background-color: $secondary-color-dark;
+    }
+  }
+}
+
+///////////////
 @mixin select {
   select {
     color: $font-color-dark;
@@ -133,16 +147,32 @@ $transition-duration: 0.3s;
   }
 }
 
-@mixin input {
+///Input
+@mixin input-light {
   input {
     padding: 0.5rem;
     font-size: $base-font-size;
     border-radius: 0.5rem;
     border: none;
     border: 2px solid $accent-color;
-    color: $accent-color;
+    background-color: $primary-color-light;
+    color: $danger-color;
+    &:focus {
+      background-color: $primary-color-light;
+    }
     &:valid {
       color: $success-color;
     }
   }
 }
+@mixin input-dark {
+  @include input-light;
+  input {
+    background-color: $primary-color-dark;
+    &:focus {
+      background-color: $primary-color-dark;
+    }
+  }
+}
+
+//Label
