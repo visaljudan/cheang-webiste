@@ -1,0 +1,76 @@
+@import "../../variables";
+.theme-switch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin: 1rem;
+  //   background-color: red;
+}
+
+.switch-mode {
+  position: relative;
+  display: inline-block;
+  padding: 0.5rem 2rem;
+}
+
+.switch-mode input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 2rem;
+}
+
+.slider:before {
+  background-size: cover;
+  background-image: url("https://png.pngtree.com/png-clipart/20220812/ourmid/pngtree-shine-sun-light-effect-free-png-and-psd-png-image_6106445.png"); /* Image for the "on" state */
+  position: absolute;
+  content: "";
+  height: 2.1rem;
+  width: 2.1rem;
+  left: 0.1rem;
+  bottom: 0.1rem;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider:before {
+  background-image: url("https://pngfre.com/wp-content/uploads/moon-58-1024x1024.png"); /* Image for the "off" state */
+  -webkit-transform: translateX(2.5rem);
+  -ms-transform: translateX(2.5rem);
+  transform: translateX(2.1rem);
+}
+
+@include breakpoint-small($desktop-breakpoint) {
+  .theme-switch {
+    margin: 1rem 0;
+    margin-top: 0;
+  }
+  .switch-mode {
+    padding: 0.1rem 1.5rem;
+  }
+  .slider {
+    align-items: center;
+  }
+  .slider:before {
+    height: 1.4rem;
+    width: 1.4rem;
+    left: 0.1rem;
+  }
+  input:checked + .slider:before {
+    transform: translateX(1.9rem);
+  }
+}

@@ -6,6 +6,7 @@ import {
   signInFailure,
   signInSuccess,
 } from "../../redux/user/userSlice";
+import OAuth from "../../components/oAuth/OAuth";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -63,6 +64,7 @@ const SignIn = () => {
       </label>
       <br />
       <button type="submit">{loading ? "Loading..." : "Sign In"}</button>
+      <OAuth />
       {error ? <p>{error}</p> : null}
     </form>
   );

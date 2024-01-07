@@ -1,0 +1,62 @@
+@import "../../variables";
+
+%languageSelector-light {
+  .language-selector {
+    display: flex;
+    align-items: center;
+    margin-right: 1rem;
+
+    select {
+      color: $font-color-dark;
+      background-color: $accent-color-light;
+      border: 0;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      &:focus {
+        outline: none;
+        background-color: $secondary-color-light;
+        border: 1px solid $accent-color-light;
+        color: $accent-color-light;
+        padding: 0.5rem 1rem;
+        .options {
+          background-color: $secondary-color-light;
+          border: 1px solid $accent-color-light;
+          color: $accent-color-light;
+        }
+      }
+    }
+    @media (max-width: 767px) {
+      select {
+        padding: 0.2rem 0.3rem;
+        margin-bottom: 1rem;
+        &:focus {
+          padding: 0.2rem 0.3rem;
+        }
+      }
+    }
+  }
+}
+
+%languageSelector-dark {
+  @extend %languageSelector-light;
+  .control-label {
+    color: $font-color-dark;
+  }
+  .language-selector {
+    select {
+      color: $font-color-light;
+      background-color: $accent-color-dark;
+      &:focus {
+        background-color: $secondary-color-dark;
+        border: 1px solid $accent-color-dark;
+        color: $accent-color-dark;
+        .options {
+          background-color: $secondary-color-dark;
+          border: 1px solid $accent-color-dark;
+          color: $accent-color-dark;
+        }
+      }
+    }
+  }
+}
