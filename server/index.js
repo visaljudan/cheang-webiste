@@ -37,6 +37,7 @@ io.on("connection", (socket) => {
   console.log("Client connected");
   socketIo = io; // Save the instance for future use
 });
+console.log(socketIo);
 ////
 
 server.listen(5000, () => {

@@ -74,14 +74,9 @@ const Confirm = () => {
     };
     //
   }, [currentUser]);
-  // console.log(users);
-
-  // users.forEach((number) => {
-  //   console.log(number);
-  // });
-
   return (
     <>
+      <h1>Comfirm</h1>
       {loading && <div>Loading...</div>}
       {error && <div>Error: {error}</div>}
       {!loading && !error && (

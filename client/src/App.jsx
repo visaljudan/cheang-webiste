@@ -10,6 +10,8 @@ import Dashboard from "./admin/page/Dashboard";
 import "./App.scss";
 import SignUpPro from "./selector/formSelector/SignUpPro";
 import Confirm from "./admin/page/Confirm";
+import AdminSignInPage from "./admin/page/SignInPage";
+
 const App = () => {
   return (
     <Router>
@@ -24,7 +26,11 @@ const App = () => {
             <Route path="/signup-pro" Component={SignUpPro} />
 
             {/* Admin */}
+
+            <Route path="/admin/signin" Component={AdminSignInPage} />
             <Route path="/admin/dashboard" Component={Confirm} />
+            <Route path="/admin/dashboard/confirm" Component={Confirm} />
+
             {/* Test */}
             <Route path="component" Component={MainNavbar} />
           </Routes>

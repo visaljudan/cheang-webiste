@@ -1,12 +1,12 @@
 import React from "react";
-import OAuth from "../../components/oAuth/OAuth";
+import AdminOAuth from "../components/oAuth/OAuth";
 
-const SignInPage = () => {
-  return (  
+const AdminSignInPage = () => {
+  return (
     <div>
-      <OAuth />
+      <AdminOAuth />
     </div>
   );
 };
 
-export default SignInPage;
+export default AdminSignInPage;

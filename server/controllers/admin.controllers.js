@@ -10,7 +10,7 @@ export const usersReq = async (req, res, next) => {
     // Emit real-time updates using Socket.io
     const io = getIO();
 
-    if (io) {
+    if (!io) {
       io.emit("update", users);
       console.log("Real-time update emitted:", users);
     } else {
