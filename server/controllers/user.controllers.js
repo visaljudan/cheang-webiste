@@ -6,18 +6,22 @@ import { errorHandler } from "../utils/error.js";
 export const test = async (req, res) => {
   res.status(201).json("User created successfully");
 };
-///Without Token
-export const getAllUser = async (req, res, next) => {
+
+//With token
+export const getAllUserAc = async (req, res, next) => {
   try {
+    const currentUserID = req.user.id;
+    console.log(currentUserID);
     const users = await User.find({
+      _id: { $ne: currentUserID },
       userPro: true,
     });
-    return res.status(200).json(users);
-    console.log(users);
+    res.status(200).json(users);
   } catch (error) {
     next(error);
   }
 };
+
 export const updateUser = async (req, res, next) => {
   if (req.user.id !== req.params.id)
     return next(errorHandler(401, "You can only update your own account!"));
@@ -54,9 +58,58 @@ export const updateUser = async (req, res, next) => {
     next(error);
   }
 };
+//////
 
+///Without Token
+export const getAllUser = async (req, res, next) => {
+  try {
+    const users = await User.find({
+      userPro: true,
+    });
+    return res.status(200).json(users);
+    console.log(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+///to admin
+export const updateUserPro = async (req, res, next) => {
+  try {
+    console.log(req.params.id);
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          Request: req.body.Request,
+          Confirm: req.body.Confirm,
+          userPro: req.body.userPro,
+        },
+      },
+      { new: true }
+    );
+
+    const { password, ...rest } = updatedUser._doc;
+
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const countUsers = async (req, res, next) => {
+  try {
+    const users = await User.find({});
+    // console.log(users);
+    return res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+/////////////////////////////////
+////////////////////////////////
 //////////////////////////////
-
 export const deleteUser = async (req, res, next) => {
   if (req.user.id !== req.params.id)
     return next(errorHandler(401, "You can only delete your own account!"));
@@ -141,44 +194,6 @@ export const getUserno = async (req, res, next) => {
       return next(errorHandler(404, "Listing not found!"));
     }
     res.status(200).json(user);
-  } catch (error) {
-    next(error);
-  }
-};
-
-//Without account
-export const getAllUserAc = async (req, res, next) => {
-  try {
-    const currentUserID = req.user.id;
-    console.log(currentUserID);
-    const users = await User.find({
-      _id: { $ne: currentUserID },
-      userPro: true,
-    });
-    res.status(200).json(users);
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const updateUserPro = async (req, res, next) => {
-  try {
-    console.log(req.params.id);
-    const updatedUser = await User.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: {
-          Request: req.body.Request,
-          Confirm: req.body.Confirm,
-          userPro: req.body.userPro,
-        },
-      },
-      { new: true }
-    );
-
-    const { password, ...rest } = updatedUser._doc;
-
-    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }

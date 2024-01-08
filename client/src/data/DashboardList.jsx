@@ -2,37 +2,37 @@ const DashboardList = [
   {
     id: 1,
     href: "#dashboard",
-    nameLink: "Dashboard",
+    value: "Dashboard",
   },
   {
     id: 2,
     href: "#analytics",
-    nameLink: "Analytics",
+    value: "Analytics",
   },
   {
     id: 3,
     href: "#report",
-    nameLink: "Report",
+    value: "Report",
   },
   {
     id: 4,
     href: "#setting",
-    nameLink: "Setting",
+    value: "Setting",
   },
   {
     id: 5,
     href: "#message",
-    nameLink: "Message",
+    value: "Message",
   },
   {
     id: 6,
     href: "#chart",
-    nameLink: "Chart",
+    value: "Chart",
   },
   {
     id: 7,
     href: "#resetpasswrod",
-    nameLink: "Reset Passwrod",
+    value: "Reset Passwrod",
   },
 ];
 export default DashboardList;

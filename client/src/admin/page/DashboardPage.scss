@@ -1,0 +1,33 @@
+@import "../../variables";
+.dashboard-contain {
+  margin-top: -0.7rem;
+  margin-bottom: 1rem;
+  min-height: 100vh;
+  background-color: $primary-color-light;
+  h2 {
+    padding: 1rem;
+  }
+  .users-container {
+    // background-color: $secondary-color-light;
+    padding: 1rem;
+    margin: 0rem 1rem;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    justify-content: space-around;
+    grid-gap: 8rem;
+    .user-box {
+      width: 15rem;
+      height: 7rem;
+      background-color: $secondary-color-light;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      h3 {
+        margin: 0;
+        // font-size: 1.5rem;
+        color: $accent-color;
+      }
+    }
+  }
+}

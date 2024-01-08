@@ -6,11 +6,13 @@ import NotFoundPage from "./page/NotFoundPage";
 import MainNavbar from "./layouts/navbar/MainNavbar";
 import { LanguageProvider } from "./context/LanguageContext";
 import { ThemeProvider } from "./context/ThemeContext";
-import Dashboard from "./admin/page/Dashboard";
+import Dashboard from "./admin/page/DashboardPage";
 import "./App.scss";
 import SignUpPro from "./selector/formSelector/SignUpPro";
 import Confirm from "./admin/page/Confirm";
 import AdminSignInPage from "./admin/page/SignInPage";
+import DashboardPage from "./admin/page/DashboardPage";
+import ShowPieChart from "./admin/components/pieChart/ShowPieChart";
 
 const App = () => {
   return (
@@ -28,11 +30,12 @@ const App = () => {
             {/* Admin */}
 
             <Route path="/admin/signin" Component={AdminSignInPage} />
-            <Route path="/admin/dashboard" Component={Confirm} />
+            <Route path="/admin/dashboard" Component={DashboardPage} />
             <Route path="/admin/dashboard/confirm" Component={Confirm} />
 
             {/* Test */}
             <Route path="component" Component={MainNavbar} />
+            <Route path="pie" Component={ShowPieChart} />
           </Routes>
         </LanguageProvider>
       </ThemeProvider>

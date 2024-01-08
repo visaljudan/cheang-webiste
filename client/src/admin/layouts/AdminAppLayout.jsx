@@ -6,7 +6,8 @@ import {
   NavigationLinkDisabled,
 } from "../../components/navigationLink/NavigationLink";
 import { getLanguage } from "../../data/wordsLanguage";
-import DashboardList from "../../data/DashboardList";
+import DashboardList from "../../data/DashboardList.jsx";
+import Label from "../../components/label/Label.jsx";
 import "./AdminAppLayout.scss";
 const AdminAppLayout = ({ name, children }) => {
   const imageUrl =
@@ -43,7 +44,6 @@ const AdminAppLayout = ({ name, children }) => {
                   alt="Logo"
                   className="logo-image"
                 />
-                <p href="/" className="logo-image-lick"></p>
                 <p className="logo-name">Cheang</p>
               </div>
 
@@ -64,7 +64,7 @@ const AdminAppLayout = ({ name, children }) => {
         <div className="dashboard-container-content">
           <div className="content-sidebar">
             <ul className="content-sidebar-list">
-              <label>Menu</label>
+              <Label label="Overview" />
               {DashboardList.slice(0, 4).map((list) => (
                 <li key={list.id}>
                   <NavigationLink {...list} />
@@ -82,7 +82,7 @@ const AdminAppLayout = ({ name, children }) => {
               ))}
             </ul>
           </div>
-          {children}
+          <div className="content-container">{children}</div>
         </div>
 
         <div className="copyright-container">

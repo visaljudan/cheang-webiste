@@ -11,6 +11,7 @@ import {
   getUserno,
   getAllUser,
   updateUserPro,
+  countUsers,
 } from "../controllers/user.controllers.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
@@ -21,15 +22,18 @@ userRouter.get("/services/:id", verifyToken, getUserService);
 userRouter.get("/getuser/:id", verifyToken, getUser);
 userRouter.get("/getusers", verifyToken, getUsers);
 // userRouter.get("/getalluser/", getAllUser);
-//With account
+userRouter.get("/service/:id", getServiceUser);
+userRouter.get("/getuserno/:id", getUserno);
+
+//With token
 userRouter.get("/getalluserac/", verifyToken, getAllUserAc);
 userRouter.post("/update/:id", verifyToken, updateUser);
 
-userRouter.post("/updateconfirm/:id", updateUserPro);
+//To admin
+userRouter.post("/updateconfirm/:id", verifyToken, updateUserPro);
+userRouter.get("/countusers", verifyToken, countUsers);
 
-//Wihotu account
+//Wihotu token
 userRouter.get("/getalluser/", getAllUser);
-userRouter.get("/service/:id", getServiceUser);
-userRouter.get("/getuserno/:id", getUserno);
 
 export default userRouter;
