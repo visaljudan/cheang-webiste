@@ -1,11 +1,12 @@
 import React from "react";
 import AdminOAuth from "../components/oAuth/OAuth";
+import AdminAppLayout from "../layouts/AdminAppLayout";
 
 const AdminSignInPage = () => {
   return (
-    <div>
-      <AdminOAuth />
-    </div>
+    <AdminAppLayout>
+      {/* <AdminOAuth /> */}
+    </AdminAppLayout>
   );
 };
 
