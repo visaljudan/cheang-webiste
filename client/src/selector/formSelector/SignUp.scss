@@ -1,0 +1,93 @@
+@import "../../variables";
+.form {
+  background-color: $primary-color-light;
+}
+@mixin sample-form {
+  .form-container {
+    max-width: 50%;
+    height: 71vh;
+    margin: auto;
+    display: flex;
+    flex-direction: column;
+    padding: $spacing_unit;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 1rem rgba(97, 89, 89, 0.1);
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    background-color: $secondary-color-light;
+    h2 {
+      color: $accent-color-light;
+    }
+    .form-field {
+      width: 50%;
+      margin: $spacing-unit 0;
+      display: flex;
+      flex-direction: column;
+      input {
+        margin: $spacing-unit 0;
+      }
+      .btn-action {
+        display: flex;
+        justify-content: center;
+      }
+    }
+    .error {
+      color: $accent-color;
+      padding: 0;
+      margin: 0;
+    }
+    p {
+      margin: $spacing-unit 0;
+    }
+  }
+}
+
+%signup-light {
+  @include breakpoint-big($desktop-breakpoint) {
+    @include sample-form;
+  }
+  @include breakpoint-small($desktop-breakpoint) {
+    @include sample-form;
+    .form-container {
+      max-width: 100%;
+      margin: 0;
+      .form-field {
+        align-items: center;
+        padding: 0;
+        width: 85%;
+        input {
+          max-width: 70%;
+          padding-right: 3rem;
+        }
+      }
+    }
+  }
+}
+%signup-dark {
+  background-color: $primary-color-dark;
+  @extend %signup-light;
+  .form-container {
+    background-color: $secondary-color-dark;
+    h2 {
+      color: $accent-color-dark;
+    }
+    .form-field {
+      .btn-action {
+        // margin: 1rem;
+        display: flex;
+        justify-content: center;
+      }
+    }
+
+    p {
+      color: $font-color-dark;
+    }
+  }
+}
+.form.light {
+  @extend %signup-light;
+}
+.form.dark {
+  @extend %signup-dark;
+}

@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+
 //Sign Up
 export const signup = async (req, res, next) => {
   const { nameuser, email, password } = req.body;
@@ -37,9 +38,9 @@ export const signup = async (req, res, next) => {
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
   try {
-    const lowercasedEmail = email.toLowerCase();
+    // const lowercasedEmail = email.toLowerCase();
 
-    const validUser = await User.findOne({ email: lowercasedEmail });
+    const validUser = await User.findOne({ email });
     if (!validUser) return next(errorHandler(404, "Email not found!"));
 
     const validPassword = bcryptjs.compareSync(password, validUser.password);
@@ -54,6 +55,7 @@ export const signin = async (req, res, next) => {
       .json(rest);
   } catch (error) {
     next(error);
+    console.log(error);
   }
 };
 

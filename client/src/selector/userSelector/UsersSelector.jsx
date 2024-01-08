@@ -5,14 +5,14 @@ import ServiceList from "../../data/ServiceList";
 import Label from "../../components/label/Label";
 import Card from "../../components/card/Card";
 import { NavigationLink } from "../../components/navigationLink/NavigationLink";
-import { useSelector } from "react-redux";
 import "./UsersSelector.scss";
+import { useSelector } from "react-redux";
 
 const UsersSelector = () => {
   const { theme } = useTheme();
   const { language } = useLanguage();
   const { currentUser } = useSelector((state) => state.user);
-
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
   const [showMore, setShowMore] = useState(false);
@@ -26,7 +26,9 @@ const UsersSelector = () => {
       const currentUserSearchQuery = currentUser._id
         ? `&excludeUserId=${currentUser._id}`
         : "";
-      const res = await fetch(`/api/user/users?${currentUserSearchQuery}`);
+      const res = await fetch(
+        `/api/user/getalluserac?${currentUserSearchQuery}`
+      );
       const data = await res.json();
       if (data.success === false) {
         setError(data.message);
@@ -34,21 +36,23 @@ const UsersSelector = () => {
       setUsers(data);
       setLoading(false);
     };
-
     fetchServices();
-    const fetchUser = async () => {
-      setLoading(true);
-      setShowMore(false);
-      const res = await fetch("/api/user/user");
-      const data = await res.json();
-      if (data.success === false) {
-        setError(data.message);
-      }
-      setUsers(data);
-      setLoading(false);
-    };
 
-    fetchUser();
+    if (!currentUser) {
+      const fetchUser = async () => {
+        setLoading(true);
+        setShowMore(false);
+        const res = await fetch("/api/user/getalluser");
+        const data = await res.json();
+        if (data.success === false) {
+          setError(data.message);
+        }
+        setUsers(data);
+        setLoading(false);
+      };
+
+      fetchUser();
+    }
   }, [location.search, currentUser]);
   return (
     <div
@@ -71,7 +75,7 @@ const UsersSelector = () => {
       <div className="service-container-service">
         {ServiceList.map((list) => {
           const filteredUser = users.filter(
-            (user) => user.typeService === list.nameLink
+            (user) => user.typeService === list.value
           );
           return (
             <React.Fragment key={list.id}>

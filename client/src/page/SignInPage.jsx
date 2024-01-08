@@ -1,7 +1,12 @@
 import SignIn from "../selector/formSelector/SignIn";
+import FormLayout from "../layouts/FormLayout";
 
 const SignInPage = () => {
-  return <SignIn />;
+  return (
+    <FormLayout>
+      <SignIn />
+    </FormLayout>
+  );
 };
 
 export default SignInPage;

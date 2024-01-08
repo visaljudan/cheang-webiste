@@ -1,7 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
+import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
+import userRouter from "./routes/user.route.js";
+import adminRouter from "./routes/admin.route.js";
+
 import path from "path";
 dotenv.config();
 
@@ -18,6 +22,7 @@ const __dirname = path.resolve();
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 app.listen(5000, () => {
   console.log(`Server is running on port 5000!`);
@@ -25,6 +30,8 @@ app.listen(5000, () => {
 
 //Route
 app.use("/api/auth", authRouter);
+app.use("/api/user", userRouter);
+app.use("/api/admin", adminRouter);
 
 //Render deploy
 app.use(express.static(path.join(__dirname, "/client/dist")));

@@ -1,0 +1,41 @@
+@import "../../../variables";
+  .formField.light {
+    position: relative;
+    margin: 0;
+    padding: 0;
+    input {
+      margin: 1rem;
+      margin-bottom: 0rem;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      width: 70%;
+      border-radius: 0.5rem;
+      border: none;
+      background-color: $primary-color-light;
+      border: 2px solid $secondary-color-light;
+      color: $danger-color;
+      &:valid {
+        color: $success-color;
+      }
+    }
+  }
+.formField.dark {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  input {
+    margin: 1rem;
+    margin-bottom: 0rem;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    width: 70%;
+    border-radius: 0.5rem;
+    border: none;
+    background-color: $primary-color-dark;
+    border: 2px solid $secondary-color-dark;
+    color: $danger-color;
+    &:valid {
+      color: $success-color;
+    }
+  }
+}

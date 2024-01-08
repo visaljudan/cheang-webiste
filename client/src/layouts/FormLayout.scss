@@ -1,0 +1,258 @@
+@import "../variables";
+@import "../components/languageSelector/LanguageSelector.scss";
+.navbarMiddle-container {
+  background-color: $primary-color-light;
+  height: 80px;
+  width: auto;
+  box-shadow: $box-shadow;
+  transition: background-color 0.3s;
+  font-size: $base-font-size;
+  color: $font-color-light;
+}
+
+//Sample navbarMiddle
+@mixin sample-navbarMiddle {
+  //Container
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding: 0;
+  margin: 0;
+
+  //navbarMiddle Logo
+  .navbarMiddle-container-logo {
+    align-items: center;
+    .logo-image {
+      width: 3rem;
+      height: 3rem;
+    }
+    .logo-name {
+      margin: 0;
+      padding: 0;
+      color: $accent-color-light;
+      font-weight: bold;
+      font-size: $base-font-size;
+    }
+  }
+
+  .navbarMiddle-container-back {
+    position: absolute;
+    left: 1rem;
+  }
+  @content;
+}
+
+//navbarMiddle
+//Navber for light theme
+%nav-light {
+  //Big screen
+  @include breakpoint-big($desktop-breakpoint) {
+    .navbarMiddle-container {
+      @include sample-navbarMiddle;
+    }
+    .navbarMiddle-container-menu {
+      background-color: $primary-color-light;
+      height: 80px;
+      width: 100%;
+      box-shadow: $box-shadow;
+      transition: background-color 0.3s;
+      font-size: $base-font-size;
+      color: $font-color-light;
+      @include sample-navbarMiddle;
+    }
+  }
+
+  //Small screen
+  @include breakpoint-small($desktop-breakpoint) {
+    //For menu are close
+    .navbarMiddle-container {
+      @include sample-navbarMiddle;
+      .toggle-btn {
+        display: block;
+        border: 1px solid $accent-color-light;
+        background-color: $accent-color-light;
+        color: $secondary-color-light;
+        font-size: $base-font-size;
+        margin: 0;
+        padding: $padding-btn;
+        border-radius: $spacing-unit;
+      }
+
+      //navbarMiddle Logo
+      .navbarMiddle-container-logo {
+        display: flex;
+        flex-direction: column;
+        .logo-image {
+          width: 3rem;
+          height: 3rem;
+          padding: 0;
+          margin: 0;
+        }
+
+        .logo-name {
+          font-size: $base-font-size;
+          padding: 0;
+          margin: 0;
+        }
+      }
+
+      //navbarMiddle Links
+      .navbarMiddle-container-links {
+        display: none;
+      }
+
+      //Navbvar control
+      .navbarMiddle-container-control {
+        display: none;
+      }
+    }
+
+    //Menu open
+    .navbarMiddle-container-menu {
+      @include sample-navbarMiddle;
+      background-color: $primary-color-light;
+      height: 80px;
+      width: 100%;
+      box-shadow: $box-shadow;
+      transition: background-color 0.3s;
+      font-size: $base-font-size;
+      color: $font-color-light;
+      .toggle-btn {
+        display: block;
+        border: 1px solid $accent-color-light;
+        background-color: $primary-color-light;
+        color: $accent-color-light;
+        font-size: $base-font-size;
+        margin: 0;
+        padding: $padding-btn;
+        border-radius: $spacing-unit;
+      }
+      .navbarMiddle-container-logo {
+        display: flex;
+        flex-direction: column;
+        .logo-image {
+          width: 3rem;
+          height: 3rem;
+          padding: 0;
+          margin: 0;
+        }
+
+        .logo-name {
+          font-size: $base-font-size;
+          padding: 0;
+          margin: 0;
+        }
+      }
+      //navbarMiddle Links
+      .navbarMiddle-container-links {
+        display: flex;
+        flex-direction: column;
+        position: absolute;
+        justify-content: space-around;
+        top: 3.8em;
+        z-index: 500;
+        text-align: left;
+        width: 30%;
+        background-color: $secondary-color-light;
+        border-top-left-radius: $spacing-unit;
+        a {
+          margin: 1rem;
+          // background-color: red;
+        }
+        .link-dropdown:hover .link-dropdown-content {
+          background-color: $secondary-color-light;
+          top: 0;
+          left: 100%;
+          z-index: 500;
+          a {
+            padding: 0;
+            margin: $spacing-unit 1rem;
+            color: $font-color-light;
+          }
+        }
+      }
+
+      //Navbvar control
+      .navbarMiddle-container-control {
+        position: absolute;
+        top: 11.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+        z-index: 500;
+        width: 30%;
+        background-color: $secondary-color-light;
+        .control-label-langue {
+          display: none;
+        }
+      }
+    }
+  }
+
+  @extend %languageSelector-light;
+}
+
+//Navber for dark theme
+%nav-dark {
+  @extend %nav-light;
+
+  .navbarMiddle-container {
+    background-color: $primary-color-dark;
+    color: $font-color-dark;
+  }
+  @include breakpoint-big($desktop-breakpoint) {
+    .navbarMiddle-container {
+      .navbarMiddle-container-links {
+        display: flex;
+        .link-dropdown-content {
+          display: none;
+        }
+        .link-dropdown:hover .link-dropdown-content {
+          background-color: $secondary-color-dark;
+        }
+      }
+    }
+  }
+
+  // //Small screen
+  @include breakpoint-small($desktop-breakpoint) {
+    .navbarMiddle-container {
+      .toggle-btn {
+        border: 1px solid $accent-color-dark;
+        background-color: $accent-color-dark;
+        color: $font-color-light;
+      }
+    }
+    //////////////////////////////////////////////
+    .navbarMiddle-container-menu {
+      background-color: $primary-color-dark;
+      color: $font-color-dark;
+      .toggle-btn {
+        background-color: $secondary-color-dark;
+        color: $accent-color-dark;
+      }
+
+      //navbarMiddle Links
+      .navbarMiddle-container-links {
+        background-color: $secondary-color-dark;
+      }
+
+      //Navbvar control
+      .navbarMiddle-container-control {
+        background-color: $secondary-color-dark;
+      }
+    }
+  }
+
+  @extend %languageSelector-dark;
+}
+
+//Theme with language
+//Englsih
+.navbarMiddle.light {
+  @extend %nav-light;
+}
+.navbarMiddle.dark {
+  @extend %nav-dark;
+}

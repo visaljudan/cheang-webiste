@@ -15,15 +15,16 @@ import { useLanguage } from "../../context/LanguageContext";
 import ServiceList from "../../data/ServiceList";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
-import { useSelector } from "react-redux";
 import { useTheme } from "../../context/ThemeContext";
 import { useState } from "react";
 import "./MainNavbar.scss";
+import { Link } from "react-router-dom";
+import Profile from "../../components/profile/Profile";
+import { useSelector } from "react-redux";
 
 const MainNavbar = ({ page }) => {
   //User
   const { currentUser } = useSelector((state) => state.user);
-
   //Theme and Language
   const { theme } = useTheme();
   const { language, changeLanguage } = useLanguage();
@@ -39,6 +40,9 @@ const MainNavbar = ({ page }) => {
 
   //Link Page
   const pageLink = page;
+
+  console.log("Current User: ");
+  console.log(currentUser.userPro);
 
   return (
     <nav className={`navbar ${theme}`}>
@@ -76,7 +80,7 @@ const MainNavbar = ({ page }) => {
               {ServiceList.map((serivce) => (
                 <NavigationLink
                   // href={`/service-list/${serivce.nameLink.toLowerCase()}`}
-                  value={serivce.nameLink}
+                  value={serivce.value}
                   key={serivce.id}
                 />
               ))}
@@ -107,11 +111,15 @@ const MainNavbar = ({ page }) => {
           {currentUser ? (
             <>
               {currentUser.userPro ? (
-                <Link to="/profile">
-                  <Profile src={currentUser.avatar} />
-                </Link>
+                <>
+                  <h3>{currentUser.uerPro}</h3>
+                  <Link to="/profile">
+                    <Profile src={currentUser.avatar} />
+                  </Link>
+                </>
               ) : (
                 <>
+                  <h3>{currentUser.uerPro}</h3>
                   <NavigationLink href="/userpro" value="Become Pro" />
                   <Link to="/profile">
                     <Profile src={currentUser.avatar} />

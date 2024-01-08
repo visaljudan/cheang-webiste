@@ -6,7 +6,9 @@ import NotFoundPage from "./page/NotFoundPage";
 import MainNavbar from "./layouts/navbar/MainNavbar";
 import { LanguageProvider } from "./context/LanguageContext";
 import { ThemeProvider } from "./context/ThemeContext";
+import Dashboard from "./admin/page/Dashboard";
 import "./App.scss";
+import SignUpPro from "./selector/formSelector/SignUpPro";
 const App = () => {
   return (
     <Router>
@@ -18,7 +20,11 @@ const App = () => {
 
             <Route path="/signup" Component={SignUpPage} />
             <Route path="/signin" Component={SignInPage} />
+            <Route path="/signup-pro" Component={SignUpPro} />
 
+            {/* Admin */}
+            <Route path="/admin/dashboard" Component={Dashboard} />
+            {/* Test */}
             <Route path="component" Component={MainNavbar} />
           </Routes>
         </LanguageProvider>

@@ -33,7 +33,7 @@ const OAuth = () => {
     }
   };
   return (
-    <button onSubmit={handleGoogleClick}>Continue with Google account</button>
+    <button onClick={handleGoogleClick}>Continue with Google account</button>
   );
 };
 

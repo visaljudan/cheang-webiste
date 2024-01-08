@@ -1,7 +1,17 @@
 import { useState } from "react";
+import { FaUserPlus } from "react-icons/fa";
+import { useTheme } from "../../context/ThemeContext";
+import { useLanguage } from "../../context/LanguageContext";
 import { useNavigate } from "react-router-dom";
+import { NavigationLink } from "../../components/navigationLink/NavigationLink";
+import Label from "../../components/label/Label";
+import FormField from "../../components/formField/FormField";
+import OAuth from "../../components/oAuth/OAuth";
+import "./SignUp.scss";
 
 const SignUp = () => {
+  const { theme } = useTheme();
+  const { language } = useLanguage();
   const navigate = useNavigate();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -35,40 +45,58 @@ const SignUp = () => {
     }
   };
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Username:
-        <input
-          type="text"
-          name="nameuser"
-          value={formData.nameuser}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Email:
-        <input
-          type="email"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <label>
-        Password:
-        <input
-          type="password"
-          name="password"
-          value={formData.password}
-          onChange={handleChange}
-        />
-      </label>
-      <br />
-      <button type="submit">{loading ? "Loading..." : "Sign Up"}</button>
-      {error ? <p>{error}</p> : null}
-    </form>
+    <div className={`form ${theme} ${language}`}>
+      <div className="form-container">
+        <Label label="Sign Up" />
+        <form className="form-field" onSubmit={handleSubmit}>
+          <FormField
+            type="text"
+            name="nameuser"
+            value={formData.nameuser}
+            onChange={handleChange}
+            placeholder="Nam User"
+            required
+          />
+          <FormField
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            placeholder="Email"
+            required
+          />
+          <FormField
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            placeholder="Password"
+            required
+          />
+          <div className="btn-action">
+            <button>
+              {loading ? (
+                "Loading..."
+              ) : (
+                <>
+                  <FaUserPlus style={{ marginRight: "8px" }} /> Sign Up
+                </>
+              )}
+            </button>
+          </div>
+          <div className="error">{error && <h6>{error}</h6>}</div>
+        </form>
+        <p>
+          Already have an account?
+          <NavigationLink
+            href="/signin"
+            value="Sign In"
+            style={{ color: "#ff7f00", marginLeft: "8px" }}
+          />
+        </p>
+        <OAuth />
+      </div>
+    </div>
   );
 };
 
