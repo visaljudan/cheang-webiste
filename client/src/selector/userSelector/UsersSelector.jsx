@@ -20,25 +20,26 @@ const UsersSelector = () => {
     "https://images.pexels.com/photos/19274988/pexels-photo-19274988/free-photo-of-black-and-white-photo-of-a-woman-standing-in-the-forest.jpeg?auto=compress&cs=tinysrgb&w=600";
 
   useEffect(() => {
-    const fetchServices = async () => {
-      setLoading(true);
-      setShowMore(false);
-      const currentUserSearchQuery = currentUser._id
-        ? `&excludeUserId=${currentUser._id}`
-        : "";
-      const res = await fetch(
-        `/api/user/getalluserac?${currentUserSearchQuery}`
-      );
-      const data = await res.json();
-      if (data.success === false) {
-        setError(data.message);
-      }
-      setUsers(data);
-      setLoading(false);
-    };
-    fetchServices();
-
-    if (!currentUser) {
+    console.log(currentUser);
+    if (currentUser) {
+      const fetchServices = async () => {
+        setLoading(true);
+        setShowMore(false);
+        const currentUserSearchQuery = currentUser._id
+          ? `&excludeUserId=${currentUser._id}`
+          : "";
+        const res = await fetch(
+          `/api/user/getalluserac?${currentUserSearchQuery}`
+        );
+        const data = await res.json();
+        if (data.success === false) {
+          setError(data.message);
+        }
+        setUsers(data);
+        setLoading(false);
+      };
+      fetchServices();
+    } else {
       const fetchUser = async () => {
         setLoading(true);
         setShowMore(false);
@@ -53,7 +54,7 @@ const UsersSelector = () => {
 
       fetchUser();
     }
-  }, [location.search, currentUser]);
+  }, [currentUser]);
   return (
     <div
       className={`service-container ${theme} ${language}`}

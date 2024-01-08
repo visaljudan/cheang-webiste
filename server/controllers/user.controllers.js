@@ -25,6 +25,8 @@ export const updateUser = async (req, res, next) => {
     if (req.body.password) {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
+    console.log("Users ID");
+    console.log(req.params.id);
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
@@ -36,6 +38,8 @@ export const updateUser = async (req, res, next) => {
           brandName: req.body.brandName,
           location: req.body.location,
           typeService: req.body.typeService,
+          Request: req.body.Request,
+          Confirm: req.body.Confirm,
           userPro: req.body.userPro,
           phone: req.body.phone,
         },
@@ -152,6 +156,29 @@ export const getAllUserAc = async (req, res, next) => {
       userPro: true,
     });
     res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateUserPro = async (req, res, next) => {
+  try {
+    console.log(req.params.id);
+    const updatedUser = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $set: {
+          Request: req.body.Request,
+          Confirm: req.body.Confirm,
+          userPro: req.body.userPro,
+        },
+      },
+      { new: true }
+    );
+
+    const { password, ...rest } = updatedUser._doc;
+
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }

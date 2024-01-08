@@ -183,7 +183,7 @@ const SignUpPro = () => {
           />
           <FormField
             type="checkbox"
-            name="userPro"
+            name="Request"
             onChange={handleChange}
             required
           />

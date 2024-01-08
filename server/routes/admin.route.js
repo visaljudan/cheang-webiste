@@ -4,6 +4,6 @@ import { usersReq } from "../controllers/admin.controllers.js";
 
 const adminRouter = express.Router();
 
-adminRouter.post("/user-req", usersReq);
+adminRouter.get("/usersreq", usersReq);
 
 export default adminRouter;

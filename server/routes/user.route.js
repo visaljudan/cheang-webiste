@@ -10,6 +10,7 @@ import {
   getUsers,
   getUserno,
   getAllUser,
+  updateUserPro,
 } from "../controllers/user.controllers.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
@@ -23,6 +24,8 @@ userRouter.get("/getusers", verifyToken, getUsers);
 //With account
 userRouter.get("/getalluserac/", verifyToken, getAllUserAc);
 userRouter.post("/update/:id", verifyToken, updateUser);
+
+userRouter.post("/updateconfirm/:id", updateUserPro);
 
 //Wihotu account
 userRouter.get("/getalluser/", getAllUser);

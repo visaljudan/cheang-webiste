@@ -42,7 +42,7 @@ const MainNavbar = ({ page }) => {
   const pageLink = page;
 
   console.log("Current User: ");
-  console.log(currentUser.userPro);
+  // console.log(currentUser.userPro);
 
   return (
     <nav className={`navbar ${theme}`}>
@@ -120,7 +120,7 @@ const MainNavbar = ({ page }) => {
               ) : (
                 <>
                   <h3>{currentUser.uerPro}</h3>
-                  <NavigationLink href="/userpro" value="Become Pro" />
+                  <NavigationLink href="/signup-pro" value="Become Pro" />
                   <Link to="/profile">
                     <Profile src={currentUser.avatar} />
                   </Link>

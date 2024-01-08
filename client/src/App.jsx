@@ -9,6 +9,7 @@ import { ThemeProvider } from "./context/ThemeContext";
 import Dashboard from "./admin/page/Dashboard";
 import "./App.scss";
 import SignUpPro from "./selector/formSelector/SignUpPro";
+import Confirm from "./admin/page/Confirm";
 const App = () => {
   return (
     <Router>
@@ -23,7 +24,7 @@ const App = () => {
             <Route path="/signup-pro" Component={SignUpPro} />
 
             {/* Admin */}
-            <Route path="/admin/dashboard" Component={Dashboard} />
+            <Route path="/admin/dashboard" Component={Confirm} />
             {/* Test */}
             <Route path="component" Component={MainNavbar} />
           </Routes>

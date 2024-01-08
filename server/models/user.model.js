@@ -20,7 +20,8 @@ const userSchema = new mongoose.Schema(
       default:
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png",
     },
-    verified: { type: Boolean, default: false },
+    Request: { type: Boolean, default: false },
+    Confirm: { type: Boolean, default: false },
     userPro: { type: Boolean, default: false },
     brandName: {
       type: String,
