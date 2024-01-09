@@ -40,19 +40,22 @@
     //Navbvar control
     .authnavbar-container-control {
       position: absolute;
-      top: 2rem;
+      top: 1rem;
       right: 1rem;
       display: flex;
       align-items: center;
       justify-content: center;
       .control-label-langue {
         margin-right: $spacing-unit;
-      }
-    }
-
-    .authnavbar-container-control {
-      span {
         color: $font-color-light;
+      }
+      .authnavbar-container-account {
+        margin-left: 1rem;
+        img {
+          width: 3rem;
+          height: 3rem;
+          border: 2px solid $accent-color;
+        }
       }
     }
   }

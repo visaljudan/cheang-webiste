@@ -1,7 +1,7 @@
 const DashboardList = [
   {
     id: 1,
-    href: "#dashboard",
+    href: "/admin/dashboard",
     value: "Dashboard",
   },
   {
@@ -11,7 +11,7 @@ const DashboardList = [
   },
   {
     id: 3,
-    href: "#report",
+    href: "/admin/dashboard/confirm",
     value: "Report",
   },
   {

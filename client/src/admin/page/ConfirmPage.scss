@@ -1,0 +1,43 @@
+@import "../../variables";
+.confirm-contain {
+  margin-top: -0.7rem;
+  margin-bottom: 1rem;
+  min-height: 100vh;
+  background-color: $primary-color-light;
+  h2 {
+    padding: 1rem;
+    padding-bottom: 0;
+  }
+  .confirm-container {
+    padding: 0 1rem;
+    margin: $spacing_unit;
+    .list-user {
+      margin: $spacing_unit 0;
+      .user-confirm {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: $secondary-color-light;
+        height: auto;
+        .user-confirm-name {
+          margin-left: -20rem;
+          padding: 0;
+        }
+        img {
+          width: 8rem;
+          height: 8rem;
+          border-radius: 0.5rem;
+        }
+      }
+      .user-button {
+        button {
+          margin: 1rem;
+        }
+      }
+      .user-show {
+        background-color: $secondary-color-light;
+        margin-top: -1rem;
+      }
+    }
+  }
+}

@@ -1,0 +1,23 @@
+@import "../../variables";
+.form-container {
+  max-width: 50%;
+  height: 71vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  padding: $spacing_unit;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 1rem rgba(97, 89, 89, 0.1);
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background-color: $secondary-color-light;
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    input {
+      margin: $spacing-unit 0;
+      padding: $spacing-unit;
+    }
+  }
+}

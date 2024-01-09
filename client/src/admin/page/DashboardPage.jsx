@@ -12,7 +12,6 @@ const DashboardPage = () => {
   const [users, setUsers] = useState([]);
 
   useEffect(() => {
-    console.log(currentUser);
     const fetchUser = async () => {
       setLoading(true);
       const res = await fetch("/api/user/countusers");
@@ -49,9 +48,7 @@ const DashboardPage = () => {
           </div>
         </div>
         <div className="user-peichart">
-          <div className="pei-container">
-            {/* <PeiChart /> */}
-          </div>
+          <div className="pei-container">{/* <PeiChart /> */}</div>
         </div>
       </div>
     </AdminAppLayout>

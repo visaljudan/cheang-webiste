@@ -9,6 +9,8 @@ import { getLanguage } from "../../data/wordsLanguage";
 import DashboardList from "../../data/DashboardList.jsx";
 import Label from "../../components/label/Label.jsx";
 import "./AdminAppLayout.scss";
+import Profile from "../../components/profile/Profile.jsx";
+import { useSelector } from "react-redux";
 const AdminAppLayout = ({ name, children }) => {
   const imageUrl =
     "https://upload.wikimedia.org/wikipedia/km/e/ee/Rupp_logo.png";
@@ -20,7 +22,7 @@ const AdminAppLayout = ({ name, children }) => {
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
-
+  const { currentUser } = useSelector((state) => state.user);
   const nameLinked = name;
   return (
     <>
@@ -56,6 +58,9 @@ const AdminAppLayout = ({ name, children }) => {
                   currentLanguage={language}
                   onLanguageChange={handleLanguageChange}
                 />
+                <div className="authnavbar-container-account">
+                  <Profile src={currentUser.avatar} />
+                </div>
               </div>
             </div>
           </nav>
@@ -66,16 +71,6 @@ const AdminAppLayout = ({ name, children }) => {
             <ul className="content-sidebar-list">
               <Label label="Overview" />
               {DashboardList.slice(0, 4).map((list) => (
-                <li key={list.id}>
-                  <NavigationLink {...list} />
-                </li>
-              ))}
-              {DashboardList.slice(4, 5).map((list) => (
-                <li key={list.id}>
-                  <NavigationLink {...list} />
-                </li>
-              ))}
-              {DashboardList.slice(5, 7).map((list) => (
                 <li key={list.id}>
                   <NavigationLink {...list} />
                 </li>

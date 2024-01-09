@@ -9,10 +9,10 @@ import { ThemeProvider } from "./context/ThemeContext";
 import Dashboard from "./admin/page/DashboardPage";
 import "./App.scss";
 import SignUpPro from "./selector/formSelector/SignUpPro";
-import Confirm from "./admin/page/Confirm";
 import AdminSignInPage from "./admin/page/SignInPage";
 import DashboardPage from "./admin/page/DashboardPage";
 import ShowPieChart from "./admin/components/pieChart/ShowPieChart";
+import ConfirmPage from "./admin/page/ConfirmPage";
 
 const App = () => {
   return (
@@ -31,7 +31,7 @@ const App = () => {
 
             <Route path="/admin/signin" Component={AdminSignInPage} />
             <Route path="/admin/dashboard" Component={DashboardPage} />
-            <Route path="/admin/dashboard/confirm" Component={Confirm} />
+            <Route path="/admin/dashboard/confirm" Component={ConfirmPage} />
 
             {/* Test */}
             <Route path="component" Component={MainNavbar} />

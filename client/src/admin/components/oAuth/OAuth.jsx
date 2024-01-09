@@ -3,6 +3,7 @@ import { app } from "../../../firebase.js";
 import { signInSuccess } from "../../../redux/user/userSlice.js";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { FaGoogle } from "react-icons/fa";
 
 const AdminOAuth = () => {
   const dispatch = useDispatch();
@@ -33,7 +34,10 @@ const AdminOAuth = () => {
     }
   };
   return (
-    <button onClick={handleGoogleClick}>Continue with Google account</button>
+    <button onClick={handleGoogleClick}>
+      <FaGoogle style={{ marginRight: "1rem" }} />
+      Continue with Google account
+    </button>
   );
 };
 

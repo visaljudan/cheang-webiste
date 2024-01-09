@@ -1,5 +1,5 @@
 import User from "../models/user.model.js";
-import { getIO } from "../index.js";
+// import { getIO } from "../index.js";
 
 export const usersReq = async (req, res, next) => {
   try {
@@ -8,14 +8,14 @@ export const usersReq = async (req, res, next) => {
     });
 
     // Emit real-time updates using Socket.io
-    const io = getIO();
+    // const io = getIO();
 
-    if (io) {
-      io.emit("update", users);
-      console.log("Real-time update emitted:", users);
-    } else {
-      console.error("Socket.io instance not available");
-    }
+    // if (io) {
+    //   io.emit("update", users);
+    //   console.log("Real-time update emitted:", users);
+    // } else {
+    //   console.error("Socket.io instance not available");
+    // }
 
     return res.status(200).json(users);
   } catch (error) {
