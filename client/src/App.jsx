@@ -13,6 +13,8 @@ import AdminSignInPage from "./admin/page/SignInPage";
 import DashboardPage from "./admin/page/DashboardPage";
 import ShowPieChart from "./admin/components/pieChart/ShowPieChart";
 import ConfirmPage from "./admin/page/ConfirmPage";
+import ProfilePage from "./page/ProfilePage";
+import AboutPage from "./page/AboutPage";
 
 const App = () => {
   return (
@@ -26,6 +28,8 @@ const App = () => {
             <Route path="/signup" Component={SignUpPage} />
             <Route path="/signin" Component={SignInPage} />
             <Route path="/signup-pro" Component={SignUpPro} />
+            <Route path="/about" Component={AboutPage} />
+            <Route path="profile/:userId" Component={ProfilePage} />
 
             {/* Admin */}
 

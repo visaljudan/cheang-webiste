@@ -35,7 +35,6 @@ const cities = {
     "Boeng Keng Kang",
     "Tuol Tom Poung",
     "Chbar Ampov",
-    "Chbar Ampov",
   ],
   "Banteay Meanchey": ["Serei Saophoan", "Mongkol Borei", "Poipet"],
   Battambang: ["Battambang", "Pailin"],

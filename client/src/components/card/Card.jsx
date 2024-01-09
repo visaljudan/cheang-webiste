@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { useLanguage } from "../../context/LanguageContext";
 import { useTheme } from "../../context/ThemeContext";
 import Button from "../button/Button";
@@ -23,7 +24,9 @@ const Card = (props) => {
             <TextBorder label="Type of Service" text={typeService} />
           </div>
           <div className="card-detail-action">
-            <Button value="see more" linkPage={`/profile/${ID}`} />
+            <Link to={`/profile/${ID}`}>
+              <button>See more</button>
+            </Link>
           </div>
         </div>
       </div>

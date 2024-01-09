@@ -1,0 +1,7 @@
+@import "../../variables";
+.label {
+  color: $accent-color-light;
+  margin: $spacing_unit;
+  padding: $spacing_unit;
+  border: 1px solid orange;
+}

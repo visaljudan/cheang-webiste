@@ -1,0 +1,93 @@
+@import "../../variables";
+@mixin sample-profileContainer {
+  .ProfileContainer-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background-color: $secondary-color-light;
+    .ProfileContainer-container-left {
+      width: 30%;
+      margin: 1rem 0;
+      box-shadow: $box-shadow;
+      background-color: $primary-color-light;
+    }
+    .ProfileContainer-container-right {
+      width: 65%;
+      padding-bottom: 1rem;
+      margin: 1rem 0;
+      background-color: $primary-color-light;
+      box-shadow: $box-shadow;
+    }
+  }
+  .listitem-container-comments {
+    margin: 1rem;
+    width: 100%;
+
+    h3 {
+      margin: 1rem 0rem;
+    }
+
+    .comment-box {
+      background-color: #f4f4f4;
+      padding: 0.5rem;
+      margin: 0.5rem 0rem;
+      border-radius: 0.5rem;
+      width: 90%;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      textarea {
+        width: 100%;
+        margin: 0.5rem 0;
+        border: 1px solid #ddd;
+        border-radius: 0.5rem;
+      }
+
+      button {
+        width: 10%;
+        background-color: #3498db;
+        color: #fff;
+        border: none;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #2980b9;
+        }
+      }
+    }
+  }
+}
+
+%profileContainer-light {
+  @include breakpoint-big($tablet-breakpoint) {
+    @include sample-profileContainer;
+  }
+  @include breakpoint-small($tablet-breakpoint) {
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+%profileContainer-dark {
+  @extend %profileContainer-light;
+  .ProfileContainer-container {
+    background-color: $secondary-color-dark;
+    .ProfileContainer-container-left {
+      background-color: $primary-color-dark;
+    }
+    .ProfileContainer-container-right {
+      background-color: $primary-color-dark;
+    }
+  }
+}
+.ProfileContainer.light {
+  @extend %profileContainer-light;
+}
+
+.ProfileContainer.dark {
+  @extend %profileContainer-dark;
+}

@@ -12,6 +12,7 @@ import {
   getAllUser,
   updateUserPro,
   countUsers,
+  ratingUser,
 } from "../controllers/user.controllers.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
@@ -28,6 +29,7 @@ userRouter.get("/getuserno/:id", getUserno);
 //With token
 userRouter.get("/getalluserac/", verifyToken, getAllUserAc);
 userRouter.post("/update/:id", verifyToken, updateUser);
+userRouter.post("/rating/:id", verifyToken, ratingUser);
 
 //To admin
 userRouter.post("/updateconfirm/:id", verifyToken, updateUserPro);
