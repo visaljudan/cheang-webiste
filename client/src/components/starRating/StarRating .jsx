@@ -1,14 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { FaStar } from "react-icons/fa";
 
-const StarRating = ({ onChange }) => {
-  const [rating, setRating] = useState(0);
+const StarRating = ({ userId, onChange }) => {
+  const [rating, setRating] = useState(() => {
+    // Initialize rating from localStorage or default to 0
+    const storedRating = localStorage.getItem(`userRating_${userId}`);
+    return storedRating ? parseInt(storedRating, 10) : 0;
+  });
 
   const handleStarClick = (index) => {
     const newRating = index + 1;
     setRating(newRating);
     onChange(newRating);
   };
+
+  useEffect(() => {
+    // Save the rating to localStorage whenever it changes
+    localStorage.setItem(`userRating_${userId}`, rating.toString());
+  }, [rating, userId]);
 
   return (
     <div>

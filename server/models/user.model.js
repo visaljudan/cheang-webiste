@@ -71,6 +71,26 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    comments: [
+      {
+        userComment: {
+          type: String,
+          default: "",
+        },
+        userAvatar: {
+          type: String,
+          default: "",
+        },
+        userName: {
+          type: String,
+          default: "",
+        },
+        comment: {
+          type: String,
+          required: true,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

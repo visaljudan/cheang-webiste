@@ -95,9 +95,34 @@ export const ratingUser = async (req, res, next) => {
     // Save the updated user document
     const updatedUser = await userBeingRated.save();
 
+    // Exclude password from the response
     const { password, ...rest } = updatedUser._doc;
 
-    // res.status(200).json(rest);
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const commentUser = async (req, res, next) => {
+  const { comment, avatar, nameuser } = req.body;
+  const userComment = req.user.id;
+  const userResive = req.params.id;
+  try {
+    const userBeingCommented = await User.findById(userResive);
+    userBeingCommented.comments.push({
+      userComment: userComment,
+      userAvatar: avatar,
+      userName: nameuser,
+      comment: comment,
+    });
+
+    // Save the updated user document
+    const updatedUser = await userBeingCommented.save();
+
+    const { password, ...rest } = updatedUser._doc;
+
+    res.status(200).json(rest);
   } catch (error) {
     next(error);
   }

@@ -16,6 +16,7 @@ import ShowStar from "../../components/starRating/ShowStar";
 const ProfileUser = () => {
   const { theme } = useTheme();
   const [user, setUser] = useState(null);
+  console.log(user);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -35,13 +36,87 @@ const ProfileUser = () => {
     });
   };
 
-  console.log(currentUser._id);
-  console.log(params.userId);
+  /////////////////comments//////////////////////////
+  const [comments, setComments] = useState([]);
+  const [newComment, setNewComment] = useState("");
+
+  const handleCommentChange = (event) => {
+    setNewComment(event.target.value);
+  };
+
+  const handleCommentSubmit = async (e) => {
+    try {
+      e.preventDefault(); // Prevent the default form submission
+
+      dispatch(updateUserStart());
+
+      const res = await fetch(`/api/user/comment/${params.userId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          nameuser: currentUser.nameuser,
+          avatar: currentUser.avatar,
+          comment: newComment,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+
+      console.log(data);
+      // Assuming the server responds with the updated user data
+      setUser(data.updatedUser); // Update the state with the new data
+      console.log("user");
+      console.log(user);
+
+      // Fetch the updated user data after posting a comment
+      const updatedUserResponse = await fetch(
+        `/api/user/getUser/${params.userId}`
+      );
+      const updatedUserData = await updatedUserResponse.json();
+      setUser(updatedUserData);
+
+      // // Clear the newComment state after successful comment submission
+      setNewComment("");
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
+
+  const handleCommentDelete = async (commentId) => {
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(
+        `/api/user/comment/${params.userId}/${commentId}`,
+        {
+          method: "DELETE",
+        }
+      );
+
+      const data = await res.json();
+
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+
+      setUser(data.updatedUser);
+      dispatch(updateUserSuccess(data));
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
+
+  //////////////////////////////
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      console.log(formData);
       dispatch(updateUserStart());
       const res = await fetch(`/api/user/rating/${params.userId}`, {
         method: "POST",
@@ -52,6 +127,25 @@ const ProfileUser = () => {
           rating: formData.userRating,
         }),
       });
+
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+
+      // Assuming the server responds with the updated user data
+      setUser(data.updatedUser); // Update the state with the new data
+      dispatch(updateUserSuccess(data)); // Assuming you have a success action
+
+      // Fetch the updated user data after rating
+      const updatedUserResponse = await fetch(
+        `/api/user/getUser/${params.userId}`
+      );
+      const updatedUserData = await updatedUserResponse.json();
+      setUser(updatedUserData);
+
+      dispatch(updateUserSuccess(data));
     } catch (error) {
       dispatch(updateUserFailure(error.message));
     }
@@ -97,20 +191,13 @@ const ProfileUser = () => {
       }
     };
     fetchUser();
-  }, [params.userId]);
-  let conut;
-  // const total = user.forEach((element) => {
-  //   element.rating;
-  // });
-  // const allRatings = user.find((user) => user?.ratings?.rating);\
-  const rating = user?.ratings;
-  console.log(rating);
+  }, []);
 
-  const rate = rating?.userRef;
-  console.log(rate);
-
-  // const averageRating =
-  //   allRatings.reduce((sum, rating) => sum + rating, 0) / allRatings.length;
+  const averageRating =
+    user && user.ratings.length > 0
+      ? user.ratings.reduce((sum, rating) => sum + rating.rating, 0) /
+        user.ratings.length
+      : 0;
 
   return (
     <>
@@ -125,9 +212,8 @@ const ProfileUser = () => {
                   <Profile src={user.avatar} />
                   <Label label={user.brandName} />
                   <div>
-                    <ShowStar rating={4.5} />
-                    {/* {averageRating} */}
-                    <p>4.5</p>
+                    <ShowStar rating={averageRating.toFixed(2)} />
+                    <p>Average Rating: {averageRating.toFixed(2)}</p>
                   </div>
 
                   <div className="userserviceDetail-container-tag">
@@ -143,7 +229,10 @@ const ProfileUser = () => {
                   </div>
                   <div>
                     <h2>Rate this item:</h2>
-                    <StarRating onChange={handleRatingChange} />
+                    <StarRating
+                      userId={params.userId}
+                      onChange={handleRatingChange}
+                    />
                     <button onClick={handleSubmit}>Submit Rating</button>
                   </div>
                 </div>
@@ -154,6 +243,29 @@ const ProfileUser = () => {
             {/* <ProfileTodo /> */}
             {/* <ServicePromote /> */}
             {/* <ServiceDetail /> */}
+            <div>
+              <h2>Comments</h2>
+              <div>
+                <textarea
+                  value={newComment}
+                  onChange={handleCommentChange}
+                  placeholder="Type your comment..."
+                />
+                <button onClick={handleCommentSubmit}>Submit</button>
+              </div>
+              <ul>
+                {user?.comments.map((comment, index) => (
+                  <div key={index}>
+                    <img src={comment.userAvatar} />
+                    <h6>{comment.userName}</h6>
+                    <li>{comment.comment}</li>
+                    <button onClick={handleCommentDelete}>
+                      Delete Comment
+                    </button>
+                  </div>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </div>
