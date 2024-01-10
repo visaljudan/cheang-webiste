@@ -74,33 +74,30 @@ export const getAllUser = async (req, res, next) => {
 };
 
 export const ratingUser = async (req, res, next) => {
-  const { userId, rating } = req.body;
-  console.log("rating");
-  console.log(req.body.rating);
-  console.log("currentUser");
-  console.log(req.user.id);
-  console.log("user");
-  console.log(req.params.id);
+  const { rating } = req.body;
+  const userRate = req.user.id;
+  const userResive = req.params.id;
 
   try {
-    const userRate = req.user.id;
-    const userBeingRated = await User.findById(
-      req.params.id
-      // {
-      //   $set: {},
-      // },
-      // { new: true }
-    );
-    console.log(userBeingRated);
-    console.log(userRate);
-
+    const userBeingRated = await User.findById(userResive);
     const existingRating = userBeingRated.ratings.find(
-      (r) => r.userRate.toString() === userRate.toString()
+      (r) => r.userRate === userRate
     );
-    console.log(existingRating);
-    // const { password, ...rest } = updatedUser._doc;
 
-    res.status(200).json("Hello");
+    if (existingRating) {
+      // Update the existing rating
+      existingRating.rating = rating;
+    } else {
+      // Add a new rating
+      userBeingRated.ratings.push({ userRate, rating });
+    }
+
+    // Save the updated user document
+    const updatedUser = await userBeingRated.save();
+
+    const { password, ...rest } = updatedUser._doc;
+
+    // res.status(200).json(rest);
   } catch (error) {
     next(error);
   }

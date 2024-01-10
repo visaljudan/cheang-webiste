@@ -12,6 +12,7 @@ import {
   updateUserStart,
   updateUserSuccess,
 } from "../../redux/user/userSlice";
+import ShowStar from "../../components/starRating/ShowStar";
 const ProfileUser = () => {
   const { theme } = useTheme();
   const [user, setUser] = useState(null);
@@ -35,6 +36,7 @@ const ProfileUser = () => {
   };
 
   console.log(currentUser._id);
+  console.log(params.userId);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -50,13 +52,6 @@ const ProfileUser = () => {
           rating: formData.userRating,
         }),
       });
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(updateUserFailure(data.message));
-        return;
-      }
-      dispatch(updateUserSuccess(data));
-      setUpdateSuccess(true);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
     }
@@ -103,6 +98,20 @@ const ProfileUser = () => {
     };
     fetchUser();
   }, [params.userId]);
+  let conut;
+  // const total = user.forEach((element) => {
+  //   element.rating;
+  // });
+  // const allRatings = user.find((user) => user?.ratings?.rating);\
+  const rating = user?.ratings;
+  console.log(rating);
+
+  const rate = rating?.userRef;
+  console.log(rate);
+
+  // const averageRating =
+  //   allRatings.reduce((sum, rating) => sum + rating, 0) / allRatings.length;
+
   return (
     <>
       <div className={`ProfileContainer ${theme}`}>
@@ -115,6 +124,12 @@ const ProfileUser = () => {
                 <div className="userserviceDetail-container" key={user.id}>
                   <Profile src={user.avatar} />
                   <Label label={user.brandName} />
+                  <div>
+                    <ShowStar rating={4.5} />
+                    {/* {averageRating} */}
+                    <p>4.5</p>
+                  </div>
+
                   <div className="userserviceDetail-container-tag">
                     <Tag label={user.typeService} />
                   </div>

@@ -61,7 +61,7 @@ const userSchema = new mongoose.Schema(
     },
     ratings: [
       {
-        userId: {
+        userRate: {
           type: String,
           default: "",
         },
