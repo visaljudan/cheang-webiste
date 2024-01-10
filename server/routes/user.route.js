@@ -14,6 +14,7 @@ import {
   countUsers,
   ratingUser,
   commentUser,
+  deleteCommentUser,
 } from "../controllers/user.controllers.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
@@ -32,6 +33,7 @@ userRouter.get("/getalluserac/", verifyToken, getAllUserAc);
 userRouter.post("/update/:id", verifyToken, updateUser);
 userRouter.post("/rating/:id", verifyToken, ratingUser);
 userRouter.post("/comment/:id", verifyToken, commentUser);
+userRouter.delete("/deletecomment/:commentId", verifyToken, deleteCommentUser);
 
 //To admin
 userRouter.post("/updateconfirm/:id", verifyToken, updateUserPro);

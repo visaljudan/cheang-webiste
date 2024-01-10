@@ -38,6 +38,7 @@ const SignIn = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
+      console.log(data);
       if (data.success === false) {
         dispatch(signInFailure(data.message));
         return;
@@ -48,7 +49,7 @@ const SignIn = () => {
       dispatch(signInFailure(error.message));
     }
   };
-
+  console.log(loading);
   return (
     <div className={`form ${theme} ${language}`}>
       <div className="form-container">

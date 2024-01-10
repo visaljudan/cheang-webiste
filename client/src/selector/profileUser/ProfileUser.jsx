@@ -13,6 +13,7 @@ import {
   updateUserSuccess,
 } from "../../redux/user/userSlice";
 import ShowStar from "../../components/starRating/ShowStar";
+import { FaSave } from "react-icons/fa";
 const ProfileUser = () => {
   const { theme } = useTheme();
   const [user, setUser] = useState(null);
@@ -67,12 +68,8 @@ const ProfileUser = () => {
         dispatch(updateUserFailure(data.message));
         return;
       }
-
-      console.log(data);
       // Assuming the server responds with the updated user data
       setUser(data.updatedUser); // Update the state with the new data
-      console.log("user");
-      console.log(user);
 
       // Fetch the updated user data after posting a comment
       const updatedUserResponse = await fetch(
@@ -88,29 +85,37 @@ const ProfileUser = () => {
     }
   };
 
+  // console.log(user);
   const handleCommentDelete = async (commentId) => {
     try {
       dispatch(updateUserStart());
-      const res = await fetch(
-        `/api/user/comment/${params.userId}/${commentId}`,
-        {
-          method: "DELETE",
-        }
-      );
+
+      const res = await fetch(`/api/user/deletecomment/${commentId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          // Include any authentication headers if required
+        },
+        body: JSON.stringify({
+          user: user._id,
+        }),
+      });
 
       const data = await res.json();
-
+      // console.log(data);
       if (data.success === false) {
         dispatch(updateUserFailure(data.message));
         return;
       }
-
-      setUser(data.updatedUser);
-      dispatch(updateUserSuccess(data));
+      setUser(data);
     } catch (error) {
       dispatch(updateUserFailure(error.message));
     }
   };
+  console.log("user");
+  console.log(user);
+  console.log("currentUser");
+  console.log(currentUser);
 
   //////////////////////////////
 
@@ -233,7 +238,9 @@ const ProfileUser = () => {
                       userId={params.userId}
                       onChange={handleRatingChange}
                     />
-                    <button onClick={handleSubmit}>Submit Rating</button>
+                    {currentUser ? (
+                      <button onClick={handleSubmit}>Submit Rating</button>
+                    ) : null}
                   </div>
                 </div>
               </div>
@@ -243,6 +250,12 @@ const ProfileUser = () => {
             {/* <ProfileTodo /> */}
             {/* <ServicePromote /> */}
             {/* <ServiceDetail /> */}
+            <div>
+              <button>
+                <FaSave style={{ marginRight: "8px" }} />
+                save
+              </button>
+            </div>
             <div>
               <h2>Comments</h2>
               <div>
@@ -259,7 +272,7 @@ const ProfileUser = () => {
                     <img src={comment.userAvatar} />
                     <h6>{comment.userName}</h6>
                     <li>{comment.comment}</li>
-                    <button onClick={handleCommentDelete}>
+                    <button onClick={() => handleCommentDelete(comment._id)}>
                       Delete Comment
                     </button>
                   </div>

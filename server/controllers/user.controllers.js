@@ -2,6 +2,7 @@ import bcryptjs from "bcryptjs";
 import User from "../models/user.model.js";
 import Serivce from "../models/service.model.js";
 import { errorHandler } from "../utils/error.js";
+import { ObjectId } from "mongoose";
 
 export const test = async (req, res) => {
   res.status(201).json("User created successfully");
@@ -58,6 +59,7 @@ export const updateUser = async (req, res, next) => {
     next(error);
   }
 };
+
 //////
 
 ///Without Token
@@ -120,6 +122,30 @@ export const commentUser = async (req, res, next) => {
     // Save the updated user document
     const updatedUser = await userBeingCommented.save();
 
+    const { password, ...rest } = updatedUser._doc;
+
+    res.status(200).json(rest);
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const deleteCommentUser = async (req, res, next) => {
+  const { commentId } = req.params;
+  const userId = req.body.user;
+
+  try {
+    const user = await User.findById(userId);
+    console.log(commentId);
+
+    const updatedComments = user.comments.filter(
+      (comment) => comment._id.toString() !== commentId
+    );
+
+    user.comments = updatedComments;
+    const updatedUser = await user.save();
+    console.log(updatedUser);
+    // Exclude password from the response
     const { password, ...rest } = updatedUser._doc;
 
     res.status(200).json(rest);

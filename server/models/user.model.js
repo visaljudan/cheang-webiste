@@ -91,6 +91,18 @@ const userSchema = new mongoose.Schema(
         },
       },
     ],
+    saves: [
+      {
+        userSave: {
+          type: String,
+          default: "",
+        },
+        save: {
+          type: Boolean,
+          default: false,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );
