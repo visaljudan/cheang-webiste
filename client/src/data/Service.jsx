@@ -20,7 +20,7 @@ export const getServicesAndSubServices = (language) => {
           "Minor plumbing Services",
           "Electrical issues Service",
         ],
-        "Home Renovations service": [
+        "Home Renovations Service": [
           "Revamping kitchen services",
           "Bathroom renovations",
           "Floor installations",
@@ -34,7 +34,7 @@ export const getServicesAndSubServices = (language) => {
           "Lighting solutions service",
           "Troubleshooting electrical problem",
         ],
-        "Plumbing Solutions service": [
+        "Plumbing Solutions Service": [
           "Unclogging drains service",
           "Fixing leaks service",
           "Install fixtures service",

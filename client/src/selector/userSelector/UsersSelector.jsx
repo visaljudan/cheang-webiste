@@ -53,6 +53,7 @@ const UsersSelector = () => {
       fetchUserswithCrrunetUser();
     }
   }, [currentUser]);
+  console.log(currentUser);
   const servicesLanguage = getServicesAndSubServices(language);
   const servicesEnglsih = getServicesAndSubServices("en");
   return (

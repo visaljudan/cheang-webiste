@@ -31,11 +31,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    porvinces: {
+    porvince: {
       type: String,
       default: "",
     },
-    cities: {
+    city: {
       type: String,
       default: "",
     },

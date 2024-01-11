@@ -28,41 +28,44 @@ const SignUpPro = () => {
   const [formData, setFormData] = useState({});
   const handleChange = (e) => {
     if (e.target.type === "text" || e.target.type === "tel") {
+      console.log("work");
       setFormData({
         ...formData,
         [e.target.id]: e.target.value,
-      });
-    } else if (e.target.id === "province" || e.target.id === "city") {
-      setFormData({
-        ...formData,
-        [e.target.id]: servicesEnglsih.e.target.value,
-        // Request: true,
+        Request: true,
       });
     }
   };
-  console.log(formData);
-
   ////
   const locationLanguage = getProvincesAndCities(language);
   const locationEnglsih = getProvincesAndCities("en");
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-
+  console.log(formData);
+  // console.log(locationEnglsih.Provinces);
   const handleProvinceChange = (event) => {
     setSelectedProvince(event.target.value);
+    const index = locationLanguage.Provinces.indexOf(event.target.value);
     setSelectedCity(""); // Reset city when province changes
     setFormData({
       ...formData,
-      province: event.target.value, // Set the province in formData
+      porvince: locationEnglsih.Provinces[index], // Set the province in formData
       city: "", // Reset city in formData
     });
   };
-
+  // };
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
+    const index = locationLanguage.Provinces.indexOf(selectedProvince);
+    const subCityArray = locationLanguage.Cities[selectedProvince];
+    const indexCity = subCityArray.indexOf(event.target.value);
+    const value =
+      locationEnglsih.Cities[locationEnglsih.Provinces[index]][indexCity];
+    console.log(value);
+
     setFormData({
       ...formData,
-      city: event.target.value, // Set the city in formData
+      city: value,
     });
   };
 
@@ -75,19 +78,27 @@ const SignUpPro = () => {
 
   const handleMainServiceChange = (event) => {
     setSelectedMainService(event.target.value);
+    const index = servicesLanguage.MainService.indexOf(event.target.value);
     setSelectedSubService(""); // Reset city when province changes
     setFormData({
       ...formData,
-      mainService: event.target.value, // Set the province in formData
+      mainService: servicesEnglsih.MainService[index], // Set the province in formData
       subService: "", // Reset city in formData
     });
   };
 
   const handleSubServiceChange = (event) => {
     setSelectedSubService(event.target.value);
+    const index = servicesLanguage.MainService.indexOf(selectedMainService);
+    const subServiceArray = servicesLanguage.SubService[selectedMainService];
+    const indexSub = subServiceArray.indexOf(event.target.value);
+    const value =
+      servicesEnglsih.SubService[servicesEnglsih.MainService[index]][indexSub];
+    console.log(value);
+
     setFormData({
       ...formData,
-      subService: event.target.value, // Set the city in formData
+      subService: value, // Set the province in formData
     });
   };
 
@@ -118,95 +129,98 @@ const SignUpPro = () => {
   };
   return (
     <FormLayout>
-      <div className={`form ${theme} ${language}`}>
-        <div className="form-container">
-          <Label label="Sign Up" />
-          <form className="form-field" onSubmit={handleSubmit}>
-            <FormField
-              type="text"
-              name="brandName"
-              value={formData.brandName}
-              onChange={handleChange}
-              placeholder="Brand name"
-              required
-            />
-            <div className="select">
-              <select
-                id="province"
-                name="province"
-                value={selectedProvince}
-                onChange={handleProvinceChange}
-              >
-                <option value="">Select Province</option>
-                {locationLanguage.Provinces.map((province) => (
-                  <option key={province} value={province}>
-                    {province}
-                  </option>
-                ))}
-              </select>
-
-              <div>
+      {currentUser.userPro ? (
+        "You are alreay Pro!"
+      ) : (
+        <div className={`form ${theme} ${language}`}>
+          <div className="form-container">
+            <Label label="Sign Up" />
+            <form className="form-field" onSubmit={handleSubmit}>
+              <FormField
+                type="text"
+                name="brandName"
+                value={formData.brandName}
+                onChange={handleChange}
+                placeholder="Brand name"
+                required
+              />
+              <div className="select">
                 <select
-                  id="city"
-                  name="city"
-                  value={selectedCity}
-                  onChange={handleCityChange}
-                  disabled={!selectedProvince} // Disable city dropdown if no province selected
+                  id="province"
+                  name="province"
+                  value={selectedProvince}
+                  onChange={handleProvinceChange}
                 >
-                  <option value="">Select City</option>
-                  {locationLanguage.Cities[selectedProvince]?.map((city) => (
-                    <option key={city} value={city}>
-                      {city}
+                  <option value="">Select Province</option>
+                  {locationLanguage.Provinces.map((province) => (
+                    <option key={province} value={province}>
+                      {province}
                     </option>
                   ))}
                 </select>
-              </div>
-            </div>
 
-            <div className="select">
-              <select
-                id="mainSerivce"
-                name="mainSerivce"
-                value={selectedMainService}
-                onChange={handleMainServiceChange}
-              >
-                <option value="">Select Main Service</option>
-                {servicesLanguage.MainService.map((mainservice) => (
-                  <option key={mainservice} value={mainservice}>
-                    {mainservice}
-                  </option>
-                ))}
-              </select>
-
-              <div>
-                <select
-                  id="subSerivce"
-                  name="subSerivce"
-                  value={selectedSubService}
-                  onChange={handleSubServiceChange}
-                  disabled={!selectedMainService} // Disable city dropdown if no province selected
-                >
-                  <option value="">Select Sub Service</option>
-                  {servicesLanguage.SubService[selectedMainService]?.map(
-                    (subservice) => (
-                      <option key={subservice} value={subservice}>
-                        {subservice}
+                <div>
+                  <select
+                    id="city"
+                    name="city"
+                    value={selectedCity}
+                    onChange={handleCityChange}
+                    disabled={!selectedProvince} // Disable city dropdown if no province selected
+                  >
+                    <option value="">Select City</option>
+                    {locationLanguage.Cities[selectedProvince]?.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
                       </option>
-                    )
-                  )}
-                </select>
+                    ))}
+                  </select>
+                </div>
               </div>
-            </div>
 
-            <FormField
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              placeholder="Phone"
-              required
-            />
-            {/* <FormField
+              <div className="select">
+                <select
+                  id="mainSerivce"
+                  name="mainSerivce"
+                  value={selectedMainService}
+                  onChange={handleMainServiceChange}
+                >
+                  <option value="">Select Main Service</option>
+                  {servicesLanguage.MainService.map((mainservice) => (
+                    <option key={mainservice} value={mainservice}>
+                      {mainservice}
+                    </option>
+                  ))}
+                </select>
+
+                <div>
+                  <select
+                    id="subService"
+                    name="subService"
+                    value={selectedSubService}
+                    onChange={handleSubServiceChange}
+                    disabled={!selectedMainService} // Disable city dropdown if no province selected
+                  >
+                    <option value="">Select Sub Service</option>
+                    {servicesLanguage.SubService[selectedMainService]?.map(
+                      (subservice) => (
+                        <option key={subservice} value={subservice}>
+                          {subservice}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              <FormField
+                type="tel"
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                placeholder="Phone"
+                required
+              />
+              {/* <FormField
               type="checkbox"
               name="Request"
               onChange={handleChange}
@@ -214,16 +228,17 @@ const SignUpPro = () => {
             /> 
             <span>ProUser</span>
                     */}
-            {/* <button>Sign Up</button> */}
-            <div className="btn-action">
-              <button type="submit">
-                <FaUserPlus style={{ marginRight: "8px" }} /> Request
-              </button>
-            </div>
-            {error && <p>{error}</p>}
-          </form>
+              {/* <button>Sign Up</button> */}
+              <div className="btn-action">
+                <button type="submit">
+                  <FaUserPlus style={{ marginRight: "8px" }} /> Request
+                </button>
+              </div>
+              {error && <p>{error}</p>}
+            </form>
+          </div>
         </div>
-      </div>
+      )}
     </FormLayout>
   );
 };
