@@ -25,8 +25,8 @@ const ProfileUser = () => {
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
-  ////
-  // const [userRating, setUserRating] = useState(0);
+  ////////////////Rating////////////////////////////
+  const [userRating, setUserRating] = useState(0);
 
   const handleRatingChange = (newRating) => {
     setFormData({
@@ -35,6 +35,49 @@ const ProfileUser = () => {
       userRating: newRating,
     });
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/rating/${params.userId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          rating: formData.userRating,
+        }),
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+
+      // Assuming the server responds with the updated user data
+      setUser(data.updatedUser); // Update the state with the new data
+      // dispatch(updateUserSuccess(data)); // Assuming you have a success action
+
+      // Fetch the updated user data after rating
+      const updatedUserResponse = await fetch(
+        `/api/user/getUser/${params.userId}`
+      );
+      const updatedUserData = await updatedUserResponse.json();
+      setUser(updatedUserData);
+
+      // dispatch(updateUserSuccess(data));
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
+
+  const averageRating =
+    user && user.ratings.length > 0
+      ? user.ratings.reduce((sum, rating) => sum + rating.rating, 0) /
+        user.ratings.length
+      : 0;
 
   /////////////////comments//////////////////////////
   const [comments, setComments] = useState([]);
@@ -140,43 +183,6 @@ const ProfileUser = () => {
 
   //////////////////////////////
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      dispatch(updateUserStart());
-      const res = await fetch(`/api/user/rating/${params.userId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          rating: formData.userRating,
-        }),
-      });
-
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(updateUserFailure(data.message));
-        return;
-      }
-
-      // Assuming the server responds with the updated user data
-      setUser(data.updatedUser); // Update the state with the new data
-      dispatch(updateUserSuccess(data)); // Assuming you have a success action
-
-      // Fetch the updated user data after rating
-      const updatedUserResponse = await fetch(
-        `/api/user/getUser/${params.userId}`
-      );
-      const updatedUserData = await updatedUserResponse.json();
-      setUser(updatedUserData);
-
-      dispatch(updateUserSuccess(data));
-    } catch (error) {
-      dispatch(updateUserFailure(error.message));
-    }
-  };
-
   ////////
   useEffect(() => {
     const fetchService = async () => {
@@ -218,11 +224,6 @@ const ProfileUser = () => {
     };
     fetchUser();
   }, []);
-  const averageRating =
-    user && user.ratings.length > 0
-      ? user.ratings.reduce((sum, rating) => sum + rating.rating, 0) /
-        user.ratings.length
-      : 0;
 
   return (
     <>

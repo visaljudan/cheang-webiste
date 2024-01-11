@@ -81,15 +81,11 @@ const UsersSelector = () => {
           return (
             <React.Fragment key={list.id}>
               <div className="service-navbar">
-                <Label
-                  label={list.value}
-                  idLabel={list.href.slice(1)}
-                  key={list.id}
+                <Label label={list.value} idLabel={list.href} key={list.id} />
+                <NavigationLink
+                  href={`/userlist/${list.value}`}
+                  value="See more"
                 />
-                {/* <NavigationLink
-              href={`/userlist/${list.nameLink.toLowerCase()}`}
-              nameLink="See more"
-            /> */}
               </div>
               <div className="service-card">
                 {filteredUser.map((user) => (

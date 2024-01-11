@@ -15,6 +15,7 @@ import ShowPieChart from "./admin/components/pieChart/ShowPieChart";
 import ConfirmPage from "./admin/page/ConfirmPage";
 import ProfilePage from "./page/ProfilePage";
 import AboutPage from "./page/AboutPage";
+import UsersList from "./page/UsersListPage";
 
 const App = () => {
   return (
@@ -30,6 +31,7 @@ const App = () => {
             <Route path="/signup-pro" Component={SignUpPro} />
             <Route path="/about" Component={AboutPage} />
             <Route path="profile/:userId" Component={ProfilePage} />
+            <Route path="userlist/:typeservice" Component={UsersList} />
 
             {/* Admin */}
 
