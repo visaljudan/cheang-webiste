@@ -28,7 +28,6 @@ const SignUpPro = () => {
   const [formData, setFormData] = useState({});
   const handleChange = (e) => {
     if (e.target.type === "text" || e.target.type === "tel") {
-      console.log("work");
       setFormData({
         ...formData,
         [e.target.id]: e.target.value,
@@ -49,11 +48,10 @@ const SignUpPro = () => {
     setSelectedCity(""); // Reset city when province changes
     setFormData({
       ...formData,
-      porvince: locationEnglsih.Provinces[index], // Set the province in formData
+      province: locationEnglsih.Provinces[index], // Set the province in formData
       city: "", // Reset city in formData
     });
   };
-  // };
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
     const index = locationLanguage.Provinces.indexOf(selectedProvince);
@@ -94,7 +92,6 @@ const SignUpPro = () => {
     const indexSub = subServiceArray.indexOf(event.target.value);
     const value =
       servicesEnglsih.SubService[servicesEnglsih.MainService[index]][indexSub];
-    console.log(value);
 
     setFormData({
       ...formData,
@@ -105,7 +102,6 @@ const SignUpPro = () => {
   ////
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(e);
     try {
       dispatch(updateUserStart());
       const res = await fetch(`/api/user/update/${currentUser._id}`, {

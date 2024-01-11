@@ -31,19 +31,11 @@ const userSchema = new mongoose.Schema(
       type: String,
       default: "",
     },
-    porvince: {
+    province: {
       type: String,
       default: "",
     },
     city: {
-      type: String,
-      default: "",
-    },
-    location: {
-      type: String,
-      default: "",
-    },
-    typeService: {
       type: String,
       default: "",
     },

@@ -1,0 +1,55 @@
+@import "../../variables";
+@mixin sample-cardlist {
+  .service-list-card {
+    display: flex;
+    flex: 1;
+    width: 20rem;
+    height: 8rem;
+    border: 1px solid $accent-color-light;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    transition: box-shadow 0.3s;
+    &:hover {
+      box-shadow: $box-shadow;
+    }
+    img {
+      width: 8rem;
+      height: 8rem;
+      object-fit: cover;
+      margin-right: $spacing_unit;
+    }
+    .descritpion {
+      display: -webkit-box;
+      -webkit-line-clamp: 2; /* Limit the number of lines to 2 */
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      white-space: normal;
+      text-overflow: ellipsis;
+    }
+    p {
+      color: $font-color-light;
+    }
+  }
+  .card-action {
+    display: flex;
+    width: 20rem;
+    justify-content: right;
+    .btn {
+      padding: 0 0.5rem;
+      margin: 0 4px;
+    }
+  }
+}
+
+.service-list.light {
+  @include sample-cardlist;
+}
+
+.service-list.dark {
+  @include sample-cardlist;
+  .service-list-card {
+    p {
+      color: $font-color-dark;
+    }
+  }
+}

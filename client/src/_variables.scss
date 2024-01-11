@@ -105,7 +105,7 @@ $transition-duration: 0.3s;
 
     &:hover {
       border: 1px solid $accent-color;
-      background-color: $secondary-color-light;
+      background: none; 
       color: $accent-color;
       transition: transform 0.3s ease;
     }

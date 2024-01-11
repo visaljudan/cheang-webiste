@@ -5,7 +5,7 @@ import { useTheme } from "../../context/ThemeContext";
 import { useLanguage } from "../../context/LanguageContext";
 import Label from "../../components/label/Label";
 import FormField from "../../components/formField/FormField";
-import { FaUserPlus } from "react-icons/fa";
+import { FaUserAlt } from "react-icons/fa";
 import { NavigationLink } from "../../components/navigationLink/NavigationLink";
 import {
   signInStart,
@@ -25,7 +25,7 @@ const SignIn = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
   const dispatch = useDispatch();
-
+  console.log(loading);
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -52,7 +52,7 @@ const SignIn = () => {
   return (
     <div className={`form ${theme} ${language}`}>
       <div className="form-container">
-        <Label label="Sign Up" />
+        <Label label="Sign In" />
         <form className="form-field" onSubmit={handleSubmit}>
           <FormField
             type="email"
@@ -72,11 +72,11 @@ const SignIn = () => {
           />
           <div className="btn-action">
             <button>
-              {!loading ? (
+              {loading ? (
                 "Loading..."
               ) : (
                 <>
-                  <FaUserPlus style={{ marginRight: "8px" }} /> Sign In
+                  <FaUserAlt style={{ marginRight: "8px" }} /> Sign In
                 </>
               )}
             </button>

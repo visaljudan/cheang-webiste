@@ -91,3 +91,72 @@
 .ProfileContainer.dark {
   @extend %profileContainer-dark;
 }
+
+@mixin sample-profileDetail {
+  .userserviceDetail-container {
+    width: auto;
+    height: auto;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    margin: 0.5rem;
+    h2 {
+      white-space: normal;
+    }
+    .userserviceDetail-container-tag {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+    }
+    .userserviceDetail-container-rate {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      p {
+        margin-left: 1rem;
+      }
+    }
+    .userserviceDetail-container-detail {
+      width: auto;
+      padding: 0 $spacing_unit;
+      p {
+        margin: 0.5rem 0;
+      }
+    }
+    .userserviceDetail-container-rating {
+      margin-top: 1rem;
+    }
+  }
+  @content;
+}
+
+%profileDetail-light {
+  @include sample-profileDetail;
+}
+%profileDetail-dark {
+  @include sample-profileDetail;
+}
+
+.userprofileDetail.light {
+  @extend %profileDetail-light;
+}
+
+.userprofileDetail.dark {
+  @extend %profileDetail-dark;
+}
+
+.serviceDetail-container {
+  display: flex;
+  margin: $spacing-unit 1rem;
+  button {
+    margin-right: $spacing_unit;
+  }
+  .disabled {
+    background: none;
+    color: $accent-color;
+    border: 1px solid $accent-color;
+  }
+}

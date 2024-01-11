@@ -10,7 +10,7 @@ const Card = (props) => {
   const { language } = useLanguage();
   const ImgBackGround =
     "https://img.freepik.com/premium-vector/abstract-pattern-background-with-futuristic-modern-style-concept_7505-2436.jpg";
-  const { avatar, brandName, location, typeService, rating, LinkPage, ID } =
+  const { avatar, brandName, province, mainService, rating, LinkPage, ID } =
     props;
   return (
     <div className={`card ${theme}`}>
@@ -20,13 +20,14 @@ const Card = (props) => {
         <div className="card-detail">
           <Label label={brandName} />
           <div className="card-detail-content">
-            <TextBorder label="Location" text={location} />
-            <TextBorder label="Type of Service" text={typeService} />
+            <TextBorder label="Type of Service" text={mainService} />
+            <TextBorder label="Location" text={province} />
           </div>
           <div className="card-detail-action">
             <Link to={`/profile/${ID}`}>
-              <button>See more</button>
+              <button style={{ width: "6rem" }}>See more</button>
             </Link>
+            <Label label={rating} />
           </div>
         </div>
       </div>

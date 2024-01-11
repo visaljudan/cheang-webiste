@@ -2,10 +2,18 @@ import { useEffect, useState } from "react";
 import { useTheme } from "../../context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
+import {
+  FaInfoCircle,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaRegSave,
+  FaSave,
+  FaThumbsDown,
+  FaWrench,
+} from "react-icons/fa";
+import Tag from "../../components/tag/Tag";
 import Label from "../../components/label/Label";
 import Profile from "../../components/profile/Profile";
-import Tag from "../../components/tag/Tag";
-import "./ProfileUser.scss";
 import StarRating from "../../components/starRating/StarRating ";
 import {
   updateUserFailure,
@@ -13,18 +21,21 @@ import {
   updateUserSuccess,
 } from "../../redux/user/userSlice";
 import ShowStar from "../../components/starRating/ShowStar";
-import { FaRegSave, FaSave } from "react-icons/fa";
+import "./ProfileUser.scss";
+import TextBorder from "../../components/textBorder/TextBorder";
+import Button from "../../components/button/Button";
+import ServiceSelector from "../serviceSelector/ServiceSelector";
 const ProfileUser = () => {
   const { theme } = useTheme();
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [copied, setCopied] = useState(false);
-  const [contact, setContact] = useState(false);
+  const [normal, setNormal] = useState("service");
   const dispatch = useDispatch();
   const params = useParams();
   const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
+
   ////////////////Rating////////////////////////////
   const [userRating, setUserRating] = useState(0);
 
@@ -79,7 +90,7 @@ const ProfileUser = () => {
         user.ratings.length
       : 0;
 
-  /////////////////comments//////////////////////////
+  ///////////Comments//////////
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
 
@@ -153,7 +164,8 @@ const ProfileUser = () => {
       dispatch(updateUserFailure(error.message));
     }
   };
-  /////////////Save/////////
+
+  ///////////Save User//////////
   const handleSave = async () => {
     try {
       dispatch(updateUserStart());
@@ -180,10 +192,9 @@ const ProfileUser = () => {
   const isAlreadySaved = currentUser?.saves.some(
     (save) => save.userId === params.userId
   );
-
   //////////////////////////////
 
-  ////////
+  console.log(normal);
   useEffect(() => {
     const fetchService = async () => {
       try {
@@ -204,120 +215,159 @@ const ProfileUser = () => {
       }
     };
     fetchService();
-    const fetchUser = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch(`/api/user/getUserno/${params.userId}`);
-        const data = await res.json();
-        if (data.success === false) {
-          setError(true);
-          setLoading(false);
-          return;
-        }
-        setUser(data);
-        setLoading(false);
-        setError(false);
-      } catch (error) {
-        setError(true);
-        setLoading(false);
-      }
-    };
-    fetchUser();
+    // const fetchUser = async () => {
+    //   try {
+    //     setLoading(true);
+    //     const res = await fetch(`/api/user/getUserno/${params.userId}`);
+    //     const data = await res.json();
+    //     if (data.success === false) {
+    //       setError(true);
+    //       setLoading(false);
+    //       return;
+    //     }
+    //     setUser(data);
+    //     setLoading(false);
+    //     setError(false);
+    //   } catch (error) {
+    //     setError(true);
+    //     setLoading(false);
+    //   }
+    // };
+    // fetchUser();
   }, []);
-
   return (
-    <>
-      <div className={`ProfileContainer ${theme}`}>
-        <div className="ProfileContainer-container">
-          <div className="ProfileContainer-container-left">
-            {loading && <p className="">Loading...</p>}
-            {error && <p className="">Something went wrong!</p>}
-            {user && !loading && !error && (
-              <div className={`userprofileDetail ${theme}`}>
-                <div className="userserviceDetail-container" key={user.id}>
-                  <Profile src={user.avatar} />
-                  <Label label={user.brandName} />
-                  <div>
-                    <ShowStar rating={averageRating.toFixed(2)} />
-                    <p>Average Rating: {averageRating.toFixed(2)}</p>
-                  </div>
-
-                  <div className="userserviceDetail-container-tag">
-                    <Tag label={user.typeService} />
-                  </div>
-                  {/* <RenderStar rating={profile.Rating} /> */}
-                  <div className="userserviceDetail-container-detail">
-                    <div className="TextBorder-container">
-                      <p className="TextBorder-container-label">
-                        Location : {user.location}
-                      </p>
-                    </div>
-                  </div>
-                  <div>
-                    <h2>Rate this item:</h2>
-                    <StarRating
-                      userId={params.userId}
-                      onChange={handleRatingChange}
+    <div className={`ProfileContainer ${theme}`}>
+      <div className="ProfileContainer-container">
+        <div className="ProfileContainer-container-left">
+          {loading && <p className="">Loading...</p>}
+          {error && <p className="">Something went wrong!</p>}
+          {user && !loading && !error && (
+            <div className={`userprofileDetail ${theme}`}>
+              <div className="userserviceDetail-container" key={user.id}>
+                <Profile src={user.avatar} />
+                <Label label={user.brandName} />
+                <div className="userserviceDetail-container-tag">
+                  <Tag label={user.mainService} />
+                  <Tag label={user.subService} />
+                </div>
+                <div className="userserviceDetail-container-rate">
+                  <ShowStar rating={averageRating.toFixed(2)} />
+                  <p>{averageRating.toFixed(2)}</p>
+                </div>
+                <div className="userserviceDetail-container-detail">
+                  <div className="TextBorder-container">
+                    <TextBorder
+                      label={<FaMapMarkerAlt />}
+                      text={user.city + user.province}
                     />
-                    {currentUser ? (
-                      <button onClick={handleSubmit}>Submit Rating</button>
-                    ) : null}
+                    <TextBorder label={<FaPhoneAlt />} text={user.phone} />
                   </div>
                 </div>
+                <div className="userserviceDetail-container-rating">
+                  {/* <Label label="Rate this service" /> */}
+                  <StarRating
+                    userId={params.userId}
+                    onChange={handleRatingChange}
+                  />
+                  <button onClick={handleSubmit}>Submit Rating</button>
+                </div>
               </div>
-            )}
-          </div>
-          <div className="ProfileContainer-container-right">
-            {/* <ProfileTodo /> */}
-            {/* <ServicePromote /> */}
-            {/* <ServiceDetail /> */}
-            <div>
-              <button onClick={handleSave}>
-                {isAlreadySaved ? (
-                  <>
-                    <FaRegSave style={{ marginRight: "8px" }} />
-                    Unsave
-                  </>
-                ) : (
-                  <>
-                    <FaSave style={{ marginRight: "8px" }} />
-                    Save
-                  </>
-                )}
-              </button>
-
-              <button onClick={handleSave}>
-                <FaSave style={{ marginRight: "8px" }} />
-                save
-              </button>
             </div>
-            <div>
-              <h2>Comments</h2>
-              <div>
-                <textarea
-                  value={newComment}
-                  onChange={handleCommentChange}
-                  placeholder="Type your comment..."
-                />
-                <button onClick={handleCommentSubmit}>Submit</button>
-              </div>
-              <ul>
-                {user?.comments.map((comment, index) => (
-                  <div key={index}>
-                    <img src={comment.userAvatar} />
-                    <h6>{comment.userName}</h6>
-                    <li>{comment.comment}</li>
-                    <button onClick={() => handleCommentDelete(comment._id)}>
-                      Delete Comment
+          )}
+        </div>
+        <div className="ProfileContainer-container-right">
+          <div className="profileTodo">
+            <>
+              {normal === "service" ? (
+                <>
+                  <div className="serviceDetail-container">
+                    <button className="disabled" disabled>
+                      {<FaWrench style={{ marginRight: "8px" }} />}
+                      Service
+                    </button>
+                    <button onClick={() => setNormal("about")}>
+                      {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                      About
+                    </button>
+                    <button onClick={handleSave}>
+                      {isAlreadySaved ? (
+                        <>
+                          <FaRegSave style={{ marginRight: "8px" }} />
+                          Unsave
+                        </>
+                      ) : (
+                        <>
+                          <FaSave style={{ marginRight: "8px" }} />
+                          Save
+                        </>
+                      )}
                     </button>
                   </div>
-                ))}
-              </ul>
-            </div>
+                  <ServiceSelector />
+                </>
+              ) : normal === "about" ? (
+                <>
+                  <div className="serviceDetail-container">
+                    <button onClick={() => setNormal("service")}>
+                      {<FaWrench style={{ marginRight: "8px" }} />}
+                      Service
+                    </button>
+                    <button className="disabled" disabled>
+                      {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                      About
+                    </button>
+                    <button onClick={handleSave}>
+                      {isAlreadySaved ? (
+                        <>
+                          <FaRegSave style={{ marginRight: "8px" }} />
+                          Unsave
+                        </>
+                      ) : (
+                        <>
+                          <FaSave style={{ marginRight: "8px" }} />
+                          Save
+                        </>
+                      )}
+                    </button>
+                  </div>
+
+                  {/* <ServiceAbout /> */}
+                </>
+              ) : (
+                ""
+              )}
+            </>
           </div>
         </div>
       </div>
-    </>
+
+      {/* //////////// */}
+      <div style={{ marginBottom: "10rem" }}>
+        <div>
+          <h2>Comments</h2>
+          <div>
+            <textarea
+              value={newComment}
+              onChange={handleCommentChange}
+              placeholder="Type your comment..."
+            />
+            <button onClick={handleCommentSubmit}>Submit</button>
+          </div>
+          <ul>
+            {user?.comments.map((comment, index) => (
+              <div key={index}>
+                <img src={comment.userAvatar} />
+                <h6>{comment.userName}</h6>
+                <li>{comment.comment}</li>
+                <button onClick={() => handleCommentDelete(comment._id)}>
+                  Delete Comment
+                </button>
+              </div>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
   );
 };
 

@@ -6,7 +6,7 @@ const TextBorder = ({ label, text }) => {
   return (
     <div className={`TextBorder ${theme}`}>
       <div className="TextBorder-container">
-        <p className="TextBorder-container-label">{label}:</p>
+        <p className="TextBorder-container-label">{label}</p>
         <p className="TextBorder-container-text">{text}</p>
       </div>
     </div>

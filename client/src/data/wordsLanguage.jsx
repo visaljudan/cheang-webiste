@@ -148,3 +148,16 @@ export const getBecomePro = (language) => {
       return "Become Pro";
   }
 };
+
+export const get = (language) => {
+  switch (language) {
+    case "en":
+      return "Become Pro";
+    case "kh":
+      return "ក្លាយជាអ្នកផ្តល់សេវាកម្ម";
+    case "zh":
+      return "成为职业选手";
+    default:
+      return "Become Pro";
+  }
+};
