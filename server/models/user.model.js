@@ -93,13 +93,13 @@ const userSchema = new mongoose.Schema(
     ],
     saves: [
       {
-        userSave: {
+        userId: {
           type: String,
           default: "",
         },
-        save: {
+        saveSign: {
           type: Boolean,
-          default: false,
+          required: true,
         },
       },
     ],

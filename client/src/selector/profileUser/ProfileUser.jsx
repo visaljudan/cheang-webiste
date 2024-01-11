@@ -13,11 +13,10 @@ import {
   updateUserSuccess,
 } from "../../redux/user/userSlice";
 import ShowStar from "../../components/starRating/ShowStar";
-import { FaSave } from "react-icons/fa";
+import { FaRegSave, FaSave } from "react-icons/fa";
 const ProfileUser = () => {
   const { theme } = useTheme();
   const [user, setUser] = useState(null);
-  console.log(user);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -27,7 +26,7 @@ const ProfileUser = () => {
   const { currentUser } = useSelector((state) => state.user);
   const [formData, setFormData] = useState({});
   ////
-  const [userRating, setUserRating] = useState(0);
+  // const [userRating, setUserRating] = useState(0);
 
   const handleRatingChange = (newRating) => {
     setFormData({
@@ -85,7 +84,6 @@ const ProfileUser = () => {
     }
   };
 
-  // console.log(user);
   const handleCommentDelete = async (commentId) => {
     try {
       dispatch(updateUserStart());
@@ -112,10 +110,33 @@ const ProfileUser = () => {
       dispatch(updateUserFailure(error.message));
     }
   };
-  console.log("user");
-  console.log(user);
-  console.log("currentUser");
-  console.log(currentUser);
+  /////////////Save/////////
+  const handleSave = async () => {
+    try {
+      dispatch(updateUserStart());
+
+      const res = await fetch(`/api/user/save/${params.userId}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+      } else {
+        // Dispatch a success action if the save operation is successful
+        dispatch(updateUserSuccess(data));
+      }
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
+
+  const isAlreadySaved = currentUser?.saves.some(
+    (save) => save.userId === params.userId
+  );
 
   //////////////////////////////
 
@@ -197,7 +218,6 @@ const ProfileUser = () => {
     };
     fetchUser();
   }, []);
-
   const averageRating =
     user && user.ratings.length > 0
       ? user.ratings.reduce((sum, rating) => sum + rating.rating, 0) /
@@ -251,7 +271,21 @@ const ProfileUser = () => {
             {/* <ServicePromote /> */}
             {/* <ServiceDetail /> */}
             <div>
-              <button>
+              <button onClick={handleSave}>
+                {isAlreadySaved ? (
+                  <>
+                    <FaRegSave style={{ marginRight: "8px" }} />
+                    Unsave
+                  </>
+                ) : (
+                  <>
+                    <FaSave style={{ marginRight: "8px" }} />
+                    Save
+                  </>
+                )}
+              </button>
+
+              <button onClick={handleSave}>
                 <FaSave style={{ marginRight: "8px" }} />
                 save
               </button>

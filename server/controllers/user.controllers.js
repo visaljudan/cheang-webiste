@@ -154,6 +154,35 @@ export const deleteCommentUser = async (req, res, next) => {
   }
 };
 
+export const saveUser = async (req, res, next) => {
+  const { userId } = req.params;
+  const userSave = req.user.id;
+  console.log(userSave);
+  console.log(userId);
+  try {
+    const userToSave = await User.findById(userSave);
+    const isAlreadySaved = userToSave.saves.some(
+      (save) => save.userId === userId
+    );
+    if (isAlreadySaved) {
+      // If already saved, "unsave" the user
+      userToSave.saves = userToSave.saves.filter(
+        (save) => save.userId !== userId
+      );
+    } else {
+      // Save the user
+      userToSave.saves.push({ userId, saveSign: true });
+    }
+    await userToSave.save();
+    const { password, ...rest } = userToSave._doc;
+
+    res.status(200).json(rest);
+  } catch (error) {
+    console.log(error);
+    next(error);
+  }
+};
+
 ///to admin
 export const updateUserPro = async (req, res, next) => {
   try {

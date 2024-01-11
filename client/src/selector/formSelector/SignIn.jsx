@@ -49,7 +49,6 @@ const SignIn = () => {
       dispatch(signInFailure(error.message));
     }
   };
-  console.log(loading);
   return (
     <div className={`form ${theme} ${language}`}>
       <div className="form-container">
@@ -73,7 +72,7 @@ const SignIn = () => {
           />
           <div className="btn-action">
             <button>
-              {loading ? (
+              {!loading ? (
                 "Loading..."
               ) : (
                 <>
