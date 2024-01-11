@@ -3,9 +3,14 @@ import { useLanguage } from "../../context/LanguageContext";
 import "./NavigationLink.scss";
 export function NavigationLink(props) {
   const { theme } = useTheme();
-  const { href, value, style } = props;
+  const { href, value, style, onClick } = props;
   return (
-    <a className={`navigationLink ${theme}`} style={style} href={href}>
+    <a
+      className={`navigationLink ${theme}`}
+      style={style}
+      href={href}
+      onClick={onClick}
+    >
       {value}
     </a>
   );

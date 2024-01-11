@@ -1,12 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { useTheme } from "../../context/ThemeContext";
-import { useLanguage } from "../../context/LanguageContext";
-import ServiceList from "../../data/ServiceList";
-import Label from "../../components/label/Label";
 import Card from "../../components/card/Card";
+import Label from "../../components/label/Label";
+import ServiceList from "../../data/ServiceList";
+import { useLanguage } from "../../context/LanguageContext";
 import { NavigationLink } from "../../components/navigationLink/NavigationLink";
-import "./UsersSelector.scss";
+import { useTheme } from "../../context/ThemeContext";
 import { useSelector } from "react-redux";
+import "./UsersSelector.scss";
+import { getServicesAndSubServices } from "../../data/Service";
+import {
+  getAllCategories,
+  getPopular,
+  getSeeMore,
+} from "../../data/wordsLanguage";
 
 const UsersSelector = () => {
   const { theme } = useTheme();
@@ -15,16 +21,22 @@ const UsersSelector = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
-  const [showMore, setShowMore] = useState(false);
-  const ImgUrl =
-    "https://images.pexels.com/photos/19274988/pexels-photo-19274988/free-photo-of-black-and-white-photo-of-a-woman-standing-in-the-forest.jpeg?auto=compress&cs=tinysrgb&w=600";
-
   useEffect(() => {
-    console.log(currentUser);
-    if (currentUser) {
-      const fetchServices = async () => {
+    if (!currentUser) {
+      const fetchUsers = async () => {
         setLoading(true);
-        setShowMore(false);
+        const res = await fetch("/api/user/getalluser");
+        const data = await res.json();
+        if (data.success === false) {
+          setError(data.message);
+        }
+        setUsers(data);
+        setLoading(false);
+      };
+      fetchUsers();
+    } else {
+      const fetchUserswithCrrunetUser = async () => {
+        setLoading(true);
         const currentUserSearchQuery = currentUser._id
           ? `&excludeUserId=${currentUser._id}`
           : "";
@@ -38,53 +50,47 @@ const UsersSelector = () => {
         setUsers(data);
         setLoading(false);
       };
-      fetchServices();
-    } else {
-      const fetchUser = async () => {
-        setLoading(true);
-        setShowMore(false);
-        const res = await fetch("/api/user/getalluser");
-        const data = await res.json();
-        if (data.success === false) {
-          setError(data.message);
-        }
-        setUsers(data);
-        setLoading(false);
-      };
-
-      fetchUser();
+      fetchUserswithCrrunetUser();
     }
   }, [currentUser]);
+  const servicesLanguage = getServicesAndSubServices(language);
+  const servicesEnglsih = getServicesAndSubServices("en");
   return (
-    <div
-      className={`service-container ${theme} ${language}`}
-      id="service_section"
-    >
+    <div className={`service-container ${theme} `} id="service_section">
       {/* Left Column */}
       <div className="service-container-category">
-        <Label label="All Categories" />
+        <Label label={getAllCategories(language)} />
         <ul className="category-list">
-          {ServiceList.map((list) => (
-            <li key={list.id}>
-              <NavigationLink {...list} />
-            </li>
-          ))}
+          <li>
+            <NavigationLink value={getPopular(language)} href="#Popular" />
+          </li>
+          {loading ? (
+            <p>Loading...</p>
+          ) : (
+            servicesLanguage.MainService.map((main) => (
+              <li>
+                <NavigationLink value={main} href={"#" + main} />
+              </li>
+            ))
+          )}
         </ul>
       </div>
 
       {/* Right Column */}
       <div className="service-container-service">
-        {ServiceList.map((list) => {
+        {servicesLanguage.MainService.map((service, index) => {
+          const englishService = servicesEnglsih.MainService[index];
           const filteredUser = users.filter(
-            (user) => user.typeService === list.value
+            (user) => user.mainService === englishService
           );
+
           return (
-            <React.Fragment key={list.id}>
+            <React.Fragment key={index}>
               <div className="service-navbar">
-                <Label label={list.value} idLabel={list.href} key={list.id} />
+                <Label label={service} idLabel={service} key={index} />
                 <NavigationLink
-                  href={`/userlist/${list.value}`}
-                  value="See more"
+                  href={`/userlist/${englishService}`}
+                  value={getSeeMore(language)}
                 />
               </div>
               <div className="service-card">

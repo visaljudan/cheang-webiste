@@ -16,6 +16,7 @@ import ConfirmPage from "./admin/page/ConfirmPage";
 import ProfilePage from "./page/ProfilePage";
 import AboutPage from "./page/AboutPage";
 import UsersList from "./page/UsersListPage";
+import SearchFilter from "./components/searchFilter/SearchFilter";
 
 const App = () => {
   return (
@@ -40,7 +41,7 @@ const App = () => {
             <Route path="/admin/dashboard/confirm" Component={ConfirmPage} />
 
             {/* Test */}
-            <Route path="component" Component={MainNavbar} />
+            <Route path="test" Component={SearchFilter} />
             <Route path="pie" Component={ShowPieChart} />
           </Routes>
         </LanguageProvider>

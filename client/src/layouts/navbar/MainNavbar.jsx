@@ -6,6 +6,7 @@ import {
 } from "../../components/navigationLink/NavigationLink";
 import {
   getAbout,
+  getBecomePro,
   getHome,
   getLanguage,
   getService,
@@ -120,7 +121,10 @@ const MainNavbar = ({ page }) => {
               ) : (
                 <>
                   <h3>{currentUser.uerPro}</h3>
-                  <NavigationLink href="/signup-pro" value="Become Pro" />
+                  <NavigationLink
+                    href="/signup-pro"
+                    value={getBecomePro(language)}
+                  />
                   <Link to="/profile">
                     <Profile src={currentUser.avatar} />
                   </Link>

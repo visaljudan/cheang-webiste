@@ -4,8 +4,8 @@ import AppLayout from "../layouts/AppLayout";
 import UsersSelector from "../selector/userSelector/UsersSelector";
 
 const HomePage = () => {
+  //AdsModal
   const [showAdModal, setShowAdModal] = useState(false);
-
   useEffect(() => {
     // const lastShownDate = localStorage.getItem("adModalLastShown");
 
@@ -32,8 +32,8 @@ const HomePage = () => {
     //   window.removeEventListener("beforeunload", handleUnload);
     // };
   }, []);
-  
 
+  //Close Ad Modal
   const handleCloseAdModal = () => {
     setShowAdModal(false);
   };
@@ -41,8 +41,6 @@ const HomePage = () => {
     <AppLayout page="home">
       <UsersSelector />
       <div className="main-container">
-        {/* Other components */}
-        {/* Display the modal if showAdModal is true */}
         {showAdModal && <AdsModal onClose={handleCloseAdModal} />}
       </div>
     </AppLayout>
