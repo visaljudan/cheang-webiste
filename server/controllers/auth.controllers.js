@@ -39,6 +39,9 @@ export const signin = async (req, res, next) => {
   const { email, password } = req.body;
   try {
     // const lowercasedEmail = email.toLowerCase();
+    if (!process.env.JWT_SECRET) {
+      return next(errorHandler(500, "JWT secret not configured"));
+    }
 
     const validUser = await User.findOne({ email });
     if (!validUser) return next(errorHandler(404, "Email not found!"));
@@ -46,6 +49,7 @@ export const signin = async (req, res, next) => {
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) return next(errorHandler(401, "Wrong Password!"));
 
+    console.log(process.env.JWT_SECRET);
     //Create token
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
     const { password: pass, ...rest } = validUser._doc;
