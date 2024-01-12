@@ -7,8 +7,10 @@ import {
   FaInfoCircle,
   FaMapMarkerAlt,
   FaPhoneAlt,
+  FaPlusCircle,
   FaRegSave,
   FaSave,
+  FaSellcast,
   FaThumbsDown,
   FaWrench,
 } from "react-icons/fa";
@@ -27,6 +29,7 @@ import Button from "../../components/button/Button";
 import ServiceSelector from "../serviceSelector/ServiceSelector";
 import { NavigationLink } from "../../components/navigationLink/NavigationLink";
 import AboutUser from "../aboutUser/AboutUser";
+import ServiceCreate from "../serviceCreate/ServiceCreate";
 // import "./ProfileUser.scss";
 const ProfileUserCurrent = () => {
   const { theme } = useTheme();
@@ -225,6 +228,14 @@ const ProfileUserCurrent = () => {
                       {<FaInfoCircle style={{ marginRight: "8px" }} />}
                       About
                     </button>
+                    <button onClick={() => setNormal("addService")}>
+                      {<FaPlusCircle style={{ marginRight: "8px" }} />}
+                      Add Service
+                    </button>
+                    <button onClick={() => setNormal("setting")}>
+                      {<FaSellcast style={{ marginRight: "8px" }} />}
+                      Setting
+                    </button>
                   </div>
                   <ServiceSelector />
                 </>
@@ -239,9 +250,60 @@ const ProfileUserCurrent = () => {
                       {<FaInfoCircle style={{ marginRight: "8px" }} />}
                       About
                     </button>
+                    <button onClick={() => setNormal("addService")}>
+                      {<FaPlusCircle style={{ marginRight: "8px" }} />}
+                      Add Service
+                    </button>
+                    <button onClick={() => setNormal("setting")}>
+                      {<FaSellcast style={{ marginRight: "8px" }} />}
+                      Setting
+                    </button>
                   </div>
 
                   <AboutUser />
+                </>
+              ) : normal === "addService" ? (
+                <>
+                  <div className="serviceDetail-container">
+                    <button onClick={() => setNormal("service")}>
+                      {<FaWrench style={{ marginRight: "8px" }} />}
+                      Service
+                    </button>
+                    <button onClick={() => setNormal("about")}>
+                      {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                      About
+                    </button>
+                    <button className="disabled" disabled>
+                      {<FaPlusCircle style={{ marginRight: "8px" }} />}
+                      Add Service
+                    </button>
+                    <button onClick={() => setNormal("setting")}>
+                      {<FaSellcast style={{ marginRight: "8px" }} />}
+                      Setting
+                    </button>
+                  </div>
+                  <ServiceCreate />
+                </>
+              ) : normal === "setting" ? (
+                <>
+                  <div className="serviceDetail-container">
+                    <button onClick={() => setNormal("service")}>
+                      {<FaWrench style={{ marginRight: "8px" }} />}
+                      Service
+                    </button>
+                    <button onClick={() => setNormal("about")}>
+                      {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                      About
+                    </button>
+                    <button onClick={() => setNormal("addService")}>
+                      {<FaPlusCircle style={{ marginRight: "8px" }} />}
+                      Add Service
+                    </button>
+                    <button className="disabled" disabled>
+                      {<FaSellcast style={{ marginRight: "8px" }} />}
+                      Setting
+                    </button>
+                  </div>
                 </>
               ) : (
                 ""

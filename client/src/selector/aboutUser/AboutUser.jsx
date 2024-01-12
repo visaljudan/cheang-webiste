@@ -43,13 +43,10 @@ const AboutUser = () => {
     };
     fetchService();
   }, [params.userId]);
-  console.log(currentUser);
-  console.log(user);
-  //   let checkUser(user);
   return (
     <>
       {loading && <p className="">Loading...</p>}
-      {!user ? (
+      {user.length !== 0 ? (
         <div className={`service-about ${theme}`}>
           <Label label="About Me" />
           <div className="serivce-about-container" key={user.id}>
@@ -69,7 +66,7 @@ const AboutUser = () => {
               label={<FaWrench />}
               text={
                 "Type of Service : " +
-                (user.mainService + user.subService || "None")
+                (user.mainService + " " + user.subService || "None")
               }
             />
             <TextBorder

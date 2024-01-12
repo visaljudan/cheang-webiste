@@ -1,0 +1,118 @@
+@import "../../variables";
+@include breakpoint-big($desktop-breakpoint) {
+  .form-addService-container {
+    form {
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+    }
+    textarea {
+      padding: 0.5rem;
+      font-size: $base-font-size;
+      border-radius: 0.5rem;
+      border: 2px solid $accent-color;
+      background-color: $primary-color-light;
+      color: $danger-color;
+      width: 75%;
+      height: 10rem;
+      &:focus {
+        background-color: $primary-color-light;
+      }
+
+      &:valid {
+        color: $success-color;
+      }
+    }
+
+    .form-addService-input {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-items: center;
+      input {
+        margin: 1rem;
+        width: 75%;
+      }
+      .btn-actions {
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+        margin: 1rem;
+        button {
+          margin: 0rem;
+        }
+        .btn-image {
+          input {
+            position: absolute;
+            width: 7.3rem;
+            height: 2rem;
+            padding: 0;
+            margin: 0;
+            margin-top: -2rem;
+            cursor: pointer;
+          }
+          input[type="file"] {
+            opacity: 0;
+          }
+        }
+      }
+    }
+    .form-addService-image {
+      display: flex;
+      width: 23rem;
+      min-height: 20rem;
+      justify-content: center;
+      overflow: hidden;
+      object-fit: cover;
+      border-radius: 0.5rem;
+    }
+  }
+}
+@include breakpoint-small($desktop-breakpoint) {
+  .form-addService-container {
+    form {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      place-items: center;
+    }
+    .form-addService-input {
+      input {
+        width: 20rem;
+        margin: 1rem;
+      }
+      .btn-actions {
+        width: 95%;
+        display: flex;
+        justify-content: space-between;
+        margin: 1rem;
+        button {
+          margin: 0rem;
+        }
+        .btn-image {
+          input {
+            position: absolute;
+            width: 7.3rem;
+            height: 2rem;
+            padding: 0;
+            margin: 0;
+            margin-top: -2rem;
+            cursor: pointer;
+          }
+          input[type="file"] {
+            opacity: 0;
+          }
+        }
+      }
+    }
+    .form-addService-image {
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      object-fit: cover;
+      overflow: hidden;
+      border-radius: 0.5rem;
+    }
+  }
+}
