@@ -7,7 +7,6 @@ import {
   getAllUserAc,
   getUser,
   getServiceUser,
-  getUsers,
   getUserno,
   getAllUser,
   updateUserPro,
@@ -16,6 +15,7 @@ import {
   commentUser,
   deleteCommentUser,
   saveUser,
+  searchUsers,
 } from "../controllers/user.controllers.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
@@ -24,7 +24,6 @@ userRouter.get("/test", test);
 userRouter.delete("/delete/:id", verifyToken, deleteUser);
 userRouter.get("/services/:id", verifyToken, getUserService);
 userRouter.get("/getuser/:id", verifyToken, getUser);
-userRouter.get("/getusers", verifyToken, getUsers);
 // userRouter.get("/getalluser/", getAllUser);
 userRouter.get("/service/:id", getServiceUser);
 userRouter.get("/getuserno/:id", getUserno);
@@ -36,6 +35,7 @@ userRouter.post("/rating/:id", verifyToken, ratingUser);
 userRouter.post("/comment/:id", verifyToken, commentUser);
 userRouter.delete("/deletecomment/:commentId", verifyToken, deleteCommentUser);
 userRouter.post("/save/:userId", verifyToken, saveUser);
+userRouter.get("/search", verifyToken, searchUsers);
 
 //To admin
 userRouter.post("/updateconfirm/:id", verifyToken, updateUserPro);

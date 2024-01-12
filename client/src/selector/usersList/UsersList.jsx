@@ -4,8 +4,11 @@ import Card from "../../components/card/Card";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import "./UsersList.scss";
+import { useTheme } from "../../context/ThemeContext";
+import SearchFilter from "../../components/searchFilter/SearchFilter";
 
 const UsersList = () => {
+  const { theme } = useTheme();
   const { currentUser } = useSelector((state) => state.user);
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -48,18 +51,25 @@ const UsersList = () => {
 
   const params = useParams();
   const filteredUser = users.filter(
-    (user) => user.typeService === params.typeservice
+    (user) => user.mainService === params.typeservice
   );
 
   return (
-    <div className="userslist-container">
-      <div className="service-navbar">
-        <Label label={params.typeservice} />
-      </div>
-      <div className="service-card">
-        {filteredUser.map((user) => (
-          <Card {...user} key={user._id} ID={user._id} />
-        ))}
+    <div className={`userslist ${theme}`}>
+      <div className="userslist-container">
+        <div className="service-navbar">
+          <SearchFilter />
+          <Label label={params.typeservice} />
+        </div>
+        <div className="service-card">
+          {params.typeservice
+            ? filteredUser.map((user) => (
+                <Card {...user} key={user._id} ID={user._id} />
+              ))
+            : users.map((user) => (
+                <Card {...user} key={user._id} ID={user._id} />
+              ))}
+        </div>
       </div>
     </div>
   );

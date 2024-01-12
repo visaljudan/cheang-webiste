@@ -62,21 +62,6 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
-//////
-
-///Without Token
-export const getAllUser = async (req, res, next) => {
-  try {
-    const users = await User.find({
-      userPro: true,
-    });
-    return res.status(200).json(users);
-    console.log(users);
-  } catch (error) {
-    next(error);
-  }
-};
-
 export const ratingUser = async (req, res, next) => {
   const { rating } = req.body;
   const userRate = req.user.id;
@@ -185,6 +170,41 @@ export const saveUser = async (req, res, next) => {
   }
 };
 
+export const searchUsers = async (req, res, next) => {
+  try {
+    const startIndex = parseInt(req.query.startIndex) || 0;
+    const searchTerm = req.query.searchTerm || "";
+    const locations = req.query.locations || "location";
+    const order = req.query.order || "desc";
+    const currentUserID = req.user.id;
+    const users = await User.find({
+      _id: { $ne: currentUserID },
+      nameuser: { $regex: searchTerm, $options: "i" },  
+      userPro: true,
+    })
+      .sort({ [locations]: order })
+      .limit(limit)
+      .skip(startIndex);
+    console.log(users);
+    return res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
+///Without Token
+export const getAllUser = async (req, res, next) => {
+  try {
+    const users = await User.find({
+      userPro: true,
+    });
+    return res.status(200).json(users);
+    console.log(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
 ///to admin
 export const updateUserPro = async (req, res, next) => {
   try {
@@ -244,29 +264,6 @@ export const getUserService = async (req, res, next) => {
     }
   } else {
     return next(errorHandler(401, "You can only view your own service!"));
-  }
-};
-
-export const getUsers = async (req, res, next) => {
-  try {
-    const limit = parseInt(req.query.limit) || 9;
-    const startIndex = parseInt(req.query.startIndex) || 0;
-    const searchTerm = req.query.searchTerm || "";
-    const locations = req.query.locations || "location";
-    const order = req.query.order || "desc";
-    const currentUserID = req.user.id;
-    const users = await User.find({
-      _id: { $ne: currentUserID },
-      nameuser: { $regex: searchTerm, $options: "i" },
-      userPro: true,
-    })
-      .sort({ [locations]: order })
-      .limit(limit)
-      .skip(startIndex);
-    console.log(users);
-    return res.status(200).json(users);
-  } catch (error) {
-    next(error);
   }
 };
 

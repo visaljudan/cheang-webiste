@@ -1,0 +1,27 @@
+@import "../../variables";
+.form-container-search {
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    .form-text {
+      margin: 0 1rem;
+      margin-top: 1rem;
+      button {
+        margin-left: $spacing-unit;
+      }
+    }
+    .filter {
+      display: flex;
+      flex-direction: row;
+      .select {
+        @include select;
+        display: flex;
+        flex-direction: row;
+        margin: $spacing-unit;
+        select {
+          margin: 0 0.5rem;
+        }
+      }
+    }
+  }
+}

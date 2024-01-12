@@ -1,116 +1,283 @@
-// import React, { useState } from "react";
-// import FormField from "../formField/FormField";
-// import { FaSearch } from "react-icons/fa";
-// // import {  } from "../../data/Location";
-// import ServiceList from "../../data/ServiceList";
-
-// const SearchFilter = () => {
-//   //Location//
-//   const [selectedProvince, setSelectedProvince] = useState("");
-//   const [selectedCity, setSelectedCity] = useState("");
-//   const handleProvinceChange = (event) => {
-//     setSelectedProvince(event.target.value);
-//     setSelectedCity(""); // Reset city when province changes
-//     setFormData({
-//       ...formData,
-//       province: event.target.value, // Set the province in formData
-//       city: "", // Reset city in formData
-//     });
-//   };
-
-//   const handleCityChange = (event) => {
-//     setSelectedCity(event.target.value);
-//     setFormData({
-//       ...formData,
-//       city: event.target.value, // Set the city in formData
-//       location: `${selectedProvince} ${event.target.value}`,
-//     });
-//   };
-//   return (
-//     <>
-//       <FormField
-//         type="text"
-//         name="searchUser"
-//         //   value={formData.password}
-//         //   onChange={handleChange}
-//         placeholder="Search for Brand Name"
-//         required
-//       />
-//       <button>
-//         <FaSearch />
-//       </button>
-//       <div className="select">
-//         <select
-//           id="province"
-//           name="province"
-//           //   value={selectedProvince}
-//           //   onChange={handleProvinceChange}
-//         >
-//           <option value="">Select Province</option>
-//           {provinces.map((province) => (
-//             <option key={province} value={province}>
-//               {province}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-
-//       <div>
-//         <select
-//           id="city"
-//           name="city"
-//           value={selectedCity}
-//           // onChange={handleCityChange}
-//           // disabled={!selectedProvince} // Disable city dropdown if no province selected
-//         >
-//           <option value="">Select City</option>
-//           {cities[selectedProvince]?.map((city) => (
-//             <option key={city} value={city}>
-//               {city}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-//       <div className="select">
-//         <select
-//           id="typeService"
-//           name="typeService"
-//           //   value={formData.typeService}
-//           //   onChange={handleChange}
-//         >
-//           <option value="">Select Type Service</option>
-//           {ServiceList.slice(1).map((service) => (
-//             <option key={service.id} value={service.value}>
-//               {service.value}
-//             </option>
-//           ))}
-//         </select>
-//       </div>
-//       <div className="select">
-//         <select
-//           id="rate"
-//           name="ratings"
-//           //   value={formData.typeService}
-//           //   onChange={handleChange}
-//         >
-//           <option value="">Rate</option>
-//           <option value="1">1</option>
-//           <option value="2">2</option>
-//           <option value="3">3</option>
-//           <option value="4">4</option>
-//           <option value="5">5</option>
-//         </select>
-//       </div>
-//     </>
-//   );
-// };
-
-// export default SearchFilter;
-
-import React from "react";
+import { useEffect, useState } from "react";
+import { FaSearch, FaUserPlus } from "react-icons/fa";
+import { useTheme } from "../../context/ThemeContext";
+import { useNavigate, useParams } from "react-router-dom";
+import Label from "../../components/label/Label";
+import FormField from "../../components/formField/FormField";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  updateUserFailure,
+  updateUserStart,
+  updateUserSuccess,
+} from "../../redux/user/userSlice";
+import FormLayout from "../../layouts/FormLayout";
+import { getServicesAndSubServices } from "../../data/Service";
+import { useLanguage } from "../../context/LanguageContext";
+import { getProvincesAndCities } from "../../data/Location";
+import "./SearchFilter.scss";
 
 const SearchFilter = () => {
-  return <div>SearchFilter</div>;
+  const { theme } = useTheme();
+  const { language } = useLanguage();
+  const { currentUser } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const params = useParams();
+
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({});
+  const handleChange = (e) => {
+    if (e.target.type === "text" || e.target.type === "tel") {
+      setFormData({
+        ...formData,
+        [e.target.id]: e.target.value,
+        Request: true,
+      });
+    }
+  };
+  console.log(formData);
+  ////
+  const locationLanguage = getProvincesAndCities(language);
+  const locationEnglsih = getProvincesAndCities("en");
+  const [selectedProvince, setSelectedProvince] = useState("");
+  const [selectedCity, setSelectedCity] = useState("");
+
+  const handleProvinceChange = (event) => {
+    setSelectedProvince(event.target.value);
+    const index = locationLanguage.Provinces.indexOf(event.target.value);
+    setSelectedCity(""); // Reset city when province changes
+    setFormData({
+      ...formData,
+      province: locationEnglsih.Provinces[index], // Set the province in formData
+      city: "", // Reset city in formData
+    });
+  };
+  const handleCityChange = (event) => {
+    setSelectedCity(event.target.value);
+    const index = locationLanguage.Provinces.indexOf(selectedProvince);
+    const subCityArray = locationLanguage.Cities[selectedProvince];
+    const indexCity = subCityArray.indexOf(event.target.value);
+    const value =
+      locationEnglsih.Cities[locationEnglsih.Provinces[index]][indexCity];
+    console.log(value);
+
+    setFormData({
+      ...formData,
+      city: value,
+    });
+  };
+
+  /////////////type service/////////////
+  const servicesLanguage = getServicesAndSubServices(language);
+  const servicesEnglsih = getServicesAndSubServices("en");
+
+  const [selectedMainService, setSelectedMainService] = useState("");
+  const [selectedSubService, setSelectedSubService] = useState("");
+
+  const handleMainServiceChange = (event) => {
+    setSelectedMainService(event.target.value);
+    const index = servicesLanguage.MainService.indexOf(event.target.value);
+    setSelectedSubService(""); // Reset city when province changes
+    setFormData({
+      ...formData,
+      mainService: servicesEnglsih.MainService[index], // Set the province in formData
+      subService: "", // Reset city in formData
+    });
+  };
+
+  const handleSubServiceChange = (event) => {
+    setSelectedSubService(event.target.value);
+    const index = servicesLanguage.MainService.indexOf(selectedMainService);
+    const subServiceArray = servicesLanguage.SubService[selectedMainService];
+    const indexSub = subServiceArray.indexOf(event.target.value);
+    const value =
+      servicesEnglsih.SubService[servicesEnglsih.MainService[index]][indexSub];
+
+    setFormData({
+      ...formData,
+      subService: value, // Set the province in formData
+    });
+  };
+
+  ////
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      dispatch(updateUserStart());
+      const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (data.success === false) {
+        dispatch(updateUserFailure(data.message));
+        return;
+      }
+      dispatch(updateUserSuccess(data));
+      console.log(data);
+      navigate("/");
+    } catch (error) {
+      dispatch(updateUserFailure(error.message));
+    }
+  };
+  useEffect(() => {
+    if (params.typeservice) {
+      const index = servicesEnglsih.MainService.indexOf(params.typeservice);
+      setSelectedMainService(servicesLanguage.MainService[index]);
+    }
+  });
+
+  /////////Search///////////
+  const [searchResults, setSearchResults] = useState([]);
+  useEffect(() => {
+    const fetchSearchResults = async () => {
+      try {
+        setLoading(true);
+        const res = await fetch("/api/user/search", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        });
+        const data = await res.json();
+        setSearchResults(data);
+        setLoading(false);
+      } catch (error) {
+        setError(error.message);
+        setLoading(false);
+      }
+    };
+
+    const delayDebounceFn = setTimeout(() => {
+      if (formData.Request) {
+        fetchSearchResults();
+      }
+    }, 1000);
+
+    return () => clearTimeout(delayDebounceFn);
+  }, [formData]);
+  return (
+    <>
+      <div className={`form ${theme}`}>
+        <div className="form-container-search">
+          <form className="form-field" onSubmit={handleSubmit}>
+            {/* Text */}
+            <div className="form-text ">
+              <FormField
+                type="text"
+                name="brandName"
+                value={formData.brandName}
+                onChange={handleChange}
+                placeholder="Brand Name"
+                required
+              />
+
+              <button type="submit">
+                <FaSearch style={{ marginRight: "8px" }} /> Search
+              </button>
+            </div>
+
+            {/* Service */}
+            <div className="filter">
+              <div className="select">
+                {params.typeservice ? (
+                  ""
+                ) : (
+                  <select
+                    id="mainSerivce"
+                    name="mainSerivce"
+                    value={selectedMainService}
+                    onChange={handleMainServiceChange}
+                  >
+                    <option value="">Select Main Service</option>
+                    {servicesLanguage.MainService.map((mainservice) => (
+                      <option key={mainservice} value={mainservice}>
+                        {mainservice}
+                      </option>
+                    ))}
+                  </select>
+                )}
+
+                <div>
+                  <select
+                    id="subService"
+                    name="subService"
+                    value={selectedSubService}
+                    onChange={handleSubServiceChange}
+                    disabled={!selectedMainService} // Disable city dropdown if no province selected
+                  >
+                    <option value="">Select Sub Service</option>
+                    {servicesLanguage.SubService[selectedMainService]?.map(
+                      (subservice) => (
+                        <option key={subservice} value={subservice}>
+                          {subservice}
+                        </option>
+                      )
+                    )}
+                  </select>
+                </div>
+              </div>
+
+              {/* Location */}
+              <div className="select">
+                <select
+                  id="province"
+                  name="province"
+                  value={selectedProvince}
+                  onChange={handleProvinceChange}
+                >
+                  <option value="">Select Province</option>
+                  {locationLanguage.Provinces.map((province) => (
+                    <option key={province} value={province}>
+                      {province}
+                    </option>
+                  ))}
+                </select>
+
+                <div>
+                  <select
+                    id="city"
+                    name="city"
+                    value={selectedCity}
+                    onChange={handleCityChange}
+                    disabled={!selectedProvince} // Disable city dropdown if no province selected
+                  >
+                    <option value="">Select City</option>
+                    {locationLanguage.Cities[selectedProvince]?.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+            </div>
+            {error && <p>{error}</p>}
+          </form>
+          <div>
+            <h2>Search Results</h2>
+            {loading && <p>Loading...</p>}
+            {searchResults.map((result) => (
+              <div key={result.id}>{/* Render search results as needed */}</div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </>
+  );
 };
 
 export default SearchFilter;
+
+// import React from "react";
+
+// const SearchFilter = () => {
+//   return <div>SearchFilter</div>;
+// };
+
+// export default SearchFilter;

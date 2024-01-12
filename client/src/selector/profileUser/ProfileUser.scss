@@ -19,43 +19,72 @@
       box-shadow: $box-shadow;
     }
   }
-  .listitem-container-comments {
+
+  .ProfileContainer-container-bottom {
     margin: 1rem;
-    width: 100%;
 
-    h3 {
-      margin: 1rem 0rem;
-    }
-
-    .comment-box {
-      background-color: #f4f4f4;
-      padding: 0.5rem;
-      margin: 0.5rem 0rem;
-      border-radius: 0.5rem;
-      width: 90%;
-    }
-    form {
+    background-color: $primary-color-light;
+    .comment-container {
       display: flex;
-      flex-direction: column;
-      textarea {
-        width: 100%;
-        margin: 0.5rem 0;
-        border: 1px solid #ddd;
-        border-radius: 0.5rem;
+      align-items: center;
+      justify-content: space-around;
+      img {
+        width: 3rem;
+        height: 3rem;
+        border: 1px solid $accent-color;
       }
-
       button {
-        width: 10%;
-        background-color: #3498db;
-        color: #fff;
-        border: none;
-        padding: 0.5rem 1rem;
+        padding: 1rem;
+      }
+      .comment-box {
+        padding: 0.5rem;
+        margin: 0.5rem 0rem;
         border-radius: 0.5rem;
-        cursor: pointer;
-        transition: background-color 0.3s;
+        width: 80%;
+      }
+    }
 
-        &:hover {
-          background-color: #2980b9;
+    .comment-area {
+      padding: 0;
+      margin: 0;
+      margin-top: 1rem;
+      border-top: 2px solid $secondary-color-light;
+      ul {
+        list-style: none;
+        padding: 0;
+      }
+      .comment-area-profile {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: 0;
+        margin: 0 1rem;
+        img {
+          margin-right: 1rem;
+          width: 2rem;
+          height: 2rem;
+          border: 1px solid $accent-color;
+        }
+        p {
+          font-size: 1rem;
+          padding: 0;
+          margin: 0;
+        }
+      }
+      .comment-area-comments {
+        display: flex;
+        align-items: center;
+        p {
+          padding: $spacing-unit;
+          margin: 0 4rem;
+          border: 1px solid $accent-color;
+          width: 90%;
+          border-radius: 0.5rem;
+        }
+        h2 {
+          padding: $spacing-unit;
+          margin: 0;
+          font-size: 0.5rem;
         }
       }
     }
@@ -69,6 +98,74 @@
   @include breakpoint-small($tablet-breakpoint) {
     display: flex;
     flex-direction: column;
+    .ProfileContainer-container-bottom {
+      background-color: $primary-color-light;
+
+      .comment-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        img {
+          width: 2rem;
+          height: 2rem;
+          border: 1px solid $accent-color;
+        }
+        button {
+          padding: 0.5rem;
+        }
+        .comment-box {
+          padding: 0.5rem;
+          margin: 0.5rem 0rem;
+          border-radius: 0.5rem;
+          width: 60%;
+        }
+      }
+
+      .comment-area {
+        padding: 0;
+        margin: 0;
+        margin-top: 1rem;
+        border-top: 2px solid $secondary-color-light;
+        ul {
+          list-style: none;
+          padding: 0;
+        }
+        .comment-area-profile {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          padding: 0;
+          margin: 0 $spacing-unit;
+          img {
+            margin-right: $spacing-unit;
+            width: 2rem;
+            height: 2rem;
+            border: 1px solid $accent-color;
+          }
+          p {
+            font-size: 1rem;
+            padding: 0;
+            margin: 0;
+          }
+        }
+        .comment-area-comments {
+          display: flex;
+          align-items: center;
+          p {
+            padding: $spacing-unit;
+            margin: 0 3rem;
+            border: 1px solid $accent-color;
+            width: 80%;
+            border-radius: 0.5rem;
+          }
+          a {
+            padding: $spacing-unit;
+            margin: 0;
+            font-size: 0.7rem;
+          }
+        }
+      }
+    }
   }
 }
 

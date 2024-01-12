@@ -19,7 +19,7 @@ import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import { useTheme } from "../../context/ThemeContext";
 import { useState } from "react";
 import "./MainNavbar.scss";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import Profile from "../../components/profile/Profile";
 import { useSelector } from "react-redux";
 
@@ -42,9 +42,6 @@ const MainNavbar = ({ page }) => {
   //Link Page
   const pageLink = page;
 
-  console.log("Current User: ");
-  // console.log(currentUser.userPro);
-
   return (
     <nav className={`navbar ${theme}`}>
       <div className={showMenu ? "navbar-container-menu" : "navbar-container"}>
@@ -64,17 +61,14 @@ const MainNavbar = ({ page }) => {
           {pageLink === "home" ? (
             <NavigationLinkDisabled value={getHome(language)} />
           ) : (
-            <NavigationLink value={getHome(language)} />
+            <NavigationLink href="/" value={getHome(language)} />
           )}
 
           <div className="link-dropdown">
             {pageLink === "service" ? (
               <NavigationLinkDisabled value={getService(language)} />
             ) : (
-              <NavigationLink
-                href="#service_section"
-                value={getService(language)}
-              />
+              <NavigationLink href="/service" value={getService(language)} />
             )}
 
             <div className="link-dropdown-content">

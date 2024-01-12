@@ -5,6 +5,7 @@ import Button from "../button/Button";
 import Label from "../label/Label";
 import TextBorder from "../textBorder/TextBorder";
 import "./Card.scss";
+import { FaMapMarkerAlt, FaWrench } from "react-icons/fa";
 const Card = (props) => {
   const { theme } = useTheme();
   const { language } = useLanguage();
@@ -20,8 +21,14 @@ const Card = (props) => {
         <div className="card-detail">
           <Label label={brandName} />
           <div className="card-detail-content">
-            <TextBorder label="Type of Service" text={mainService} />
-            <TextBorder label="Location" text={province} />
+            <TextBorder
+              label={<FaWrench style={{ marginRight: "8px" }} />}
+              text={mainService}
+            />
+            <TextBorder
+              label={<FaMapMarkerAlt style={{ marginRight: "8px" }} />}
+              text={province}
+            />
           </div>
           <div className="card-detail-action">
             <Link to={`/profile/${ID}`}>

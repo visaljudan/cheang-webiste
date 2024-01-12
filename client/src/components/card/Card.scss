@@ -4,14 +4,14 @@
   .card-container {
     border: 1px solid $accent-color-light;
     border-radius: 0.5rem;
-    padding: 0.5rem;
+    padding: 0 0.5rem;
     justify-items: center;
     text-align: center;
-    max-width: 20rem;
-    max-height: 20rem;
+    max-width: 18rem;
+    max-height: 17rem;
     .card-image {
       border: 1 solid $accent-color-light;
-      max-height: 5rem;
+      max-height: 3rem;
       height: auto;
       border-radius: 0.5rem;
       width: 100%;

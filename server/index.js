@@ -5,7 +5,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import adminRouter from "./routes/admin.route.js";
-import cors from "cors";
+// import cors from "cors";
 //Update
 // import http from "http";
 // import { Server } from "socket.io";
@@ -25,7 +25,7 @@ mongoose
 const __dirname = path.resolve();
 
 const app = express();
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
 app.use(cookieParser());
 

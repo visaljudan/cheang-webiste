@@ -6,11 +6,10 @@ import Label from "../components/label/Label";
 const AboutPage = () => {
   const { language } = useLanguage();
   return (
-    <AppLayout>
+    <AppLayout page="about">
       <div>
         <Label label={getAbout(language)} />
         {getAboutText(language)}
-
       </div>
     </AppLayout>
   );

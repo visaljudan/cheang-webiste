@@ -1,8 +1,14 @@
 @import "../../variables";
 
-// .userslist-container {
-//   .service-navbar {
-//     .service-card {
-//     }
-//   }
-// }
+.userslist-container {
+  background-color: $primary-color-light;
+  .service-navbar {
+    h2 {
+      padding: 0 0.5rem;
+    }
+  }
+  .service-card {
+    padding: $spacing-unit 1rem;
+    padding-bottom: $spacing-unit;
+  }
+}

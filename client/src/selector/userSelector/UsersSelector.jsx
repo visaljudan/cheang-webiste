@@ -67,8 +67,8 @@ const UsersSelector = () => {
           {loading ? (
             <p>Loading...</p>
           ) : (
-            servicesLanguage.MainService.map((main) => (
-              <li>
+            servicesLanguage.MainService.map((main, index) => (
+              <li key={index}>
                 <NavigationLink value={main} href={"#" + main} />
               </li>
             ))

@@ -3,6 +3,7 @@ import { useTheme } from "../../context/ThemeContext";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import {
+  FaComment,
   FaInfoCircle,
   FaMapMarkerAlt,
   FaPhoneAlt,
@@ -25,6 +26,7 @@ import "./ProfileUser.scss";
 import TextBorder from "../../components/textBorder/TextBorder";
 import Button from "../../components/button/Button";
 import ServiceSelector from "../serviceSelector/ServiceSelector";
+import { NavigationLink } from "../../components/navigationLink/NavigationLink";
 const ProfileUser = () => {
   const { theme } = useTheme();
   const [user, setUser] = useState(null);
@@ -194,7 +196,6 @@ const ProfileUser = () => {
   );
   //////////////////////////////
 
-  console.log(normal);
   useEffect(() => {
     const fetchService = async () => {
       try {
@@ -342,26 +343,36 @@ const ProfileUser = () => {
       </div>
 
       {/* //////////// */}
-      <div style={{ marginBottom: "10rem" }}>
-        <div>
-          <h2>Comments</h2>
-          <div>
-            <textarea
-              value={newComment}
-              onChange={handleCommentChange}
-              placeholder="Type your comment..."
-            />
-            <button onClick={handleCommentSubmit}>Submit</button>
-          </div>
+      <div className="ProfileContainer-container-bottom">
+        <Label label="Comments" />
+        <div className="comment-container">
+          <Profile src={currentUser.avatar} />
+          <textarea
+            className="comment-box"
+            value={newComment}
+            onChange={handleCommentChange}
+            placeholder="Type your comment..."
+          />
+          <button onClick={handleCommentSubmit}>
+            <FaComment style={{ marginRight: "8px" }} />
+            Comments
+          </button>
+        </div>
+        <div className="comment-area">
           <ul>
             {user?.comments.map((comment, index) => (
               <div key={index}>
-                <img src={comment.userAvatar} />
-                <h6>{comment.userName}</h6>
-                <li>{comment.comment}</li>
-                <button onClick={() => handleCommentDelete(comment._id)}>
-                  Delete Comment
-                </button>
+                <div className="comment-area-profile">
+                  <Profile src={comment.userAvatar} />
+                  <p>{comment.userName}</p>
+                </div>
+                <div className="comment-area-comments">
+                  <p>{comment.comment}</p>
+                  <NavigationLink
+                    onClick={() => handleCommentDelete(comment._id)}
+                    value="Delete"
+                  />
+                </div>
               </div>
             ))}
           </ul>

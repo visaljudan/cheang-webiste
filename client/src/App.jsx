@@ -19,6 +19,7 @@ import SearchFilter from "./components/searchFilter/SearchFilter";
 import ProfileUserPage from "./page/ProfileUserPage";
 import PrivateRoute from "./components/privateRoutes/PrivateRoute";
 import PrivateRouteAdmin from "./components/privateRoutes/PrivateRouteAdmin";
+import AllUsersListPage from "./page/AllUsersListPage";
 
 const App = () => {
   return (
@@ -35,6 +36,8 @@ const App = () => {
             <Route path="/signup-pro" Component={SignUpPro} />
             <Route path="/about" Component={AboutPage} />
             <Route path="userlist/:typeservice" Component={UsersList} />
+            <Route path="service" Component={AllUsersListPage} />
+
             {/* Private Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="profile/:userId" Component={ProfileUserPage} />
