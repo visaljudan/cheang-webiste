@@ -179,7 +179,7 @@ export const searchUsers = async (req, res, next) => {
     const currentUserID = req.user.id;
     const users = await User.find({
       _id: { $ne: currentUserID },
-      nameuser: { $regex: searchTerm, $options: "i" },  
+      nameuser: { $regex: searchTerm, $options: "i" },
       userPro: true,
     })
       .sort({ [locations]: order })
@@ -189,6 +189,50 @@ export const searchUsers = async (req, res, next) => {
     return res.status(200).json(users);
   } catch (error) {
     next(error);
+  }
+};
+
+export const liveSearch = async (req, res, next) => {
+  try {
+    const { brandName, nameuser, mainService, subService, province, city } =
+      req.query;
+
+    const liveSearchQuery = {
+      userPro: true,
+      admin: false,
+    };
+
+    if (brandName) {
+      liveSearchQuery.brandName = new RegExp(brandName, "i");
+    }
+
+    if (nameuser) {
+      liveSearchQuery.nameuser = new RegExp(nameuser, "i");
+    }
+
+    if (mainService) {
+      liveSearchQuery.mainService = mainService;
+    }
+
+    if (subService) {
+      liveSearchQuery.subService = subService;
+    }
+
+    if (province) {
+      liveSearchQuery.province = province;
+    }
+
+    if (city) {
+      liveSearchQuery.city = city;
+    }
+    console.log(liveSearchQuery);
+
+    const liveSearchResults = await User.find(liveSearchQuery);
+    // console.log(liveSearchResults);
+    res.json(liveSearchResults);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

@@ -16,6 +16,7 @@ import {
   deleteCommentUser,
   saveUser,
   searchUsers,
+  liveSearch,
 } from "../controllers/user.controllers.js";
 import { verifyToken } from "../utils/verifyUser.js";
 
@@ -36,6 +37,7 @@ userRouter.post("/comment/:id", verifyToken, commentUser);
 userRouter.delete("/deletecomment/:commentId", verifyToken, deleteCommentUser);
 userRouter.post("/save/:userId", verifyToken, saveUser);
 userRouter.get("/search", verifyToken, searchUsers);
+userRouter.get("/live-search", verifyToken, liveSearch);
 
 //To admin
 userRouter.post("/updateconfirm/:id", verifyToken, updateUserPro);

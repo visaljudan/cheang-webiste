@@ -15,26 +15,28 @@ import { getServicesAndSubServices } from "../../data/Service";
 import { useLanguage } from "../../context/LanguageContext";
 import { getProvincesAndCities } from "../../data/Location";
 import "./SearchFilter.scss";
+import Card from "../card/Card";
 
 const SearchFilter = () => {
   const { theme } = useTheme();
   const { language } = useLanguage();
   const { currentUser } = useSelector((state) => state.user);
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
   const params = useParams();
-
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
+
+  ////////////////
   const handleChange = (e) => {
     if (e.target.type === "text" || e.target.type === "tel") {
       setFormData({
         ...formData,
         [e.target.id]: e.target.value,
-        Request: true,
       });
+
+      // Update live search results as the user types
     }
+    fetchLiveSearchResults(formData);
   };
   console.log(formData);
   ////
@@ -101,29 +103,30 @@ const SearchFilter = () => {
   };
 
   ////
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      dispatch(updateUserStart());
-      const res = await fetch(`/api/user/update/${currentUser._id}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (data.success === false) {
-        dispatch(updateUserFailure(data.message));
-        return;
-      }
-      dispatch(updateUserSuccess(data));
-      console.log(data);
-      navigate("/");
-    } catch (error) {
-      dispatch(updateUserFailure(error.message));
-    }
-  };
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   try {
+  //     dispatch(updateUserStart());
+  //     const res = await fetch(`/api/user/update/${currentUser._id}`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+  //     const data = await res.json();
+  //     if (data.success === false) {
+  //       dispatch(updateUserFailure(data.message));
+  //       return;
+  //     }
+  //     dispatch(updateUserSuccess(data));
+  //     console.log(data);
+  //     navigate("/");
+  //   } catch (error) {
+  //     dispatch(updateUserFailure(error.message));
+  //   }
+  // };
+
   useEffect(() => {
     if (params.typeservice) {
       const index = servicesEnglsih.MainService.indexOf(params.typeservice);
@@ -132,40 +135,60 @@ const SearchFilter = () => {
   });
 
   /////////Search///////////
-  const [searchResults, setSearchResults] = useState([]);
-  useEffect(() => {
-    const fetchSearchResults = async () => {
-      try {
-        setLoading(true);
-        const res = await fetch("/api/user/search", {
-          method: "POST",
+  const [liveSearchResults, setLiveSearchResults] = useState([]);
+  const fetchLiveSearchResults = async (searchTerm) => {
+    try {
+      setLoading(true);
+      const res = await fetch(
+        `/api/user/live-search?searchTerm=${searchTerm}`,
+        {
+          method: "GET",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify(formData),
-        });
-        const data = await res.json();
-        setSearchResults(data);
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-        setLoading(false);
-      }
-    };
+        }
+      );
+      const data = await res.json();
+      setLiveSearchResults(data);
+      setLoading(false);
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
+  };
+  // useEffect(() => {
+  //   const fetchSearchResults = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const res = await fetch("/api/user/search", {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(formData),
+  //       });
+  //       const data = await res.json();
+  //       setSearchResults(data);
+  //       setLoading(false);
+  //     } catch (error) {
+  //       setError(error.message);
+  //       setLoading(false);
+  //     }
+  //   };
 
-    const delayDebounceFn = setTimeout(() => {
-      if (formData.Request) {
-        fetchSearchResults();
-      }
-    }, 1000);
+  //   const delayDebounceFn = setTimeout(() => {
+  //     if (formData.Request) {
+  //       fetchSearchResults();
+  //     }
+  //   }, 1000);
 
-    return () => clearTimeout(delayDebounceFn);
-  }, [formData]);
+  //   return () => clearTimeout(delayDebounceFn);
+  // }, [formData]);
   return (
     <>
       <div className={`form ${theme}`}>
         <div className="form-container-search">
-          <form className="form-field" onSubmit={handleSubmit}>
+          <form className="form-field">
             {/* Text */}
             <div className="form-text ">
               <FormField
@@ -262,8 +285,10 @@ const SearchFilter = () => {
           <div>
             <h2>Search Results</h2>
             {loading && <p>Loading...</p>}
-            {searchResults.map((result) => (
-              <div key={result.id}>{/* Render search results as needed */}</div>
+            {liveSearchResults.map((result) => (
+              <div key={result.id}>
+                <Card {...result} key={result._id} ID={result._id} />
+              </div>
             ))}
           </div>
         </div>
