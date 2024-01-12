@@ -20,6 +20,7 @@ import ProfileUserPage from "./page/ProfileUserPage";
 import PrivateRoute from "./components/privateRoutes/PrivateRoute";
 import PrivateRouteAdmin from "./components/privateRoutes/PrivateRouteAdmin";
 import AllUsersListPage from "./page/AllUsersListPage";
+import ProfileUserCurrent from "./selector/profileUserCurrent/ProfileUserCurrent";
 
 const App = () => {
   return (
@@ -41,6 +42,7 @@ const App = () => {
             {/* Private Routes */}
             <Route element={<PrivateRoute />}>
               <Route path="profile/:userId" Component={ProfileUserPage} />
+              <Route path="profile" Component={ProfileUserCurrent} />
             </Route>
 
             {/* Admin */}

@@ -7,6 +7,7 @@ import jwt from "jsonwebtoken";
 export const signup = async (req, res, next) => {
   const { nameuser, email, password } = req.body;
 
+  //Util to help for nameuser and email
   const validNameUserPattern = /^[a-zA-Z0-9\s]+$/;
   const lowercasedEmail = email.toLowerCase();
 
@@ -15,17 +16,20 @@ export const signup = async (req, res, next) => {
     return next(errorHandler(400, "Invalid characters in the name"));
   }
 
-  //Checking pass word
+  //Checking password
   if (password.length < 6) {
     return next(errorHandler(400, "Password should be at less 6"));
   }
   //Crypt password
   const hashedPassword = bcryptjs.hashSync(password, 10);
+
+  //Add to new user
   const newUser = new User({
     nameuser,
     email: lowercasedEmail,
     password: hashedPassword,
   });
+
   try {
     await newUser.save();
     res.status(201).json("User created successfully!");
@@ -37,38 +41,49 @@ export const signup = async (req, res, next) => {
 //Sign In
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
+
+  //Change email to lowercase
+  const lowercasedEmail = email.toLowerCase();
+
+  //
   try {
-    // const lowercasedEmail = email.toLowerCase();
+    //Check Token
     if (!process.env.JWT_SECRET) {
       return next(errorHandler(500, "JWT secret not configured"));
     }
 
-    const validUser = await User.findOne({ email });
+    //Check or find user with user in Database by email
+    const validUser = await User.findOne({ email: lowercasedEmail });
     if (!validUser) return next(errorHandler(404, "Email not found!"));
 
+    //Check password correct or incorrect
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) return next(errorHandler(401, "Wrong Password!"));
 
-    console.log(process.env.JWT_SECRET);
-    //Create token
+    //Create token with user's ID
     const token = jwt.sign({ id: validUser._id }, process.env.JWT_SECRET);
+
+    // Destructure the user document, excluding the password
     const { password: pass, ...rest } = validUser._doc;
+
+    //Send message
     res
       .cookie("access_token", token, { httpOnly: true })
       .status(200)
       .json(rest);
-    // res.status(200).json({ token, ...rest });
   } catch (error) {
     next(error);
-    console.log(error);
   }
 };
 
-//Sign In With Google
+//Sign In & Up with  Google
 export const google = async (req, res, next) => {
   try {
+    // Check if a user with the provided email already exists
     const user = await User.findOne({ email: req.body.email });
+
     if (user) {
+      // If user exists, generate a JWT token for the user and send it as a cookie
       const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = user._doc;
       res
@@ -79,14 +94,18 @@ export const google = async (req, res, next) => {
       const generatedPassword =
         Math.random().toString(36).slice(-8) +
         Math.random().toString(36).slice(-8);
+
       const hashedPassword = bcryptjs.hashSync(generatedPassword, 10);
+
       const newUser = new User({
         nameuser: req.body.nameuser,
         email: req.body.email,
         password: hashedPassword,
         avatar: req.body.photo,
       });
+
       await newUser.save();
+      
       const token = jwt.sign({ id: newUser._id }, process.env.JWT_SECRET);
       const { password: pass, ...rest } = newUser._doc;
       res

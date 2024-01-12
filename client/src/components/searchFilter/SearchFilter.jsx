@@ -24,7 +24,13 @@ const SearchFilter = () => {
   const params = useParams();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    brandName: "",
+    province: "",
+    city: "",
+    mainService: "",
+    subService: "",
+  });
 
   ////////////////
   const handleChange = (e) => {
@@ -35,8 +41,8 @@ const SearchFilter = () => {
       });
 
       // Update live search results as the user types
+      fetchLiveSearchResults();
     }
-    fetchLiveSearchResults(formData);
   };
   console.log(formData);
   ////
@@ -54,6 +60,7 @@ const SearchFilter = () => {
       province: locationEnglsih.Provinces[index], // Set the province in formData
       city: "", // Reset city in formData
     });
+    fetchLiveSearchResults();
   };
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
@@ -68,6 +75,7 @@ const SearchFilter = () => {
       ...formData,
       city: value,
     });
+    fetchLiveSearchResults();
   };
 
   /////////////type service/////////////
@@ -86,6 +94,7 @@ const SearchFilter = () => {
       mainService: servicesEnglsih.MainService[index], // Set the province in formData
       subService: "", // Reset city in formData
     });
+    fetchLiveSearchResults();
   };
 
   const handleSubServiceChange = (event) => {
@@ -100,6 +109,7 @@ const SearchFilter = () => {
       ...formData,
       subService: value, // Set the province in formData
     });
+    fetchLiveSearchResults();
   };
 
   ////
@@ -132,22 +142,27 @@ const SearchFilter = () => {
       const index = servicesEnglsih.MainService.indexOf(params.typeservice);
       setSelectedMainService(servicesLanguage.MainService[index]);
     }
-  });
+  }, [params.typeservice]);
 
   /////////Search///////////
   const [liveSearchResults, setLiveSearchResults] = useState([]);
-  const fetchLiveSearchResults = async (searchTerm) => {
+  const fetchLiveSearchResults = async () => {
     try {
       setLoading(true);
-      const res = await fetch(
-        `/api/user/live-search?searchTerm=${searchTerm}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+
+      // Extract selected values from state
+      const { brandName, mainService, subService, province, city } = formData;
+
+      // Construct the API URL with query parameters
+      const apiUrl = `/api/user/live-search?searchTerm=${brandName}&mainService=${mainService}&subService=${subService}&province=${province}&city=${city}`;
+
+      const res = await fetch(apiUrl, {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
       const data = await res.json();
       setLiveSearchResults(data);
       setLoading(false);
@@ -190,20 +205,20 @@ const SearchFilter = () => {
         <div className="form-container-search">
           <form className="form-field">
             {/* Text */}
-            <div className="form-text ">
-              <FormField
-                type="text"
-                name="brandName"
-                value={formData.brandName}
-                onChange={handleChange}
-                placeholder="Brand Name"
-                required
-              />
+            {/* <div className="form-text ">
+                <FormField
+                  type="text"
+                  name="brandName"
+                  value={formData.brandName}
+                  onChange={handleChange}
+                  placeholder="Brand Name"
+                  required
+                />
 
-              <button type="submit">
-                <FaSearch style={{ marginRight: "8px" }} /> Search
-              </button>
-            </div>
+                <button type="submit">
+                  <FaSearch style={{ marginRight: "8px" }} /> Search
+                </button>
+              </div> */}
 
             {/* Service */}
             <div className="filter">

@@ -194,41 +194,39 @@ export const searchUsers = async (req, res, next) => {
 
 export const liveSearch = async (req, res, next) => {
   try {
-    const { brandName, nameuser, mainService, subService, province, city } =
-      req.query;
-
+    const { mainService, subService, province, city } = req.query;
+    // Create a query object based on the search parameters
     const liveSearchQuery = {
       userPro: true,
       admin: false,
+      mainService: mainService,
+      subService: subService,
+      province: province,
+      city: city,
     };
+    console.log(mainService);
 
-    if (brandName) {
-      liveSearchQuery.brandName = new RegExp(brandName, "i");
-    }
+    // // Add additional parameters to the query if they exist
+    // if (mainService) {
+    //   liveSearchQuery.mainService = mainService;
+    // }
 
-    if (nameuser) {
-      liveSearchQuery.nameuser = new RegExp(nameuser, "i");
-    }
+    // if (subService) {
+    //   liveSearchQuery.subService = subService;
+    // }
 
-    if (mainService) {
-      liveSearchQuery.mainService = mainService;
-    }
+    // if (province) {
+    //   liveSearchQuery.province = province;
+    // }
 
-    if (subService) {
-      liveSearchQuery.subService = subService;
-    }
+    // if (city) {
+    //   liveSearchQuery.city = city;
+    // }
 
-    if (province) {
-      liveSearchQuery.province = province;
-    }
-
-    if (city) {
-      liveSearchQuery.city = city;
-    }
-    console.log(liveSearchQuery);
-
-    const liveSearchResults = await User.find(liveSearchQuery);
-    // console.log(liveSearchResults);
+    // console.log(liveSearchQuery);
+    // // Query the database using the liveSearchQuery
+    const liveSearchResults = await User.filter("General Repairs Service");
+    console.log(liveSearchResults);
     res.json(liveSearchResults);
   } catch (error) {
     console.error(error);

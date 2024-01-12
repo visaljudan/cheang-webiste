@@ -27,6 +27,7 @@ import TextBorder from "../../components/textBorder/TextBorder";
 import Button from "../../components/button/Button";
 import ServiceSelector from "../serviceSelector/ServiceSelector";
 import { NavigationLink } from "../../components/navigationLink/NavigationLink";
+import AboutUser from "../aboutUser/AboutUser";
 const ProfileUser = () => {
   const { theme } = useTheme();
   const [user, setUser] = useState(null);
@@ -332,7 +333,7 @@ const ProfileUser = () => {
                     </button>
                   </div>
 
-                  {/* <ServiceAbout /> */}
+                  <AboutUser />
                 </>
               ) : (
                 ""

@@ -45,9 +45,15 @@ const ServiceSelector = () => {
           </div>
           <div className="service-list">
             <div className="service-list-item">
-              {userSerivce.map((service) => (
-                <CardService {...service} key={service._id} />
-              ))}
+              {currentUser ? (
+                <>{currentUser.userPro ? "" : "None"}</>
+              ) : (
+                <>
+                  {userSerivce.map((service) => (
+                    <CardService {...service} key={service._id} />
+                  ))}
+                </>
+              )}
             </div>
           </div>
         </div>
