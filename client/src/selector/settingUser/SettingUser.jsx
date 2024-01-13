@@ -9,6 +9,7 @@ import {
 } from "firebase/storage";
 import {
   deleteUserFailure,
+  deleteUserStart,
   deleteUserSuccess,
   signOutUserStart,
   updateUserFailure,
