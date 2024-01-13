@@ -29,7 +29,6 @@ const SignIn = () => {
   //Sign in
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("go");
     try {
       dispatch(signInStart(true));
       const res = await fetch("/api/auth/signin", {
@@ -40,7 +39,6 @@ const SignIn = () => {
         body: JSON.stringify(formData),
       });
       const data = await res.json();
-      console.log(data);
       if (data.success === false) {
         dispatch(signInFailure(data.message));
         return;

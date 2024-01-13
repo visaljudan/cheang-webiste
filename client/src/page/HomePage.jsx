@@ -7,30 +7,30 @@ const HomePage = () => {
   //AdsModal
   const [showAdModal, setShowAdModal] = useState(false);
   useEffect(() => {
-    // const lastShownDate = localStorage.getItem("adModalLastShown");
+    const lastShownDate = localStorage.getItem("adModalLastShown");
 
     // If the modal has not been shown today or during the current session,
     // set the flag to display the modal
-    // if (
-    //   !lastShownDate ||
-    //   new Date(lastShownDate).getDate() !== new Date().getDate() ||
-    //   !sessionStorage.getItem("adModalShownDuringSession")
-    // ) {
-    //   setShowAdModal(true);
-    //   localStorage.setItem("adModalLastShown", new Date().toISOString());
-    //   sessionStorage.setItem("adModalShownDuringSession", "true");
-    // }
+    if (
+      !lastShownDate ||
+      new Date(lastShownDate).getDate() !== new Date().getDate() ||
+      !sessionStorage.getItem("adModalShownDuringSession")
+    ) {
+      setShowAdModal(true);
+      localStorage.setItem("adModalLastShown", new Date().toISOString());
+      sessionStorage.setItem("adModalShownDuringSession", "true");
+    }
 
     // Close the modal on page unload
-    // const handleUnload = () => {
-    setShowAdModal(true);
-    // };
+    const handleUnload = () => {
+      setShowAdModal(true);
+    };
 
-    // window.addEventListener("beforeunload", handleUnload);
+    window.addEventListener("beforeunload", handleUnload);
 
-    // return () => {
-    //   window.removeEventListener("beforeunload", handleUnload);
-    // };
+    return () => {
+      window.removeEventListener("beforeunload", handleUnload);
+    };
   }, []);
 
   //Close Ad Modal
