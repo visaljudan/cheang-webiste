@@ -50,13 +50,10 @@ const UsersList = () => {
   }, [currentUser]);
 
   const params = useParams();
-  // const filteredUser = users.filter(
-  //   (user) => user.mainService === params.typeservice
-  // );
+  const filteredUser = users.filter(
+    (user) => user.mainService === params.typeservice
+  );
 
-  const filteredUser = users.filter((user) => {
-    return selectedService ? user.mainService === selectedService : true;
-  });
   const handleServiceChange = (event) => {
     setSelectedService(event.target.value);
   };
