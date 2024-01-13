@@ -24,6 +24,12 @@
       margin: $spacing-unit 0;
       display: flex;
       flex-direction: column;
+      .select {
+        @include select;
+        display: flex;
+        flex-direction: column;
+        margin: 0.5rem 0;
+      }
       input {
         margin: $spacing-unit 0;
       }

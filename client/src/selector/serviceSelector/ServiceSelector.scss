@@ -1,0 +1,31 @@
+@import "../../variables";
+.listitem-container {
+  .listitem-container-service {
+    .service-title {
+      h2 {
+        padding-left: $spacing_unit;
+      }
+    }
+   
+  }
+  .service-list {
+    .service-list-item {
+      padding: 0 1rem;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      place-items: center;
+      gap: $spacing_unit;
+      min-height: 30rem;
+      overflow: hidden;
+      overflow-y: scroll;
+      .service-list-card {
+        width: 23rem;
+      }
+      .service-list {
+        .card-action {
+          width: 23rem;
+        }
+      }
+    }
+  }
+}

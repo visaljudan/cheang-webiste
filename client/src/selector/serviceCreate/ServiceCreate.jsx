@@ -23,7 +23,7 @@ const ServiceCreate = () => {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
-    descritpion: "",
+    description: "",
     price: 0,
     image:
       "https://static-00.iconduck.com/assets.00/wrench-icon-2047x2048-jyerjpd9.png",
@@ -70,15 +70,14 @@ const ServiceCreate = () => {
 
     // Validate input based on field name
     if (name === "name" && value.length > 50) {
-      return; // Prevent updating state if length exceeds 50 characters
-    } else if (name === "descritpion" && value.length > 100) {
-      return; // Prevent updating state if length exceeds 100 characters
+      return;
+    } else if (name === "description" && value.length > 200) {
+      return;
     }
-
-    // Update the state
     setFormData({ ...formData, [name]: value });
   };
 
+  console.log(formData);
   const handleSubmit = async (e) => {
     e.preventDefault();
     const res = await fetch("/api/service/create", {
@@ -118,19 +117,15 @@ const ServiceCreate = () => {
               placeholder="Name Service"
               required
             />
-            <div>
-              <textarea
-                name="descritpion"
-                value={formData.descritpion}
-                onChange={handleChange}
-                placeholder="Description"
-                required
-                maxLength={200} // Set the maximum length to 100 characters
-              />
-              <div>
-                Character Count: {formData.description.length}/{maxCharacters}
-              </div>
-            </div>
+            <textarea
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
+              placeholder="Description"
+              required
+              maxLength={200}
+            />
+            {formData.description.length}/{maxCharacters}
             <FormField
               type="number"
               name="price"

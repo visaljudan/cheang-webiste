@@ -15,6 +15,17 @@ import { getServicesAndSubServices } from "../../data/Service";
 import { useLanguage } from "../../context/LanguageContext";
 import { getProvincesAndCities } from "../../data/Location";
 import "./SignUp.scss";
+import {
+  getBecomePro,
+  getBrandName,
+  getCity,
+  getMainService,
+  getPhone,
+  getProvince,
+  getRequest,
+  getSelect,
+  getSubService,
+} from "../../data/wordsLanguage";
 
 const SignUpPro = () => {
   const { theme } = useTheme();
@@ -26,6 +37,8 @@ const SignUpPro = () => {
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({});
+
+  //Handle change data
   const handleChange = (e) => {
     if (e.target.type === "text" || e.target.type === "tel") {
       setFormData({
@@ -35,23 +48,28 @@ const SignUpPro = () => {
       });
     }
   };
-  ////
+
+  //Location
   const locationLanguage = getProvincesAndCities(language);
   const locationEnglsih = getProvincesAndCities("en");
+
+  //Varaible location
   const [selectedProvince, setSelectedProvince] = useState("");
   const [selectedCity, setSelectedCity] = useState("");
-  console.log(formData);
-  // console.log(locationEnglsih.Provinces);
+
+  //Handle change for province
   const handleProvinceChange = (event) => {
     setSelectedProvince(event.target.value);
     const index = locationLanguage.Provinces.indexOf(event.target.value);
-    setSelectedCity(""); // Reset city when province changes
+    setSelectedCity("");
     setFormData({
       ...formData,
       province: locationEnglsih.Provinces[index], // Set the province in formData
       city: "", // Reset city in formData
     });
   };
+
+  //Handle change for city
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
     const index = locationLanguage.Provinces.indexOf(selectedProvince);
@@ -59,32 +77,33 @@ const SignUpPro = () => {
     const indexCity = subCityArray.indexOf(event.target.value);
     const value =
       locationEnglsih.Cities[locationEnglsih.Provinces[index]][indexCity];
-    console.log(value);
-
     setFormData({
       ...formData,
       city: value,
     });
   };
 
-  /////////////type service/////////////
+  //Service
   const servicesLanguage = getServicesAndSubServices(language);
   const servicesEnglsih = getServicesAndSubServices("en");
 
+  //Variable for main & sub service
   const [selectedMainService, setSelectedMainService] = useState("");
   const [selectedSubService, setSelectedSubService] = useState("");
 
+  //Handle change for main service
   const handleMainServiceChange = (event) => {
     setSelectedMainService(event.target.value);
     const index = servicesLanguage.MainService.indexOf(event.target.value);
-    setSelectedSubService(""); // Reset city when province changes
+    setSelectedSubService("");
     setFormData({
       ...formData,
-      mainService: servicesEnglsih.MainService[index], // Set the province in formData
-      subService: "", // Reset city in formData
+      mainService: servicesEnglsih.MainService[index],
+      subService: "",
     });
   };
 
+  //Handle change for sub service
   const handleSubServiceChange = (event) => {
     setSelectedSubService(event.target.value);
     const index = servicesLanguage.MainService.indexOf(selectedMainService);
@@ -92,14 +111,13 @@ const SignUpPro = () => {
     const indexSub = subServiceArray.indexOf(event.target.value);
     const value =
       servicesEnglsih.SubService[servicesEnglsih.MainService[index]][indexSub];
-
     setFormData({
       ...formData,
-      subService: value, // Set the province in formData
+      subService: value,
     });
   };
 
-  ////
+  //Submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -123,56 +141,26 @@ const SignUpPro = () => {
       dispatch(updateUserFailure(error.message));
     }
   };
+
   return (
     <FormLayout>
       {currentUser.userPro ? (
         "You are alreay Pro!"
       ) : (
-        <div className={`form ${theme} ${language}`}>
+        <div className={`form ${theme}`}>
           <div className="form-container">
-            <Label label="Sign Up" />
+            <Label label={getBecomePro(language)} />
             <form className="form-field" onSubmit={handleSubmit}>
+              {/* Select Brand Name */}
               <FormField
                 type="text"
                 name="brandName"
                 value={formData.brandName}
                 onChange={handleChange}
-                placeholder="Brand name"
+                placeholder={getBrandName(language)}
                 required
               />
-              <div className="select">
-                <select
-                  id="province"
-                  name="province"
-                  value={selectedProvince}
-                  onChange={handleProvinceChange}
-                >
-                  <option value="">Select Province</option>
-                  {locationLanguage.Provinces.map((province) => (
-                    <option key={province} value={province}>
-                      {province}
-                    </option>
-                  ))}
-                </select>
-
-                <div>
-                  <select
-                    id="city"
-                    name="city"
-                    value={selectedCity}
-                    onChange={handleCityChange}
-                    disabled={!selectedProvince} // Disable city dropdown if no province selected
-                  >
-                    <option value="">Select City</option>
-                    {locationLanguage.Cities[selectedProvince]?.map((city) => (
-                      <option key={city} value={city}>
-                        {city}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
+              {/* Select Service */}
               <div className="select">
                 <select
                   id="mainSerivce"
@@ -180,7 +168,9 @@ const SignUpPro = () => {
                   value={selectedMainService}
                   onChange={handleMainServiceChange}
                 >
-                  <option value="">Select Main Service</option>
+                  <option value="">
+                    {getSelect(language) + " " + getMainService(language)}
+                  </option>
                   {servicesLanguage.MainService.map((mainservice) => (
                     <option key={mainservice} value={mainservice}>
                       {mainservice}
@@ -194,9 +184,12 @@ const SignUpPro = () => {
                     name="subService"
                     value={selectedSubService}
                     onChange={handleSubServiceChange}
-                    disabled={!selectedMainService} // Disable city dropdown if no province selected
+                    disabled={!selectedMainService}
                   >
-                    <option value="">Select Sub Service</option>
+                    <option value="">
+                      {" "}
+                      {getSelect(language) + " " + getSubService(language)}
+                    </option>
                     {servicesLanguage.SubService[selectedMainService]?.map(
                       (subservice) => (
                         <option key={subservice} value={subservice}>
@@ -208,26 +201,57 @@ const SignUpPro = () => {
                 </div>
               </div>
 
+              {/* Select Location */}
+              <div className="select">
+                <select
+                  id="province"
+                  name="province"
+                  value={selectedProvince}
+                  onChange={handleProvinceChange}
+                >
+                  <option value="">
+                    {getSelect(language) + " " + getProvince(language)}
+                  </option>
+                  {locationLanguage.Provinces.map((province) => (
+                    <option key={province} value={province}>
+                      {province}
+                    </option>
+                  ))}
+                </select>
+
+                <div>
+                  <select
+                    id="city"
+                    name="city"
+                    value={selectedCity}
+                    onChange={handleCityChange}
+                    disabled={!selectedProvince}
+                  >
+                    <option value="">
+                      {getSelect(language) + " " + getCity(language)}
+                    </option>
+                    {locationLanguage.Cities[selectedProvince]?.map((city) => (
+                      <option key={city} value={city}>
+                        {city}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
               <FormField
                 type="tel"
                 name="phone"
                 value={formData.phone}
                 onChange={handleChange}
-                placeholder="Phone"
+                placeholder={getPhone(language)}
                 required
               />
-              {/* <FormField
-              type="checkbox"
-              name="Request"
-              onChange={handleChange}
-              required
-            /> 
-            <span>ProUser</span>
-                    */}
-              {/* <button>Sign Up</button> */}
+
               <div className="btn-action">
                 <button type="submit">
-                  <FaUserPlus style={{ marginRight: "8px" }} /> Request
+                  <FaUserPlus style={{ marginRight: "8px" }} />{" "}
+                  {getRequest(language)}
                 </button>
               </div>
               {error && <p>{error}</p>}

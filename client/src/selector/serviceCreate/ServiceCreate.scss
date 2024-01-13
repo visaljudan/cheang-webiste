@@ -1,6 +1,9 @@
 @import "../../variables";
 @include breakpoint-big($desktop-breakpoint) {
   .form-addService-container {
+    .label-title {
+      padding: 0 0.5rem;
+    }
     form {
       width: 100%;
       display: grid;

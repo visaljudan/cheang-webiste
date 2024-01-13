@@ -1,0 +1,12 @@
+@import "../../variables";
+.service-about {
+  h2 {
+    color: red;
+  }
+  .label-title {
+    padding-left: $spacing_unit;
+  }
+  .serivce-about-container {
+    padding-left: 1rem;
+  }
+}

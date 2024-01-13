@@ -18,16 +18,18 @@ import "./SignUp.scss";
 const SignIn = () => {
   const { theme } = useTheme();
   const { language } = useLanguage();
-  const navigate = useNavigate();
   const { error, loading } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-  const dispatch = useDispatch();
-  console.log(loading);
+
+  //Sign in
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("go");
     try {
       dispatch(signInStart(true));
       const res = await fetch("/api/auth/signin", {

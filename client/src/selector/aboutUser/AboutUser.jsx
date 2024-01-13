@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Label from "../../components/label/Label";
 import {
+  FaCalendar,
   FaLocationArrow,
   FaMapMarkedAlt,
   FaMarsStroke,
@@ -12,6 +13,8 @@ import {
   FaWrench,
 } from "react-icons/fa";
 import { useParams } from "react-router-dom";
+import "./AboutUser.scss";
+import FormatDate from "../../utils/FormatDate";
 
 const AboutUser = () => {
   const { theme } = useTheme();
@@ -43,6 +46,9 @@ const AboutUser = () => {
     };
     fetchService();
   }, [params.userId]);
+
+  //Create varaible to store date from usercurrent
+  const dateObject = new Date(currentUser.createdAt);
   return (
     <>
       {loading && <p className="">Loading...</p>}
@@ -91,19 +97,24 @@ const AboutUser = () => {
               label={<FaLocationArrow />}
               text={
                 "Location : " +
-                (currentUser.province + currentUser.city || "None")
+                (currentUser.city + " , " + currentUser.province || "None")
               }
             />
             <TextBorder
               label={<FaWrench />}
               text={
                 "Type of Service : " +
-                (currentUser.mainService + currentUser.subService || "None")
+                (currentUser.mainService + " , " + currentUser.subService ||
+                  "None")
               }
             />
             <TextBorder
               label={<FaPhone />}
-              text={"Phone Number " + (currentUser.phone || "None")}
+              text={"Phone Number : " + (currentUser.phone || "None")}
+            />
+            <TextBorder
+              label={<FaCalendar />}
+              text={"Join : " + (FormatDate(dateObject) || "None")}
             />
           </div>
         </div>

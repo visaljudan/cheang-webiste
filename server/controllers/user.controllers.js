@@ -30,8 +30,6 @@ export const updateUser = async (req, res, next) => {
     if (req.body.password) {
       req.body.password = bcryptjs.hashSync(req.body.password, 10);
     }
-    console.log("Users ID");
-    console.log(req.params.id);
     const updatedUser = await User.findByIdAndUpdate(
       req.params.id,
       {
@@ -41,7 +39,7 @@ export const updateUser = async (req, res, next) => {
           password: req.body.password,
           avatar: req.body.avatar,
           brandName: req.body.brandName,
-          porvince: req.body.porvince,
+          province: req.body.province,
           city: req.body.city,
           mainService: req.body.mainService,
           subService: req.body.subService,
@@ -59,6 +57,7 @@ export const updateUser = async (req, res, next) => {
     res.status(200).json(rest);
   } catch (error) {
     next(error);
+    console.log(error);
   }
 };
 

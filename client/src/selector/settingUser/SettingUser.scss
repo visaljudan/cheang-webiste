@@ -1,0 +1,23 @@
+@import "../../variables";
+.form-addService-container {
+  .form-addService-field {
+    justify-content: center;
+    align-items: center;
+    img {
+      margin-left: 2rem;
+    }
+  }
+  .select {
+    @include select;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: $spacing_unit 0;
+  }
+  .btn-actions {
+    margin: 1rem 2rem;
+    width: 41%;
+    display: flex;
+    justify-content: space-between;
+  }
+}

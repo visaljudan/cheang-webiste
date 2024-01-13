@@ -5,6 +5,7 @@ import cookieParser from "cookie-parser";
 import authRouter from "./routes/auth.route.js";
 import userRouter from "./routes/user.route.js";
 import adminRouter from "./routes/admin.route.js";
+import serviceRouter from "./routes/serivce.route.js";
 // import cors from "cors";
 //Update
 // import http from "http";
@@ -29,30 +30,15 @@ const app = express();
 app.use(express.json());
 app.use(cookieParser());
 
-//Update
-// const server = http.createServer(app); // Create HTTP server
-// let socketIo;
-// const io = new Server(server); // Create Socket.io instance
-// io.on("connection", (socket) => {
-//   console.log("Client connected");
-//   socketIo = io; // Save the instance for future use
-// });
-// console.log(socketIo);
-////
-
 app.listen(5000, () => {
   console.log(`Server is running on port 5000!`);
 });
 
-// Function to get the Socket.io instance from other files
-// export const getIO = () => {
-//   return socketIo;
-// };
-//////////
 //Route
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 app.use("/api/admin", adminRouter);
+app.use("/api/service", serviceRouter);
 
 //Render deploy
 app.use(express.static(path.join(__dirname, "/client/dist")));

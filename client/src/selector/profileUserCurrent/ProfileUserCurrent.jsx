@@ -30,6 +30,7 @@ import ServiceSelector from "../serviceSelector/ServiceSelector";
 import { NavigationLink } from "../../components/navigationLink/NavigationLink";
 import AboutUser from "../aboutUser/AboutUser";
 import ServiceCreate from "../serviceCreate/ServiceCreate";
+import SettingUser from "../settingUser/SettingUser";
 // import "./ProfileUser.scss";
 const ProfileUserCurrent = () => {
   const { theme } = useTheme();
@@ -304,6 +305,7 @@ const ProfileUserCurrent = () => {
                       Setting
                     </button>
                   </div>
+                  <SettingUser />
                 </>
               ) : (
                 ""

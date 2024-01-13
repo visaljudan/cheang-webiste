@@ -149,15 +149,102 @@ export const getBecomePro = (language) => {
   }
 };
 
-export const get = (language) => {
+export const getBrandName = (language) => {
   switch (language) {
     case "en":
-      return "Become Pro";
+      return "Brand Name";
     case "kh":
-      return "ក្លាយជាអ្នកផ្តល់សេវាកម្ម";
+      return "ឈ្មោះប្រ៊េន";
     case "zh":
-      return "成为职业选手";
+      return "品牌";
     default:
-      return "Become Pro";
+      return "Brand Name";
+  }
+};
+
+export const getSelect = (language) => {
+  switch (language) {
+    case "en":
+      return "Select";
+    case "kh":
+      return "ជ្រើសរើស";
+    case "zh":
+      return "选择";
+    default:
+      return "Select";
+  }
+};
+
+export const getMainService = (language) => {
+  switch (language) {
+    case "en":
+      return "Main Service";
+    case "kh":
+      return "សេវាកម្មចម្បង";
+    case "zh":
+      return "主要服务";
+    default:
+      return "Main Service";
+  }
+};
+export const getSubService = (language) => {
+  switch (language) {
+    case "en":
+      return "Sub Service";
+    case "kh":
+      return "សេវាកម្មជំនាញ";
+    case "zh":
+      return "子服务";
+    default:
+      return "Sub Service";
+  }
+};
+
+export const getProvince = (language) => {
+  switch (language) {
+    case "en":
+      return "Province";
+    case "kh":
+      return "ខេត្ត/រាជធានី";
+    case "zh":
+      return "省";
+    default:
+      return "Province";
+  }
+};
+export const getCity = (language) => {
+  switch (language) {
+    case "en":
+      return "City";
+    case "kh":
+      return "ស្រុក/ខណ្ឌ";
+    case "zh":
+      return "城市";
+    default:
+      return "City";
+  }
+};
+export const getPhone = (language) => {
+  switch (language) {
+    case "en":
+      return "Phone";
+    case "kh":
+      return "លេខទូរស័ព្ទ";
+    case "zh":
+      return "电话号码";
+    default:
+      return "Phone";
+  }
+};
+export const getRequest = (language) => {
+  switch (language) {
+    case "en":
+      return "Request";
+    case "kh":
+      return "ស្នើរសុំ";
+    case "zh":
+      return "要求";
+    default:
+      return "Request";
   }
 };

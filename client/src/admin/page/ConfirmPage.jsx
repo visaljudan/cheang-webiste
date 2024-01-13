@@ -51,8 +51,6 @@ const ConfirmPage = () => {
       }
       setLoading(false);
       setUsers(data);
-      // console.log(data);
-      // navigate("");?
       window.location.reload();
     } catch (error) {
       setError(true);
@@ -77,8 +75,7 @@ const ConfirmPage = () => {
       }
       setLoading(false);
       setUsers(data);
-      // console.log(data);
-      // navigate("");?
+      
       window.location.reload();
     } catch (error) {
       setError(true);

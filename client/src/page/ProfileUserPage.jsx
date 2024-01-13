@@ -1,4 +1,3 @@
-import React from "react";
 import ProfileUser from "../selector/profileUser/ProfileUser";
 import AppLayout from "../layouts/AppLayout";
 
