@@ -31,6 +31,7 @@ import { NavigationLink } from "../../components/navigationLink/NavigationLink";
 import AboutUser from "../aboutUser/AboutUser";
 import ServiceCreate from "../serviceCreate/ServiceCreate";
 import SettingUser from "../settingUser/SettingUser";
+import SaveUser from "../saveUser/SaveUser";
 // import "./ProfileUser.scss";
 const ProfileUserCurrent = () => {
   const { theme } = useTheme();
@@ -44,15 +45,15 @@ const ProfileUserCurrent = () => {
   const [formData, setFormData] = useState({});
 
   ////////////////Rating////////////////////////////
-  //   const [userRating, setUserRating] = useState(0);
+  const [userRating, setUserRating] = useState(0);
 
-  //   const handleRatingChange = (newRating) => {
-  //     setFormData({
-  //       ...formData,
-  //       // Assuming you want to set the userRating in formData
-  //       userRating: newRating,
-  //     });
-  //   };
+  // const handleRatingChange = (newRating) => {
+  //   setFormData({
+  //     ...formData,
+  //     // Assuming you want to set the userRating in formData
+  //     userRating: newRating,
+  //   });
+  // };
 
   //   const handleSubmit = async (e) => {
   //     e.preventDefault();
@@ -92,11 +93,11 @@ const ProfileUserCurrent = () => {
   //   };
 
   const averageRating =
-    user && user.ratings.length > 0
-      ? user.ratings.reduce((sum, rating) => sum + rating.rating, 0) /
-        user.ratings.length
+    currentUser && currentUser.ratings.length > 0
+      ? currentUser.ratings.reduce((sum, rating) => sum + rating.rating, 0) /
+        currentUser.ratings.length
       : 0;
-
+  console.log(user);
   ///////////Comments//////////
   //   const [comments, setComments] = useState([]);
   //   const [newComment, setNewComment] = useState("");
@@ -182,15 +183,11 @@ const ProfileUserCurrent = () => {
         <div className="ProfileContainer-container-left">
           {loading && <p className="">Loading...</p>}
           {error && <p className="">Something went wrong!</p>}
-          {currentUser && !loading && !error && (
+          {currentUser.userPro && !loading && !error ? (
             <div className={`userprofileDetail ${theme}`}>
               <div className="userserviceDetail-container" key={currentUser.id}>
                 <Profile src={currentUser.avatar} />
-                {currentUser.userPro ? (
-                  <Label label={currentUser.brandName} />
-                ) : (
-                  <Label label={currentUser.nameuser} />
-                )}
+                <Label label={currentUser.brandName} />
                 <div className="userserviceDetail-container-tag">
                   <Tag label={currentUser.mainService || "None"} />
                   <Tag label={currentUser.subService || "None"} />
@@ -203,7 +200,10 @@ const ProfileUserCurrent = () => {
                   <div className="TextBorder-container">
                     <TextBorder
                       label={<FaMapMarkerAlt />}
-                      text={currentUser.city + currentUser.province || "None"}
+                      text={
+                        currentUser.city + " , " + currentUser.province ||
+                        "None"
+                      }
                     />
                     <TextBorder
                       label={<FaPhoneAlt />}
@@ -213,104 +213,231 @@ const ProfileUserCurrent = () => {
                 </div>
               </div>
             </div>
+          ) : (
+            <div className={`userprofileDetail ${theme}`}>
+              <div className="userserviceDetail-container" key={currentUser.id}>
+                <Profile src={currentUser.avatar} />
+                <Label label={currentUser.nameuser} />
+                <div className="userserviceDetail-container-tag">
+                  <Tag label="None" />
+                  <Tag label="None" />
+                </div>
+                <div className="userserviceDetail-container-rate">
+                  <ShowStar rating={averageRating.toFixed(2)} />
+                  <p>{averageRating.toFixed(2)}</p>
+                </div>
+                <div className="userserviceDetail-container-detail">
+                  <div className="TextBorder-container">
+                    <TextBorder label={<FaMapMarkerAlt />} text="None" />
+                    <TextBorder label={<FaPhoneAlt />} text="None" />
+                  </div>
+                </div>
+              </div>
+            </div>
           )}
         </div>
         <div className="ProfileContainer-container-right">
           <div className="profileTodo">
-            <>
-              {normal === "service" ? (
-                <>
-                  <div className="serviceDetail-container">
-                    <button className="disabled" disabled>
-                      {<FaWrench style={{ marginRight: "8px" }} />}
-                      Service
-                    </button>
-                    <button onClick={() => setNormal("about")}>
-                      {<FaInfoCircle style={{ marginRight: "8px" }} />}
-                      About
-                    </button>
-                    <button onClick={() => setNormal("addService")}>
-                      {<FaPlusCircle style={{ marginRight: "8px" }} />}
-                      Add Service
-                    </button>
-                    <button onClick={() => setNormal("setting")}>
-                      {<FaSellcast style={{ marginRight: "8px" }} />}
-                      Setting
-                    </button>
-                  </div>
-                  <ServiceSelector />
-                </>
-              ) : normal === "about" ? (
-                <>
-                  <div className="serviceDetail-container">
-                    <button onClick={() => setNormal("service")}>
-                      {<FaWrench style={{ marginRight: "8px" }} />}
-                      Service
-                    </button>
-                    <button className="disabled" disabled>
-                      {<FaInfoCircle style={{ marginRight: "8px" }} />}
-                      About
-                    </button>
-                    <button onClick={() => setNormal("addService")}>
-                      {<FaPlusCircle style={{ marginRight: "8px" }} />}
-                      Add Service
-                    </button>
-                    <button onClick={() => setNormal("setting")}>
-                      {<FaSellcast style={{ marginRight: "8px" }} />}
-                      Setting
-                    </button>
-                  </div>
+            {loading && <p className="">Loading...</p>}
+            {error && <p className="">Something went wrong!</p>}
+            {currentUser.userPro && !loading && !error ? (
+              <>
+                {normal === "service" ? (
+                  <>
+                    <div className="serviceDetail-container">
+                      <button className="disabled" disabled>
+                        {<FaWrench style={{ marginRight: "8px" }} />}
+                        Service
+                      </button>
+                      <button onClick={() => setNormal("about")}>
+                        {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                        About
+                      </button>
+                      <button onClick={() => setNormal("addService")}>
+                        {<FaPlusCircle style={{ marginRight: "8px" }} />}
+                        Add Service
+                      </button>
+                      <button onClick={() => setNormal("setting")}>
+                        {<FaSellcast style={{ marginRight: "8px" }} />}
+                        Setting
+                      </button>
+                      <button onClick={() => setNormal("save")}>
+                        {<FaSave style={{ marginRight: "8px" }} />}
+                        Save
+                      </button>
+                    </div>
+                    <ServiceSelector />
+                  </>
+                ) : normal === "about" ? (
+                  <>
+                    <div className="serviceDetail-container">
+                      <button onClick={() => setNormal("service")}>
+                        {<FaWrench style={{ marginRight: "8px" }} />}
+                        Service
+                      </button>
+                      <button className="disabled" disabled>
+                        {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                        About
+                      </button>
+                      <button onClick={() => setNormal("addService")}>
+                        {<FaPlusCircle style={{ marginRight: "8px" }} />}
+                        Add Service
+                      </button>
+                      <button onClick={() => setNormal("setting")}>
+                        {<FaSellcast style={{ marginRight: "8px" }} />}
+                        Setting
+                      </button>
+                      <button onClick={() => setNormal("save")}>
+                        {<FaSave style={{ marginRight: "8px" }} />}
+                        Save
+                      </button>
+                    </div>
+                    <AboutUser />
+                  </>
+                ) : normal === "addService" ? (
+                  <>
+                    <div className="serviceDetail-container">
+                      <button onClick={() => setNormal("service")}>
+                        {<FaWrench style={{ marginRight: "8px" }} />}
+                        Service
+                      </button>
+                      <button onClick={() => setNormal("about")}>
+                        {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                        About
+                      </button>
+                      <button className="disabled" disabled>
+                        {<FaPlusCircle style={{ marginRight: "8px" }} />}
+                        Add Service
+                      </button>
+                      <button onClick={() => setNormal("setting")}>
+                        {<FaSellcast style={{ marginRight: "8px" }} />}
+                        Setting
+                      </button>
+                      <button onClick={() => setNormal("save")}>
+                        {<FaSave style={{ marginRight: "8px" }} />}
+                        Save
+                      </button>
+                    </div>
+                    <ServiceCreate />
+                  </>
+                ) : normal === "setting" ? (
+                  <>
+                    <div className="serviceDetail-container">
+                      <button onClick={() => setNormal("service")}>
+                        {<FaWrench style={{ marginRight: "8px" }} />}
+                        Service
+                      </button>
+                      <button onClick={() => setNormal("about")}>
+                        {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                        About
+                      </button>
+                      <button onClick={() => setNormal("addService")}>
+                        {<FaPlusCircle style={{ marginRight: "8px" }} />}
+                        Add Service
+                      </button>
+                      <button className="disabled" disabled>
+                        {<FaSellcast style={{ marginRight: "8px" }} />}
+                        Setting
+                      </button>
+                      <button onClick={() => setNormal("save")}>
+                        {<FaSave style={{ marginRight: "8px" }} />}
+                        Save
+                      </button>
+                    </div>
+                    <SettingUser />
+                  </>
+                ) : normal === "save" ? (
+                  <>
+                    <div className="serviceDetail-container">
+                      <button onClick={() => setNormal("service")}>
+                        {<FaWrench style={{ marginRight: "8px" }} />}
+                        Service
+                      </button>
+                      <button onClick={() => setNormal("about")}>
+                        {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                        About
+                      </button>
+                      <button onClick={() => setNormal("addService")}>
+                        {<FaPlusCircle style={{ marginRight: "8px" }} />}
+                        Add Service
+                      </button>
+                      <button onClick={() => setNormal("setting")}>
+                        {<FaSellcast style={{ marginRight: "8px" }} />}
+                        Setting
+                      </button>
+                      <button className="disabled" disabled>
+                        {<FaSave style={{ marginRight: "8px" }} />}
+                        Save
+                      </button>
+                    </div>
+                    <SaveUser />
+                  </>
+                ) : (
+                  ""
+                )}
+              </>
+            ) : (
+              <>
+                {normal === "service" ? (
+                  <>
+                    <div className="serviceDetail-container">
+                      <button className="disabled" disabled>
+                        {<FaWrench style={{ marginRight: "8px" }} />}
+                        Service
+                      </button>
+                      <button onClick={() => setNormal("about")}>
+                        {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                        About
+                      </button>
+                      <button onClick={() => setNormal("setting")}>
+                        {<FaSellcast style={{ marginRight: "8px" }} />}
+                        Setting
+                      </button>
+                    </div>
+                    <ServiceSelector />
+                  </>
+                ) : normal === "about" ? (
+                  <>
+                    <div className="serviceDetail-container">
+                      <button onClick={() => setNormal("service")}>
+                        {<FaWrench style={{ marginRight: "8px" }} />}
+                        Service
+                      </button>
+                      <button className="disabled" disabled>
+                        {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                        About
+                      </button>
+                      <button onClick={() => setNormal("setting")}>
+                        {<FaSellcast style={{ marginRight: "8px" }} />}
+                        Setting
+                      </button>
+                    </div>
 
-                  <AboutUser />
-                </>
-              ) : normal === "addService" ? (
-                <>
-                  <div className="serviceDetail-container">
-                    <button onClick={() => setNormal("service")}>
-                      {<FaWrench style={{ marginRight: "8px" }} />}
-                      Service
-                    </button>
-                    <button onClick={() => setNormal("about")}>
-                      {<FaInfoCircle style={{ marginRight: "8px" }} />}
-                      About
-                    </button>
-                    <button className="disabled" disabled>
-                      {<FaPlusCircle style={{ marginRight: "8px" }} />}
-                      Add Service
-                    </button>
-                    <button onClick={() => setNormal("setting")}>
-                      {<FaSellcast style={{ marginRight: "8px" }} />}
-                      Setting
-                    </button>
-                  </div>
-                  <ServiceCreate />
-                </>
-              ) : normal === "setting" ? (
-                <>
-                  <div className="serviceDetail-container">
-                    <button onClick={() => setNormal("service")}>
-                      {<FaWrench style={{ marginRight: "8px" }} />}
-                      Service
-                    </button>
-                    <button onClick={() => setNormal("about")}>
-                      {<FaInfoCircle style={{ marginRight: "8px" }} />}
-                      About
-                    </button>
-                    <button onClick={() => setNormal("addService")}>
-                      {<FaPlusCircle style={{ marginRight: "8px" }} />}
-                      Add Service
-                    </button>
-                    <button className="disabled" disabled>
-                      {<FaSellcast style={{ marginRight: "8px" }} />}
-                      Setting
-                    </button>
-                  </div>
-                  <SettingUser />
-                </>
-              ) : (
-                ""
-              )}
-            </>
+                    <AboutUser />
+                  </>
+                ) : normal === "setting" ? (
+                  <>
+                    <div className="serviceDetail-container">
+                      <button onClick={() => setNormal("service")}>
+                        {<FaWrench style={{ marginRight: "8px" }} />}
+                        Service
+                      </button>
+                      <button onClick={() => setNormal("about")}>
+                        {<FaInfoCircle style={{ marginRight: "8px" }} />}
+                        About
+                      </button>
+                      <button className="disabled" disabled>
+                        {<FaSellcast style={{ marginRight: "8px" }} />}
+                        Setting
+                      </button>
+                    </div>
+                    <SettingUser />
+                  </>
+                ) : (
+                  ""
+                )}
+              </>
+            )}
           </div>
         </div>
       </div>

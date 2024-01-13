@@ -155,10 +155,12 @@ export const deleteCommentUser = async (req, res, next) => {
 export const saveUser = async (req, res, next) => {
   const { userId } = req.params;
   const userSave = req.user.id;
-  console.log(userSave);
-  console.log(userId);
   try {
     const userToSave = await User.findById(userSave);
+    const userSaved = await User.findById(userId);
+    console.log(userSaved.avatar);
+    console.log(userSaved.nameuser);
+
     const isAlreadySaved = userToSave.saves.some(
       (save) => save.userId === userId
     );
@@ -169,8 +171,14 @@ export const saveUser = async (req, res, next) => {
       );
     } else {
       // Save the user
-      userToSave.saves.push({ userId, saveSign: true });
+      userToSave.saves.push({
+        userId,
+        userAvatar: userSaved.avatar,
+        userName: userSaved.nameuser,
+        saveSign: true,
+      });
     }
+    console.log(userToSave);
     await userToSave.save();
     const { password, ...rest } = userToSave._doc;
 
@@ -206,6 +214,7 @@ export const searchUsers = async (req, res, next) => {
 export const liveSearch = async (req, res, next) => {
   try {
     const { mainService, subService, province, city } = req.query;
+
     // Create a query object based on the search parameters
     const liveSearchQuery = {
       userPro: true,
@@ -215,29 +224,10 @@ export const liveSearch = async (req, res, next) => {
       province: province,
       city: city,
     };
-    console.log(mainService);
 
-    // // Add additional parameters to the query if they exist
-    // if (mainService) {
-    //   liveSearchQuery.mainService = mainService;
-    // }
+    // Use your User model to find users based on the liveSearchQuery
+    const liveSearchResults = await User.find(liveSearchQuery);
 
-    // if (subService) {
-    //   liveSearchQuery.subService = subService;
-    // }
-
-    // if (province) {
-    //   liveSearchQuery.province = province;
-    // }
-
-    // if (city) {
-    //   liveSearchQuery.city = city;
-    // }
-
-    // console.log(liveSearchQuery);
-    // // Query the database using the liveSearchQuery
-    const liveSearchResults = await User.filter("General Repairs Service");
-    console.log(liveSearchResults);
     res.json(liveSearchResults);
   } catch (error) {
     console.error(error);

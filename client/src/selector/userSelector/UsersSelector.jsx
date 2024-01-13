@@ -61,9 +61,6 @@ const UsersSelector = () => {
       <div className="service-container-category">
         <Label label={getAllCategories(language)} />
         <ul className="category-list">
-          <li>
-            <NavigationLink value={getPopular(language)} href="#Popular" />
-          </li>
           {loading ? (
             <p>Loading...</p>
           ) : (

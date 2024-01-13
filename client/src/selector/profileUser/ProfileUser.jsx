@@ -25,7 +25,7 @@ import ShowStar from "../../components/starRating/ShowStar";
 import "./ProfileUser.scss";
 import TextBorder from "../../components/textBorder/TextBorder";
 import Button from "../../components/button/Button";
-import ServiceSelector from "../serviceSelector/ServiceSelector";
+import ServiceSelectorUser from "../serviceSelectorUser/ServiceSelectorUser";
 import { NavigationLink } from "../../components/navigationLink/NavigationLink";
 import AboutUser from "../aboutUser/AboutUser";
 const ProfileUser = () => {
@@ -260,7 +260,7 @@ const ProfileUser = () => {
                   <div className="TextBorder-container">
                     <TextBorder
                       label={<FaMapMarkerAlt />}
-                      text={user.city + user.province}
+                      text={user.city + " , " + user.province}
                     />
                     <TextBorder label={<FaPhoneAlt />} text={user.phone} />
                   </div>
@@ -305,7 +305,7 @@ const ProfileUser = () => {
                       )}
                     </button>
                   </div>
-                  <ServiceSelector />
+                  <ServiceSelectorUser />
                 </>
               ) : normal === "about" ? (
                 <>

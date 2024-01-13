@@ -89,6 +89,14 @@ const userSchema = new mongoose.Schema(
           type: String,
           default: "",
         },
+        userAvatar: {
+          type: String,
+          default: "",
+        },
+        userName: {
+          type: String,
+          default: "",
+        },
         saveSign: {
           type: Boolean,
           required: true,

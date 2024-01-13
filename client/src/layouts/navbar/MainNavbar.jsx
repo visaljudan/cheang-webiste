@@ -17,7 +17,7 @@ import ServiceList from "../../data/ServiceList";
 import LanguageSelector from "../../components/languageSelector/LanguageSelector";
 import ThemeSelector from "../../components/themeSelector/ThemeSelector";
 import { useTheme } from "../../context/ThemeContext";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./MainNavbar.scss";
 import { Link, useParams } from "react-router-dom";
 import Profile from "../../components/profile/Profile";
@@ -38,6 +38,8 @@ const MainNavbar = ({ page }) => {
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
+
+  useEffect(() => {}, [currentUser]);
 
   //Link Page
   const pageLink = page;

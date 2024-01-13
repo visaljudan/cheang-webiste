@@ -75,7 +75,7 @@ const ConfirmPage = () => {
       }
       setLoading(false);
       setUsers(data);
-      
+
       window.location.reload();
     } catch (error) {
       setError(true);

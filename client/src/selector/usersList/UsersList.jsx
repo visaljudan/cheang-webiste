@@ -13,7 +13,7 @@ const UsersList = () => {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [users, setUsers] = useState([]);
-  const [showMore, setShowMore] = useState(false);
+  const [selectedService, setSelectedService] = useState(null);
 
   useEffect(() => {
     if (currentUser) {
@@ -50,10 +50,16 @@ const UsersList = () => {
   }, [currentUser]);
 
   const params = useParams();
-  const filteredUser = users.filter(
-    (user) => user.mainService === params.typeservice
-  );
+  // const filteredUser = users.filter(
+  //   (user) => user.mainService === params.typeservice
+  // );
 
+  const filteredUser = users.filter((user) => {
+    return selectedService ? user.mainService === selectedService : true;
+  });
+  const handleServiceChange = (event) => {
+    setSelectedService(event.target.value);
+  };
   return (
     <div className={`userslist ${theme}`}>
       <div className="userslist-container">

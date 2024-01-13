@@ -21,31 +21,42 @@ const SearchFilter = () => {
   const { theme } = useTheme();
   const { language } = useLanguage();
   const { currentUser } = useSelector((state) => state.user);
+  const [liveSearchResults, setLiveSearchResults] = useState();
   const params = useParams();
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    brandName: "",
+    // brandName: "",
     province: "",
     city: "",
     mainService: "",
     subService: "",
   });
+  const navigate = useNavigate();
 
   ////////////////
-  const handleChange = (e) => {
-    if (e.target.type === "text" || e.target.type === "tel") {
-      setFormData({
-        ...formData,
-        [e.target.id]: e.target.value,
-      });
+  // const handleChange = (e) => {
+  //   if (e.target.type === "text" || e.target.type === "tel") {
+  //     setFormData({
+  //       ...formData,
+  //       [e.target.id]: e.target.value,
+  //     });
 
-      // Update live search results as the user types
-      fetchLiveSearchResults();
-    }
+  //     // Update live search results as the user types
+  //     fetchLiveSearchResults();
+  //   }
+  // };
+  const updateAndFetch = (name, value) => {
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+    fetchLiveSearchResults();
   };
+
   console.log(formData);
-  ////
+
+  ////////////Location//////////////
   const locationLanguage = getProvincesAndCities(language);
   const locationEnglsih = getProvincesAndCities("en");
   const [selectedProvince, setSelectedProvince] = useState("");
@@ -60,7 +71,7 @@ const SearchFilter = () => {
       province: locationEnglsih.Provinces[index], // Set the province in formData
       city: "", // Reset city in formData
     });
-    fetchLiveSearchResults();
+    updateAndFetch("province", locationEnglsih.Provinces[index]);
   };
   const handleCityChange = (event) => {
     setSelectedCity(event.target.value);
@@ -75,7 +86,7 @@ const SearchFilter = () => {
       ...formData,
       city: value,
     });
-    fetchLiveSearchResults();
+    updateAndFetch("city", value);
   };
 
   /////////////type service/////////////
@@ -94,7 +105,7 @@ const SearchFilter = () => {
       mainService: servicesEnglsih.MainService[index], // Set the province in formData
       subService: "", // Reset city in formData
     });
-    fetchLiveSearchResults();
+    updateAndFetch("mainService", mainService);
   };
 
   const handleSubServiceChange = (event) => {
@@ -109,33 +120,8 @@ const SearchFilter = () => {
       ...formData,
       subService: value, // Set the province in formData
     });
-    fetchLiveSearchResults();
+    updateAndFetch("subService", value);
   };
-
-  ////
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     dispatch(updateUserStart());
-  //     const res = await fetch(`/api/user/update/${currentUser._id}`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-  //     const data = await res.json();
-  //     if (data.success === false) {
-  //       dispatch(updateUserFailure(data.message));
-  //       return;
-  //     }
-  //     dispatch(updateUserSuccess(data));
-  //     console.log(data);
-  //     navigate("/");
-  //   } catch (error) {
-  //     dispatch(updateUserFailure(error.message));
-  //   }
-  // };
 
   useEffect(() => {
     if (params.typeservice) {
@@ -143,9 +129,6 @@ const SearchFilter = () => {
       setSelectedMainService(servicesLanguage.MainService[index]);
     }
   }, [params.typeservice]);
-
-  /////////Search///////////
-  const [liveSearchResults, setLiveSearchResults] = useState([]);
   const fetchLiveSearchResults = async () => {
     try {
       setLoading(true);
@@ -171,34 +154,12 @@ const SearchFilter = () => {
       setLoading(false);
     }
   };
-  // useEffect(() => {
-  //   const fetchSearchResults = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const res = await fetch("/api/user/search", {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(formData),
-  //       });
-  //       const data = await res.json();
-  //       setSearchResults(data);
-  //       setLoading(false);
-  //     } catch (error) {
-  //       setError(error.message);
-  //       setLoading(false);
-  //     }
-  //   };
 
-  //   const delayDebounceFn = setTimeout(() => {
-  //     if (formData.Request) {
-  //       fetchSearchResults();
-  //     }
-  //   }, 1000);
-
-  //   return () => clearTimeout(delayDebounceFn);
-  // }, [formData]);
+  useEffect(() => {
+    // Fetch live search results on component mount
+    fetchLiveSearchResults();
+  }, []);
+  console.log(liveSearchResults);
   return (
     <>
       <div className={`form ${theme}`}>
@@ -300,7 +261,7 @@ const SearchFilter = () => {
           <div>
             <h2>Search Results</h2>
             {loading && <p>Loading...</p>}
-            {liveSearchResults.map((result) => (
+            {liveSearchResults?.map((result) => (
               <div key={result.id}>
                 <Card {...result} key={result._id} ID={result._id} />
               </div>

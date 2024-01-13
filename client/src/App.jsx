@@ -21,6 +21,7 @@ import PrivateRoute from "./components/privateRoutes/PrivateRoute";
 import PrivateRouteAdmin from "./components/privateRoutes/PrivateRouteAdmin";
 import AllUsersListPage from "./page/AllUsersListPage";
 import ProfileUserCurrentPage from "./page/ProfileUserCurrentPage";
+import PrivateRouteUser from "./components/privateRoutes/PrivateRouteUser";
 
 const App = () => {
   return (
@@ -32,8 +33,8 @@ const App = () => {
             <Route path="*" Component={NotFoundPage} />
 
             {/* User */}
-            <Route path="/signup" Component={SignUpPage} />
-            <Route path="/signin" Component={SignInPage} />
+            {/* <Route path="/signup" Component={SignUpPage} />
+            <Route path="/signin" Component={SignInPage} /> */}
             <Route path="/signup-pro" Component={SignUpPro} />
             <Route path="/about" Component={AboutPage} />
             <Route path="userlist/:typeservice" Component={UsersList} />
@@ -43,6 +44,11 @@ const App = () => {
             <Route element={<PrivateRoute />}>
               <Route path="profile/:userId" Component={ProfileUserPage} />
               <Route path="profile" Component={ProfileUserCurrentPage} />
+            </Route>
+
+            <Route element={<PrivateRouteUser />}>
+              <Route path="/signup" Component={SignUpPage} />
+              <Route path="/signin" Component={SignInPage} />
             </Route>
 
             {/* Admin */}

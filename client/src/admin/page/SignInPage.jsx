@@ -38,7 +38,7 @@ const AdminSignInPage = () => {
         return;
       }
       dispatch(signInSuccess(data));
-      navigate("/");
+      navigate("/admin/dashboard");
     } catch (error) {
       dispatch(signInFailure(error.message));
     }

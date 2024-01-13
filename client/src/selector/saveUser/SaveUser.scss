@@ -1,0 +1,21 @@
+@import "../../variables";
+.save {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin: $spacing_unit;
+  .save-profile {
+    display: flex;
+    align-items: center;
+    height: 4rem;
+    width: 100%;
+    margin-left: 1rem;
+    img {
+      width: 3rem;
+      height: 3rem;
+    }
+    p {
+      margin-left: 1rem;
+    }
+  }
+}

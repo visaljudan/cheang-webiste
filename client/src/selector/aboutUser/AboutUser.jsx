@@ -5,6 +5,7 @@ import { useSelector } from "react-redux";
 import Label from "../../components/label/Label";
 import {
   FaCalendar,
+  FaGoogle,
   FaLocationArrow,
   FaMapMarkedAlt,
   FaMarsStroke,
@@ -48,7 +49,9 @@ const AboutUser = () => {
   }, [params.userId]);
 
   //Create varaible to store date from usercurrent
-  const dateObject = new Date(currentUser.createdAt);
+  const dateCurrentUsesr = new Date(currentUser.createdAt);
+  const dateUser = new Date(user.createdAt);
+
   return (
     <>
       {loading && <p className="">Loading...</p>}
@@ -66,58 +69,104 @@ const AboutUser = () => {
             />
             <TextBorder
               label={<FaLocationArrow />}
-              text={"Location : " + (user.province + user.city || "None")}
+              text={
+                "Location : " + (user.province + " , " + user.city || "None")
+              }
             />
             <TextBorder
               label={<FaWrench />}
               text={
                 "Type of Service : " +
-                (user.mainService + " " + user.subService || "None")
+                (user.mainService + " , " + user.subService || "None")
               }
             />
             <TextBorder
               label={<FaPhone />}
-              text={"Phone Number " + (user.phone || "None")}
+              text={"Phone Number : " + (user.phone || "None")}
+            />
+            <TextBorder
+              label={<FaCalendar />}
+              text={"Join : " + (FormatDate(dateUser) || "None")}
             />
           </div>
         </div>
       ) : (
-        <div className={`service-about ${theme}`}>
-          <Label label="About Me" />
-          <div className="serivce-about-container" key={currentUser.id}>
-            <TextBorder
-              label={<FaMapMarkedAlt />}
-              text={"Brand Name : " + (currentUser.brandName || "None")}
-            />
-            <TextBorder
-              label={<FaUserAlt />}
-              text={"Owner : " + currentUser.nameuser}
-            />
-            <TextBorder
-              label={<FaLocationArrow />}
-              text={
-                "Location : " +
-                (currentUser.city + " , " + currentUser.province || "None")
-              }
-            />
-            <TextBorder
-              label={<FaWrench />}
-              text={
-                "Type of Service : " +
-                (currentUser.mainService + " , " + currentUser.subService ||
-                  "None")
-              }
-            />
-            <TextBorder
-              label={<FaPhone />}
-              text={"Phone Number : " + (currentUser.phone || "None")}
-            />
-            <TextBorder
-              label={<FaCalendar />}
-              text={"Join : " + (FormatDate(dateObject) || "None")}
-            />
-          </div>
-        </div>
+        <>
+          {currentUser.userPro ? (
+            <div className={`service-about ${theme}`}>
+              <Label label="About Me" />
+              <div className="serivce-about-container" key={currentUser.id}>
+                <TextBorder
+                  label={<FaMapMarkedAlt />}
+                  text={"Brand Name : " + (currentUser.brandName || "None")}
+                />
+                <TextBorder
+                  label={<FaUserAlt />}
+                  text={"Owner : " + currentUser.nameuser}
+                />
+                <TextBorder
+                  label={<FaGoogle />}
+                  text={"Email : " + (currentUser.email || "None")}
+                />
+                <TextBorder
+                  label={<FaLocationArrow />}
+                  text={
+                    "Location : " +
+                    (currentUser.city + " , " + currentUser.province || "None")
+                  }
+                />
+                <TextBorder
+                  label={<FaWrench />}
+                  text={
+                    "Type of Service : " +
+                    (currentUser.mainService + " , " + currentUser.subService ||
+                      "None")
+                  }
+                />
+                <TextBorder
+                  label={<FaPhone />}
+                  text={"Phone Number : " + (currentUser.phone || "None")}
+                />
+                <TextBorder
+                  label={<FaCalendar />}
+                  text={"Join : " + (FormatDate(dateCurrentUsesr) || "None")}
+                />
+              </div>
+            </div>
+          ) : (
+            <div className={`service-about ${theme}`}>
+              <Label label="About Me" />
+              <div className="serivce-about-container" key={currentUser.id}>
+                <TextBorder
+                  label={<FaMapMarkedAlt />}
+                  text="Brand Name : None"
+                />
+                <TextBorder
+                  label={<FaUserAlt />}
+                  text={"Owner : " + currentUser.nameuser}
+                />
+                <TextBorder
+                  label={<FaGoogle />}
+                  text={"Email : " + (currentUser.email || "None")}
+                />
+                <TextBorder
+                  label={<FaLocationArrow />}
+                  text="Location : None"
+                />
+                <TextBorder
+                  label={<FaWrench />}
+                  text="Type of Service : None"
+                />
+                <TextBorder label={<FaPhone />} text="Phone Number : None" />
+
+                <TextBorder
+                  label={<FaCalendar />}
+                  text={"Join : " + (FormatDate(dateCurrentUsesr) || "None")}
+                />
+              </div>
+            </div>
+          )}
+        </>
       )}
     </>
   );

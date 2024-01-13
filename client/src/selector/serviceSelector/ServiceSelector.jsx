@@ -5,12 +5,12 @@ import Label from "../../components/label/Label";
 import CardServices from "../../components/cardService/CardService";
 import { FaPenAlt, FaTrash } from "react-icons/fa";
 import "./ServiceSelector.scss";
+import { useParams } from "react-router-dom";
 
 const ServiceSelector = () => {
   const { theme } = useTheme();
   const [serivce, setSerivce] = useState([]);
   const [showServiceError, setShowServiceError] = useState(false);
-
   const { currentUser } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -57,7 +57,6 @@ const ServiceSelector = () => {
     }
   };
 
-  
   //Modal
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [selectedServiceId, setSelectedServiceId] = useState(null);

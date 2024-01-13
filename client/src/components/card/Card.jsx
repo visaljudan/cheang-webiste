@@ -34,7 +34,7 @@ const Card = (props) => {
             <Link to={`/profile/${ID}`}>
               <button style={{ width: "6rem" }}>See more</button>
             </Link>
-            <Label label={rating} />
+            {/* <Label label={rating} /> */}
           </div>
         </div>
       </div>
