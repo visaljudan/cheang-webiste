@@ -213,8 +213,11 @@ export const searchUsers = async (req, res, next) => {
 
 export const liveSearch = async (req, res, next) => {
   try {
+    console.log("work");
     const { mainService, subService, province, city } = req.query;
+    // const { mainService, subService, province, city } = req.body;
 
+    console.log(subService);
     // Create a query object based on the search parameters
     const liveSearchQuery = {
       userPro: true,

@@ -134,10 +134,10 @@ const SearchFilter = () => {
       setLoading(true);
 
       // Extract selected values from state
-      const { brandName, mainService, subService, province, city } = formData;
+      const { mainService, subService, province, city } = formData;
 
       // Construct the API URL with query parameters
-      const apiUrl = `/api/user/live-search?searchTerm=${brandName}&mainService=${mainService}&subService=${subService}&province=${province}&city=${city}`;
+      const apiUrl = `/api/user/live-search?mainService=${mainService}&subService=${subService}&province=${province}&city=${city}`;
 
       const res = await fetch(apiUrl, {
         method: "GET",

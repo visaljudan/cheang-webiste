@@ -64,7 +64,7 @@ const UsersList = () => {
     <div className={`userslist ${theme}`}>
       <div className="userslist-container">
         <div className="service-navbar">
-          <SearchFilter />
+          {/* <SearchFilter /> */}
           <Label label={params.typeservice} />
         </div>
         <div className="service-card">
