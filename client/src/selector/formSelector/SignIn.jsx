@@ -92,6 +92,14 @@ const SignIn = () => {
             style={{ color: "#ff7f00", marginLeft: "8px" }}
           />
         </p>
+        <p>
+          Forgot password?
+          <NavigationLink
+            href="/forgetpassword"
+            value="forgetpassword"
+            style={{ color: "#ff7f00", marginLeft: "8px" }}
+          />
+        </p>
         <OAuth />
       </div>
     </div>

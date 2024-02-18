@@ -127,3 +127,6 @@ export const signout = async (req, res, next) => {
     next(error);
   }
 };
+
+//Reset password
+export const resetPassword = async (req, res, next) => {};

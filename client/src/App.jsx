@@ -22,6 +22,7 @@ import PrivateRouteAdmin from "./components/privateRoutes/PrivateRouteAdmin";
 import AllUsersListPage from "./page/AllUsersListPage";
 import ProfileUserCurrentPage from "./page/ProfileUserCurrentPage";
 import PrivateRouteUser from "./components/privateRoutes/PrivateRouteUser";
+import ForgotPassword from "./page/ForgotPassword";
 
 const App = () => {
   return (
@@ -39,6 +40,7 @@ const App = () => {
             <Route path="/about" Component={AboutPage} />
             <Route path="userlist/:typeservice" Component={UsersList} />
             <Route path="service" Component={AllUsersListPage} />
+            <Route path="forgetpassword" Component={ForgotPassword} />
 
             {/* Private Routes */}
             <Route element={<PrivateRoute />}>
