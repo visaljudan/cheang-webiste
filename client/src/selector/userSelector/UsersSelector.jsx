@@ -77,9 +77,9 @@ const UsersSelector = () => {
       <div className="service-container-service">
         {servicesLanguage.MainService.map((service, index) => {
           const englishService = servicesEnglsih.MainService[index];
-          const filteredUser = users.filter(
-            (user) => user.mainService === englishService
-          );
+          // const filteredUser = users?.filter(
+          //   (user) => user.mainService === englishService
+          // );
 
           return (
             <React.Fragment key={index}>
@@ -91,9 +91,9 @@ const UsersSelector = () => {
                 />
               </div>
               <div className="service-card">
-                {filteredUser.map((user) => (
+                {/* {filteredUser.map((user) => (
                   <Card {...user} key={user._id} ID={user._id} />
-                ))}
+                ))} */}
               </div>
             </React.Fragment>
           );
